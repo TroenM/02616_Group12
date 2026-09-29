@@ -64,7 +64,6 @@ xconst = np.diff(xlim)[0] / size[0]
 yconst = np.diff(ylim)[0] / size[1]
 
 # Divide the x-direction into equal chunks
-
 n_x = size[0]
 
 # Determine which x-values belong to this rank
@@ -95,16 +94,18 @@ if rank == 0:
     for other_rank in range(1, size_mpi):
         other_start = other_rank * n_x // size_mpi
         other_end = (other_rank + 1) * n_x // size_mpi
-        comm.Recv(
+        comm.Irecv(
             image[other_start:other_end, :],
             source=other_rank
         )
+        comm.Wait(local_image)
 else:
     # Blocking send
-    comm.Send(
+    comm.Isend(
         local_image,
         dest=0
     )
+    comm.Wait(local_image)
 
 # ---------------------------------------------------------
 # Plot the complete image
