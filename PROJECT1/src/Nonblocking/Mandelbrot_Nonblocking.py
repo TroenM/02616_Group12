@@ -99,11 +99,6 @@ if rank == 0:
             source=other_rank
         )
         comm.Wait(local_image)
-
-
-
-
-        
 else:
     # Blocking send
     comm.Isend(
