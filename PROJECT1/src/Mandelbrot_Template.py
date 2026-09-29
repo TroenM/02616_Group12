@@ -83,5 +83,5 @@ plt.ylabel(r"y / Im(p_0)")
 
 # Just minimize white-space around the actual plot...
 plt.margins(0, 0)
-plt.savefig("Figure_1.png", bbox_inches="tight", pad_inches=0)
+plt.savefig("../figures/Figure_1.png", bbox_inches="tight", pad_inches=0)
 plt.show()

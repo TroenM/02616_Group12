@@ -1,0 +1,93 @@
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 10
+size = (1000, 1000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 10
+size = (1000, 1000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 10
+size = (1000, 1000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 10
+size = (1000, 1000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29514502: <template> in cluster <dcc> Done
+
+Job <template> was submitted from host <n-62-30-3> by user <s224408> in cluster <dcc> at Tue Sep 29 11:11:43 2026
+Job was executed on host(s) <4*n-62-21-75>, in queue <hpcintro>, as user <s224408> in cluster <dcc> at Tue Sep 29 11:11:45 2026
+</zhome/91/8/187353> was used as the home directory.
+</zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Tue Sep 29 11:11:45 2026
+Terminated at Tue Sep 29 11:12:21 2026
+Results reported at Tue Sep 29 11:12:21 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J template
+#BSUB -o ../outputs/out/template%J.out
+#BSUB -e ../outputs/err/template%J.err
+#BSUB -q hpcintro
+#BSUB -W 00:05
+## #BUSB -M 128MB
+#BSUB -R "rusage[mem=128MB]"
+#BSUB -n 4
+#BSUB -R "span[ptile=4]"
+
+
+###               hpcintro queue only has XeonE5_2650v4
+###                       vvvvvvvvvvvvv
+## #BSUB -R "select[model==XeonE5_2650v4]" 
+
+## OBS!!!: This script has to executed from the PROJECT1/src folder
+## for the paths to work out
+
+source ../modules.sh
+
+mpirun python3 Mandelbrot_Template.py 10
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   139.71 sec.
+    Max Memory :                                 83 MB
+    Average Memory :                             83.00 MB
+    Total Requested Memory :                     512.00 MB
+    Delta Memory :                               429.00 MB
+    Max Swap :                                   -
+    Max Processes :                              8
+    Max Threads :                                11
+    Run time :                                   36 sec.
+    Turnaround time :                            38 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/template29514502.err> for stderr output of this job.
+
