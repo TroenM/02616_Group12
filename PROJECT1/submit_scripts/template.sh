@@ -20,5 +20,6 @@
 ## bsub < ../submit_scripts/template.sh
 
 source ../modules.sh
+# source ../.venv/bin/activate
 
 mpirun python3 Mandelbrot_Template.py 10
