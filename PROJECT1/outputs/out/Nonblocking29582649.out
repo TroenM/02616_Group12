@@ -9,15 +9,15 @@ size_mpi = 4
 
 ------------------------------------------------------------
 Sender: LSF System <lsfadmin@hpc.dtu.dk>
-Subject: Job 29582203: <Nonblocking> in cluster <dcc> Exited
+Subject: Job 29582649: <Nonblocking> in cluster <dcc> Done
 
-Job <Nonblocking> was submitted from host <n-62-30-1> by user <s224059> in cluster <dcc> at Sun Oct  4 13:06:27 2026
-Job was executed on host(s) <4*n-62-21-47>, in queue <hpcintro>, as user <s224059> in cluster <dcc> at Sun Oct  4 13:06:27 2026
+Job <Nonblocking> was submitted from host <n-62-30-1> by user <s224059> in cluster <dcc> at Sun Oct  4 13:38:27 2026
+Job was executed on host(s) <4*n-62-21-75>, in queue <hpcintro>, as user <s224059> in cluster <dcc> at Sun Oct  4 13:38:28 2026
 </zhome/f3/8/187578> was used as the home directory.
 </zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/src> was used as the working directory.
-Started at Sun Oct  4 13:06:27 2026
-Terminated at Sun Oct  4 13:06:50 2026
-Results reported at Sun Oct  4 13:06:50 2026
+Started at Sun Oct  4 13:38:28 2026
+Terminated at Sun Oct  4 13:38:49 2026
+Results reported at Sun Oct  4 13:38:49 2026
 
 Your job looked like:
 
@@ -30,7 +30,7 @@ Your job looked like:
 #BSUB -q hpcintro
 #BSUB -W 00:05
 ## #BUSB -M 128MB
-#BSUB -R "rusage[mem=128MB]"
+#BSUB -R "rusage[mem=1GB]"
 #BSUB -n 4
 #BSUB -R "span[ptile=4]"
 
@@ -50,20 +50,20 @@ mpirun python3 Nonblocking/Mandelbrot_Nonblocking.py
 
 ------------------------------------------------------------
 
-Exited with exit code 1.
+Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   71.02 sec.
-    Max Memory :                                 368 MB
-    Average Memory :                             368.00 MB
-    Total Requested Memory :                     512.00 MB
-    Delta Memory :                               144.00 MB
+    CPU time :                                   64.16 sec.
+    Max Memory :                                 369 MB
+    Average Memory :                             369.00 MB
+    Total Requested Memory :                     4096.00 MB
+    Delta Memory :                               3727.00 MB
     Max Swap :                                   -
     Max Processes :                              8
     Max Threads :                                19
-    Run time :                                   23 sec.
-    Turnaround time :                            23 sec.
+    Run time :                                   21 sec.
+    Turnaround time :                            22 sec.
 
 The output (if any) is above this job summary.
 
@@ -71,5 +71,5 @@ The output (if any) is above this job summary.
 
 PS:
 
-Read file <../outputs/err/Nonblocking29582203.err> for stderr output of this job.
+Read file <../outputs/err/Nonblocking29582649.err> for stderr output of this job.
 

@@ -6,8 +6,8 @@
 #BSUB -W 00:05
 ## #BUSB -M 128MB
 #BSUB -R "rusage[mem=1GB]"
-#BSUB -n 10
-#BSUB -R "span[ptile=4]"
+#BSUB -n 16
+#BSUB -R "span[hosts=1]"
 
 
 ###               hpcintro queue only has XeonE5_2650v4
@@ -21,4 +21,8 @@
 
 source ../modules.sh
 
-mpirun python3 Nonblocking/Mandelbrot_Nonblocking.py 10
+for n in 2 4 6 8 10 12 14 16; do
+    echo "=== Nonblocking with $n ranks==="
+    mpirun -np $n python3 Nonblocking/Mandelbrot_Nonblocking.py
+done
+ls -l ../results/Nonblocking

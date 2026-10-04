@@ -1,0 +1,68 @@
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29584587: <template> in cluster <dcc> Exited
+
+Job <template> was submitted from host <n-62-30-1> by user <s224059> in cluster <dcc> at Sun Oct  4 15:55:50 2026
+Job was executed on host(s) <4*n-62-21-75>, in queue <hpcintro>, as user <s224059> in cluster <dcc> at Sun Oct  4 15:55:52 2026
+</zhome/f3/8/187578> was used as the home directory.
+</zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Sun Oct  4 15:55:52 2026
+Terminated at Sun Oct  4 15:55:53 2026
+Results reported at Sun Oct  4 15:55:53 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J template
+#BSUB -o ../outputs/out/template%J.out
+#BSUB -e ../outputs/err/template%J.err
+#BSUB -q hpcintro
+#BSUB -W 00:05
+## #BUSB -M 128MB
+#BSUB -R "rusage[mem=128MB]"
+#BSUB -n 4
+#BSUB -R "span[ptile=4]"
+
+
+###               hpcintro queue only has XeonE5_2650v4
+###                       vvvvvvvvvvvvv
+## #BSUB -R "select[model==XeonE5_2650v4]" 
+
+## OBS!!!: This script has to executed from the PROJECT1/src folder
+## for the paths to work out
+## From src folder execute line below: 
+## bsub < ../submit_scripts/template.sh
+
+source ../modules.sh
+# source ../.venv/bin/activate
+
+mpirun python3 ../Plotting/scaling.py
+
+------------------------------------------------------------
+
+Exited with exit code 2.
+
+Resource usage summary:
+
+    CPU time :                                   0.94 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     512.00 MB
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   1 sec.
+    Turnaround time :                            3 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/template29584587.err> for stderr output of this job.
+
