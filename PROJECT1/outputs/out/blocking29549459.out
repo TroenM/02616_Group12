@@ -1,0 +1,78 @@
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 10
+size = (1000, 1000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 10
+
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29549459: <blocking> in cluster <dcc> Done
+
+Job <blocking> was submitted from host <n-62-27-21> by user <s224363> in cluster <dcc> at Fri Oct  2 17:07:04 2026
+Job was executed on host(s) <4*n-62-21-75>, in queue <hpcintro>, as user <s224363> in cluster <dcc> at Fri Oct  2 17:07:04 2026
+                            <4*n-62-21-77>
+                            <2*n-62-21-46>
+</zhome/ce/3/186843> was used as the home directory.
+</zhome/ce/3/186843/Documents/9_semester/02616_LargeScaleModelling/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Fri Oct  2 17:07:04 2026
+Terminated at Fri Oct  2 17:07:19 2026
+Results reported at Fri Oct  2 17:07:19 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J blocking
+#BSUB -o ../outputs/out/blocking%J.out
+#BSUB -e ../outputs/err/blocking%J.err
+#BSUB -q hpcintro
+#BSUB -W 00:05
+## #BUSB -M 128MB
+#BSUB -R "rusage[mem=1GB]"
+#BSUB -n 10
+#BSUB -R "span[ptile=4]"
+
+
+###               hpcintro queue only has XeonE5_2650v4
+###                       vvvvvvvvvvvvv
+## #BSUB -R "select[model==XeonE5_2650v4]" 
+
+## OBS!!!: This script has to executed from the PROJECT1/src folder
+## for the paths to work out
+## From src folder execute line below: 
+## bsub < ../submit_scripts/blocking.sh
+
+source ../modules.sh
+source ../.venv/bin/activate
+
+mpirun python3 Blocking/Mandelbrot_Blocking.py 10
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   69.00 sec.
+    Max Memory :                                 575 MB
+    Average Memory :                             192.33 MB
+    Total Requested Memory :                     10240.00 MB
+    Delta Memory :                               9665.00 MB
+    Max Swap :                                   -
+    Max Processes :                              8
+    Max Threads :                                19
+    Run time :                                   15 sec.
+    Turnaround time :                            15 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/blocking29549459.err> for stderr output of this job.
+

@@ -1,6 +1,7 @@
 import sys
 import numpy as np
 from mpi4py import MPI
+from time import perf_counter
 
 _help = f"""\
 {sys.argv[0]} [chunk-size] [size widthXheight] [limits xmin:xmax ymin:ymax]
@@ -73,8 +74,11 @@ end = (rank + 1) * n_x // size_mpi
 
 local_image = np.zeros((end - start, size[1]))
 
-# Compute this rank's part of the Mandelbrot set
+# Each row contains [computation_time, start_idx, end_idx], row_idx = rank
+rank_times = np.ones((size_mpi, 3)) * (-1) # Insert -1 to easily catch missing values
 
+# Compute this rank's part of the Mandelbrot set
+t_rank_computaion = - perf_counter()
 for x in range(start, end):
 
     cx = complex(xlim[0] + x * xconst, 0)
@@ -91,6 +95,7 @@ for x in range(start, end):
             if np.abs(z) > 2:
                 local_image[x - start, y] = i
                 break
+t_rank_computaion += perf_counter()
 
 # Send all local images to rank 0
 
@@ -98,6 +103,7 @@ if rank == 0:
 
     # Rank 0 already created its own work
     image[start:end, :] = local_image
+    rank_times[0, :] = np.array([t_rank_computaion, start, end])
 
     # Receive the other ranks
     for other_rank in range(1, size_mpi):
@@ -109,6 +115,11 @@ if rank == 0:
             image[other_start:other_end, :],
             source=other_rank
         )
+        comm.Recv(
+            rank_times[other_rank, :],
+            source = other_rank
+        )
+
 
 else:
 
@@ -118,6 +129,12 @@ else:
         dest=0
     )
 
+    time_pckg = np.array([t_rank_computaion, start, end])
+    comm.Send(
+        time_pckg,
+        dest=0,
+    )
+
 # ---------------------------------------------------------
 # Plot the complete image
 # ---------------------------------------------------------
@@ -125,6 +142,44 @@ else:
 if rank == 0:
 
     import matplotlib.pyplot as plt
+
+    # 1. Create exact X and Y coordinates matching your loops
+    x_vals = xlim[0] + np.arange(size[0]) * xconst
+    y_vals = ylim[0] + np.arange(size[1]) * yconst
+    X, Y = np.meshgrid(x_vals, y_vals, indexing='ij')
+
+    # 2. Build a 2D grid for the computation times
+    time_grid = np.zeros(size)
+    for row in rank_times:
+        t, chunk_start, chunk_end = row
+        # Indices are floats in the rank_times array, so cast them to integers
+        time_grid[int(chunk_start):int(chunk_end), :] = t
+
+    # 3. Create the plot
+    fig, ax = plt.subplots(figsize=(10, 8))
+
+    # Transpose the arrays (.T) so the X-axis is horizontal and Y-axis is vertical
+    # Use contourf for the computation times
+    time_plot = ax.contourf(X.T, Y.T, time_grid.T, levels=50, cmap='viridis')
+    cbar = fig.colorbar(time_plot, ax=ax)
+    cbar.set_label('Computation Time (seconds)')
+
+    # Draw the Mandelbrot set boundary as a black line
+    # The set is 0, the outside is >= 1. 0.5 perfectly captures the border.
+    ax.contour(X.T, Y.T, image.T, levels=[0.5], colors='black', linewidths=1.5)
+
+    ax.set_title(f'Mandelbrot Set & MPI Rank Computation Times ({size_mpi} Ranks)')
+    ax.set_xlabel('Real')
+    ax.set_ylabel('Imaginary')
+    
+    # Save and display the result
+    plt.savefig(f'../figures/Blocking_Times_N{size_mpi}.png', dpi=300)
+    plt.show()
+
+
+    ####### Standard plot ############
+    fig, ax = plt.subplots()
+
 
     plt.rcParams.update({
         "font.size": 10,
@@ -141,9 +196,12 @@ if rank == 0:
     plt.margins(0, 0)
 
     plt.savefig(
-        "Figure_1.png",
+        "../figures/Figure_1.png",
         bbox_inches="tight",
         pad_inches=0
     )
+
+
+
 
 
