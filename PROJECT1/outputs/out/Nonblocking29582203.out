@@ -1,0 +1,75 @@
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 10
+size = (1000, 1000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 4
+
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29582203: <Nonblocking> in cluster <dcc> Exited
+
+Job <Nonblocking> was submitted from host <n-62-30-1> by user <s224059> in cluster <dcc> at Sun Oct  4 13:06:27 2026
+Job was executed on host(s) <4*n-62-21-47>, in queue <hpcintro>, as user <s224059> in cluster <dcc> at Sun Oct  4 13:06:27 2026
+</zhome/f3/8/187578> was used as the home directory.
+</zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Sun Oct  4 13:06:27 2026
+Terminated at Sun Oct  4 13:06:50 2026
+Results reported at Sun Oct  4 13:06:50 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J Nonblocking
+#BSUB -o ../outputs/out/Nonblocking%J.out
+#BSUB -e ../outputs/err/Nonblocking%J.err
+#BSUB -q hpcintro
+#BSUB -W 00:05
+## #BUSB -M 128MB
+#BSUB -R "rusage[mem=128MB]"
+#BSUB -n 4
+#BSUB -R "span[ptile=4]"
+
+
+###               hpcintro queue only has XeonE5_2650v4
+###                       vvvvvvvvvvvvv
+## #BSUB -R "select[model==XeonE5_2650v4]" 
+
+## OBS!!!: This script has to executed from the PROJECT1/src folder
+## for the paths to work out
+## From src folder execute line below: 
+## bsub < ../submit_scripts/template.sh
+
+source ../modules.sh
+
+mpirun python3 Nonblocking/Mandelbrot_Nonblocking.py
+
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   71.02 sec.
+    Max Memory :                                 368 MB
+    Average Memory :                             368.00 MB
+    Total Requested Memory :                     512.00 MB
+    Delta Memory :                               144.00 MB
+    Max Swap :                                   -
+    Max Processes :                              8
+    Max Threads :                                19
+    Run time :                                   23 sec.
+    Turnaround time :                            23 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/Nonblocking29582203.err> for stderr output of this job.
+

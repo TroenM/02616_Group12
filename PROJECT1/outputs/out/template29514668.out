@@ -1,0 +1,76 @@
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 10
+size = (1000, 1000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 4
+
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29514668: <template> in cluster <dcc> Exited
+
+Job <template> was submitted from host <n-62-9-42> by user <s224059> in cluster <dcc> at Tue Sep 29 11:36:52 2026
+Job was executed on host(s) <4*n-62-21-76>, in queue <hpcintro>, as user <s224059> in cluster <dcc> at Tue Sep 29 11:36:52 2026
+</zhome/f3/8/187578> was used as the home directory.
+</zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Tue Sep 29 11:36:52 2026
+Terminated at Tue Sep 29 11:37:03 2026
+Results reported at Tue Sep 29 11:37:03 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J template
+#BSUB -o ../outputs/out/template%J.out
+#BSUB -e ../outputs/err/template%J.err
+#BSUB -q hpcintro
+#BSUB -W 00:05
+## #BUSB -M 128MB
+#BSUB -R "rusage[mem=128MB]"
+#BSUB -n 4
+#BSUB -R "span[ptile=4]"
+
+
+###               hpcintro queue only has XeonE5_2650v4
+###                       vvvvvvvvvvvvv
+## #BSUB -R "select[model==XeonE5_2650v4]" 
+
+## OBS!!!: This script has to executed from the PROJECT1/src folder
+## for the paths to work out
+## From src folder execute line below: 
+## bsub < ../submit_scripts/template.sh
+
+source ../modules.sh
+
+mpirun python3 Nonblocking/Mandelbrot_Nonblocking.py
+
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 137.
+
+Resource usage summary:
+
+    CPU time :                                   13.05 sec.
+    Max Memory :                                 512 MB
+    Average Memory :                             -
+    Total Requested Memory :                     512.00 MB
+    Delta Memory :                               0.00 MB
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   11 sec.
+    Turnaround time :                            11 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/template29514668.err> for stderr output of this job.
+

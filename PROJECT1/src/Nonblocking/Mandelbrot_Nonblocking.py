@@ -24,6 +24,11 @@ comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
 size_mpi = comm.Get_size()
 
+def free(req):
+    try:
+        req.free()
+    except: pass
+
 # Defaults
 chunk_size = 10
 size = 1000, 1000
@@ -94,25 +99,45 @@ if rank == 0:
     for other_rank in range(1, size_mpi):
         other_start = other_rank * n_x // size_mpi
         other_end = (other_rank + 1) * n_x // size_mpi
-        comm.Irecv(
+        req = comm.Irecv(
             image[other_start:other_end, :],
             source=other_rank
         )
-        comm.Wait(local_image)
+        req.Wait()
+        free(req)
 else:
     # Blocking send
-    comm.Isend(
+    req = comm.Isend(
         local_image,
         dest=0
     )
-    comm.Wait(local_image)
-
+    req.Wait()
+    free(req)
 # ---------------------------------------------------------
 # Plot the complete image
 # ---------------------------------------------------------
 
+
 if rank == 0:
-    np.save("Figure_1.npy", image)
 
+    import matplotlib.pyplot as plt
 
+    plt.rcParams.update({
+        "font.size": 10,
+    })
 
+    plt.imshow(
+        image.T,
+        extent=np.concatenate([xlim, ylim])
+    )
+
+    plt.xlabel(r"x / Re(p_0)")
+    plt.ylabel(r"y / Im(p_0)")
+
+    plt.margins(0, 0)
+
+    plt.savefig(
+        "/zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/figures/Nonblocking/Figure_Nonblocking.png",
+        bbox_inches="tight",
+        pad_inches=0
+    )
