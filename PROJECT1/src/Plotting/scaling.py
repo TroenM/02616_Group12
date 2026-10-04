@@ -5,10 +5,10 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 RANKS = [2, 4, 6, 8, 10, 12, 14, 16]
-# VARIANTS = ["Blocking", "Nonblocking"]
-# MARKERS = {"Blocking": "o", "Nonblocking": "s"}
-VARIANTS = ["Nonblocking"]
-MARKERS = {"Nonblocking": "o"}
+VARIANTS = ["Blocking", "Nonblocking"]
+MARKERS = {"Blocking": "o", "Nonblocking": "s"}
+# VARIANTS = ["Nonblocking"]
+# MARKERS = {"Nonblocking": "o"}
 
 
 def load_variant(variant):
@@ -65,5 +65,5 @@ for ax in axes:
     ax.legend()
 
 fig.tight_layout()
-fig.savefig("../figures/Scaling/Nonblocking.png", dpi=300)
+fig.savefig("../figures/Scaling/Both.png", dpi=300)
 fig.show()
