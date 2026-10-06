@@ -1,7 +1,7 @@
 #!/bin/bash
-#BSUB -J blocking_grid
-#BSUB -o ../outputs/out/blocking_grid%J.out
-#BSUB -e ../outputs/err/blocking_grid%J.err
+#BSUB -J blocking
+#BSUB -o ../outputs/out/blocking%J.out
+#BSUB -e ../outputs/err/blocking%J.err
 #BSUB -q hpcintro
 #BSUB -W 00:05
 ## #BUSB -M 128MB
@@ -20,6 +20,6 @@
 ## bsub < ../submit_scripts/blocking.sh
 
 source ../modules.sh
-source ../venv/bin/activate
+source ../../venv/bin/activate
 
-mpirun python3 Blocking/Mandelbrot_Blocking.py 10
+mpirun python3 Blocking/Mandelbrot_Blocking_grid.py 10
