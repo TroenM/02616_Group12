@@ -1,0 +1,152 @@
+=== Nonblocking with 2 ranks===
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 10
+size = (1000, 1000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 2
+
+=== Nonblocking with 4 ranks===
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 10
+size = (1000, 1000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 4
+
+=== Nonblocking with 6 ranks===
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 10
+size = (1000, 1000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 6
+
+=== Nonblocking with 8 ranks===
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 10
+size = (1000, 1000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 8
+
+=== Nonblocking with 10 ranks===
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 10
+size = (1000, 1000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 10
+
+=== Nonblocking with 12 ranks===
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 10
+size = (1000, 1000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 12
+
+=== Nonblocking with 14 ranks===
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 10
+size = (1000, 1000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 14
+
+=== Nonblocking with 16 ranks===
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 10
+size = (1000, 1000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 16
+
+total 192
+-rw-r--r-- 1 s224059 s22  914 Oct  6 10:14 Nonblocking_N10.npy
+-rw-r--r-- 1 s224059 s22  962 Oct  6 10:14 Nonblocking_N12.npy
+-rw-r--r-- 1 s224059 s22 1010 Oct  6 10:14 Nonblocking_N14.npy
+-rw-r--r-- 1 s224059 s22 1058 Oct  6 10:15 Nonblocking_N16.npy
+-rw-r--r-- 1 s224059 s22  722 Oct  6 10:14 Nonblocking_N2.npy
+-rw-r--r-- 1 s224059 s22  770 Oct  6 10:14 Nonblocking_N4.npy
+-rw-r--r-- 1 s224059 s22  818 Oct  6 10:14 Nonblocking_N6.npy
+-rw-r--r-- 1 s224059 s22  866 Oct  6 10:14 Nonblocking_N8.npy
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29609979: <Nonblocking> in cluster <dcc> Done
+
+Job <Nonblocking> was submitted from host <n-62-30-3> by user <s224059> in cluster <dcc> at Tue Oct  6 10:14:04 2026
+Job was executed on host(s) <24*n-62-21-76>, in queue <hpcintro>, as user <s224059> in cluster <dcc> at Tue Oct  6 10:14:06 2026
+</zhome/f3/8/187578> was used as the home directory.
+</zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Tue Oct  6 10:14:06 2026
+Terminated at Tue Oct  6 10:15:06 2026
+Results reported at Tue Oct  6 10:15:06 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J Nonblocking
+#BSUB -o ../outputs/out/Nonblocking%J.out
+#BSUB -e ../outputs/err/Nonblocking%J.err
+#BSUB -q hpcintro
+#BSUB -W 00:05
+## #BUSB -M 128MB
+#BSUB -R "rusage[mem=1GB]"
+#BSUB -n 24
+#BSUB -R "span[hosts=1]"
+
+
+###               hpcintro queue only has XeonE5_2650v4
+###                       vvvvvvvvvvvvv
+## #BSUB -R "select[model==XeonE5_2650v4]" 
+
+## OBS!!!: This script has to executed from the PROJECT1/src folder
+## for the paths to work out
+## From src folder execute line below: 
+## bsub < ../submit_scripts/template.sh
+
+source ../modules.sh
+
+for n in 2 4 6 8 10 12 14 16; do
+    echo "=== Nonblocking with $n ranks==="
+    mpirun -np $n python3 Nonblocking/Mandelbrot_Nonblocking.py
+done
+ls -l ../results/Nonblocking
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   187.77 sec.
+    Max Memory :                                 1063 MB
+    Average Memory :                             781.67 MB
+    Total Requested Memory :                     24576.00 MB
+    Delta Memory :                               23513.00 MB
+    Max Swap :                                   -
+    Max Processes :                              16
+    Max Threads :                                43
+    Run time :                                   60 sec.
+    Turnaround time :                            62 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/Nonblocking29609979.err> for stderr output of this job.
+

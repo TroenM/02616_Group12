@@ -1,12 +1,12 @@
 #!/bin/bash
-#BSUB -J Blocking
-#BSUB -o ../outputs/out/Blocking%J.out
-#BSUB -e ../outputs/err/Blocking%J.err
+#BSUB -J Nonblocking
+#BSUB -o ../outputs/out/Nonblocking%J.out
+#BSUB -e ../outputs/err/Nonblocking%J.err
 #BSUB -q hpcintro
 #BSUB -W 00:05
 ## #BUSB -M 128MB
 #BSUB -R "rusage[mem=1GB]"
-#BSUB -n 16
+#BSUB -n 24
 #BSUB -R "span[hosts=1]"
 
 
@@ -22,7 +22,7 @@
 source ../modules.sh
 
 for n in 2 4 6 8 10 12 14 16; do
-    echo "=== Blocking with $n ranks==="
-    mpirun -np $n python3 Blocking/Mandelbrot_Blocking_scaleTest.py
+    echo "=== Nonblocking with $n ranks==="
+    mpirun -np $n python3 Nonblocking/Mandelbrot_Nonblocking.py
 done
-ls -l ../results/Blocking
+ls -l ../results/Nonblocking

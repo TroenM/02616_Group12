@@ -65,5 +65,5 @@ for ax in axes:
     ax.legend()
 
 fig.tight_layout()
-fig.savefig("../figures/Scaling/Nonblocking.png", dpi=300)
+fig.savefig("../figures/Scaling/Both.png", dpi=300)
 fig.show()

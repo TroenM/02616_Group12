@@ -194,29 +194,29 @@ if rank == 0:
     plt.show()
 
 
-    ####### Standard plot ############
-    fig, ax = plt.subplots()
+    # ####### Standard plot ############
+    # fig, ax = plt.subplots()
 
 
-    plt.rcParams.update({
-        "font.size": 10,
-    })
+    # plt.rcParams.update({
+    #     "font.size": 10,
+    # })
 
-    plt.imshow(
-        image.T,
-        extent=np.concatenate([xlim, ylim])
-    )
+    # plt.imshow(
+    #     image.T,
+    #     extent=np.concatenate([xlim, ylim])
+    # )
 
-    plt.xlabel(r"x / Re(p_0)")
-    plt.ylabel(r"y / Im(p_0)")
+    # plt.xlabel(r"x / Re(p_0)")
+    # plt.ylabel(r"y / Im(p_0)")
 
-    plt.margins(0, 0)
+    # plt.margins(0, 0)
 
-    plt.savefig(
-        "../figures/Figure_1.png",
-        bbox_inches="tight",
-        pad_inches=0
-    )
+    # plt.savefig(
+    #     "../figures/Figure_1.png",
+    #     bbox_inches="tight",
+    #     pad_inches=0
+    # )
 
 
 
