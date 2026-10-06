@@ -25,8 +25,8 @@ def load_variant(variant):
     return np.array(n), np.array(t_total), np.array(imbalance)
 
 
-fig, axes = plt.subplots(1, 3, figsize=(15, 4.5))
-ax_time, ax_speed, ax_imb = axes
+fig, axes = plt.subplots(1, 2, figsize=(15, 4.5))
+ax_time, ax_imb = axes
 max_ranks = 0
 
 for variant in VARIANTS:
@@ -38,21 +38,21 @@ for variant in VARIANTS:
 
     # Speedup relative to the smallest rank count that was run
     speedup = t[0] / t
-    ax_speed.plot(n, speedup, marker=MARKERS[variant], label=variant)
+    #ax_speed.plot(n, speedup, marker=MARKERS[variant], label=variant)
     ax_imb.plot(n, imb, marker=MARKERS[variant], label=variant)
 
 # Ideal speedup: doubling the ranks halves the time
 n_ideal = np.array(RANKS)
 n_ideal = n_ideal[n_ideal <= max_ranks]
-ax_speed.plot(n_ideal, n_ideal / n_ideal[0], "k--", label="Ideal")
+#ax_speed.plot(n_ideal, n_ideal / n_ideal[0], "k--", label="Ideal")
 
 ax_time.set_title("Total wall time")
 ax_time.set_xlabel("Number of MPI ranks")
 ax_time.set_ylabel("Time [s]")
 
-ax_speed.set_title(f"Speedup relative to {RANKS[0]} ranks")
-ax_speed.set_xlabel("Number of MPI ranks")
-ax_speed.set_ylabel(f"$T_{{{RANKS[0]}}} / T_N$")
+# ax_speed.set_title(f"Speedup relative to {RANKS[0]} ranks")
+# ax_speed.set_xlabel("Number of MPI ranks")
+# ax_speed.set_ylabel(f"$T_{{{RANKS[0]}}} / T_N$")
 
 ax_imb.set_title("Load imbalance")
 ax_imb.set_xlabel("Number of MPI ranks")
@@ -65,5 +65,5 @@ for ax in axes:
     ax.legend()
 
 fig.tight_layout()
-fig.savefig("../figures/Scaling/Both.png", dpi=300)
+fig.savefig("../figures/Scaling/Nonblocking.png", dpi=300)
 fig.show()
