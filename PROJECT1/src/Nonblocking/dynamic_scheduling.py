@@ -58,43 +58,118 @@ size = np.asarray(size)
 xlim = np.asarray(xlim)
 ylim = np.asarray(ylim)
 
-# Dimensions of the image
-image = np.zeros(size)
 
 xconst = np.diff(xlim)[0] / size[0]
 yconst = np.diff(ylim)[0] / size[1]
 
+
+# TODO: Remove hard coded test values
+NUM_GRIDS = 10
+nx, ny = 5, 5
+
+# Tag convertion:
+#   0: Info data [glb_idx, start_x, end_x, start_y, end_y]
+#   1: Sub image
+#   2: Timing
 if rank == 0:
+    # -------- Master rank ----------
+    # Dimensions of the image
+    image = np.zeros(size)
+
     # TODO: use Chistians grid map to distribute (glb_idx, start_x, end_x, start_y, end_y)
-    pass
+    tasks = [
+        np.array([i, 0, nx, 0, ny], dtype=int) for i in range(NUM_GRIDS)
+    ]  # Dummy data
+
+    # Stuff for keeping track of how far we are
+    tasks_sent = 0
+    tasks_completed = 0
+
+    master_send_reqs = []
+
+    # Queue used for remembering what we sent to who
+    worker_queue = {w: [] for w in range(1, size_mpi)}
+
+    # Dedicated contiguous receive buffer for each worker (0 is a dummy for rank 0)
+    recv_buffers = [np.zeros((nx, ny), dtype=float) for _ in range(size_mpi)]
+    recv_reqs = [MPI.REQUEST_NULL] * size_mpi
+
+    # Send initial 2 grids to all workers
+    for worker in range(1, size_mpi):
+        for _ in range(2):
+            if tasks_sent < NUM_GRIDS:
+                task = tasks[tasks_sent]
+                req = comm.Isend(task, dest=worker, tag=0)
+                master_send_reqs.append(req)
+                worker_queue[worker].append(task)
+                tasks_sent += 1
+
+        # Post the first non-blocking recieve for this worker
+        if len(worker_queue[worker]) > 0:
+            recv_reqs[worker] = comm.Irecv(recv_buffers[worker], source=worker, tag=1)
+
+    # Dynamic scheduling loop
+    while tasks_completed < NUM_GRIDS:
+        pass
+        # TODO: Dynamic scheduling
+
+    shutdown_task = np.array([-1, 0, 0, 0, 0], dtype=int)
+    for worker in range(1, size_mpi):
+        req = comm.Isend(shutdown_task, dest=worker, tag=0)
+        master_send_reqs.append(req)
+
+    # Make sure everyone recieves the shutdown task
+    MPI.Request.Waitall(master_send_reqs)
+
+
 else:
-    # TODO: Remove hard coded nx ny
-    nx, ny = 5, 5
+    # -------- Working Ranks -----------
     # Prepare buffers
     NUM_BUFFERS = 3
-    num_calls = 0  # Used for choosing the buffer dimension
-    image_buffer = np.zeros(
-        (NUM_BUFFERS, nx, ny)
-    )  # Create three dimensions (each is an image)
-    info_buffer = np.zeros((5, NUM_BUFFERS))
+
+    # Create three dimensions (each is an iwmage)
+    image_buffer = np.zeros((NUM_BUFFERS, nx, ny), dtype=float)
+    info_buffer = np.zeros((NUM_BUFFERS, 5), dtype=int)
+
+    # Initialize requests
+    send_reqs = [MPI.REQUEST_NULL] * NUM_BUFFERS
+    recv_reqs = [MPI.REQUEST_NULL] * NUM_BUFFERS
+
+    # Set the rank buffer index to shift between buffers
+    buffer_idx = 0
+
+    # Post initiall recieve to allow for two inital grids on the rank
+    recv_reqs[buffer_idx] = comm.Irecv(info_buffer[buffer_idx], source=0, tag=0)
 
     # TODO: Handle double sends for fisrt comm (probably done in rank 0)
+
+    time_rank_idle = 0
     while True:
-        # Choose the current buffers to use
-        current_image = image_buffer[num_calls % NUM_BUFFERS]
-        current_info = info_buffer[num_calls % NUM_BUFFERS]
+        # Wait for the info_buffer to be ready
+        time_rank_idle -= perf_counter()
+        recv_reqs[buffer_idx].Wait()
+        time_rank_idle += perf_counter()
 
-        # Recieve work (tag = 0 for work)
-        comm.Irecv(info_buffer, source=0, tag=0)
-        glb_idx, start_x, end_x, start_y, end_y = info_buffer.astype(int)
+        # Load the necessary info for computation
+        glb_idx, start_x, end_x, start_y, end_y = info_buffer[buffer_idx]
 
-        # Work is done
-        # TODO: Get num_grids from somewhere
-        if glb_idx >= num_grids:
+        # Catch the shutdown signal
+        if glb_idx < 0:
             break
 
-        # Perform computation
-        t_rank_computaion = -perf_counter()
+        # Ensure previous use of this image buffer is done
+        time_rank_idle -= perf_counter()
+        send_reqs[buffer_idx].Wait()
+        time_rank_idle += perf_counter()
+
+        # Post next recieve request, so it can be done while computing
+        recv_reqs[buffer_idx] = comm.Irecv(info_buffer[buffer_idx], source=0, tag=0)
+
+        # Setup pointer directly into the current slice of the image buffer
+        current_image = image_buffer[buffer_idx]
+
+        # Rank computation
+        time_rank_computation = -perf_counter()
         for x in range(start_x, end_x):
             cx = complex(xlim[0] + x * xconst, 0)
 
@@ -108,9 +183,13 @@ else:
                     if np.abs(z) > 2:
                         current_image[x - start_x, y - start_y] = i
                         break
-        t_rank_computaion += perf_counter()
+        time_rank_computation += perf_counter()
 
-        comm.Isend(current_image, dest=0)
-        num_calls += 1
+        # Send the image back to rank 0
+        send_reqs[buffer_idx] = comm.Isend(current_image, dest=0, tag=1)
 
-    # TODO: Shutdown worker
+        # Move buffer to next slice
+        buffer_idx = (buffer_idx + 1) % NUM_BUFFERS
+
+    # Shutdown hanging requests
+    MPI.Request.Waitall(send_reqs)
