@@ -73,8 +73,8 @@ nx, ny = 5, 5
 #   2: Timing
 if rank == 0:
     # -------- Master rank ----------
-    # Dimensions of the image
     image = np.zeros(size)
+    rank_times = np.ones((NUM_GRIDS, 6)) * (-1)
 
     # TODO: use Chistians grid map to distribute (glb_idx, start_x, end_x, start_y, end_y)
     tasks = [
@@ -110,8 +110,29 @@ if rank == 0:
 
     # Dynamic scheduling loop
     while tasks_completed < NUM_GRIDS:
-        pass
-        # TODO: Dynamic scheduling
+        # Wait for any worker to finish
+        worker = MPI.Request.Waitany(recv_reqs)
+
+        glb_idx, start_x, end_x, start_y, end_y = worker_queue[worker].pop(0)
+
+        # Unpack the recieved image
+        x_len, y_len = end_x - start_x, end_y - start_y
+        image[start_x:end_x, start_y:end_y] = recv_buffers[worker][:x_len, :y_len]
+        tasks_completed += 1
+
+        comm.Recv(rank_times[glb_idx], source=worker, tag=2)
+
+        # Send the next job to the worker
+        if tasks_sent < NUM_GRIDS:
+            task = tasks[tasks_sent]
+            req = comm.Isend(task, dest=worker, tag=0)
+            master_send_reqs.append(req)
+            worker_queue[worker].append(task)
+            tasks_sent += 1
+
+        # Repost recieve to the worker
+        if tasks_completed < NUM_GRIDS and len(worker_queue[worker]) > 0:
+            recv_reqs[worker] = comm.Irecv(recv_buffers[worker], source=worker, tag=1)
 
     shutdown_task = np.array([-1, 0, 0, 0, 0], dtype=int)
     for worker in range(1, size_mpi):
@@ -138,10 +159,9 @@ else:
     # Set the rank buffer index to shift between buffers
     buffer_idx = 0
 
-    # Post initiall recieve to allow for two inital grids on the rank
-    recv_reqs[buffer_idx] = comm.Irecv(info_buffer[buffer_idx], source=0, tag=0)
-
-    # TODO: Handle double sends for fisrt comm (probably done in rank 0)
+    # Prepost the buffers
+    for i in range(NUM_BUFFERS):
+        recv_reqs[i] = comm.Irecv(info_buffer[i], source=0, tag=0)
 
     time_rank_idle = 0
     while True:
@@ -167,6 +187,7 @@ else:
 
         # Setup pointer directly into the current slice of the image buffer
         current_image = image_buffer[buffer_idx]
+        current_image.fill(0)
 
         # Rank computation
         time_rank_computation = -perf_counter()
@@ -187,6 +208,11 @@ else:
 
         # Send the image back to rank 0
         send_reqs[buffer_idx] = comm.Isend(current_image, dest=0, tag=1)
+
+        time_package = np.array(
+            [time_rank_idle, time_rank_computation, start_x, end_x, start_y, end_y]
+        )
+        comm.Send(time_package, dest=0, tag=2)
 
         # Move buffer to next slice
         buffer_idx = (buffer_idx + 1) % NUM_BUFFERS
