@@ -6,7 +6,7 @@
 #BSUB -W 00:05
 ## #BUSB -M 128MB
 #BSUB -R "rusage[mem=1GB]"
-#BSUB -n 10
+#BSUB -n 5
 #BSUB -R "span[ptile=4]"
 
 ###               hpcintro queue only has XeonE5_2650v4
@@ -19,5 +19,6 @@
 ## bsub < ../submit_scripts/template.sh
 
 source ../modules.sh
+source ../.venv/bin/activate
 
-mpirun python3 Nonblocking/dynamic_scheduling.py 10
+mpirun -n 5 python3 Nonblocking/dynamic_scheduling.py

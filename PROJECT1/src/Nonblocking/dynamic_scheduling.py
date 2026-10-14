@@ -1,7 +1,7 @@
 import sys
 import numpy as np
 from mpi4py import MPI
-from time import perf_counter, sleep
+from time import perf_counter
 
 """
 ABOUT THE IMPLEMENTATION:
@@ -15,6 +15,8 @@ if the number of chunks is not divisible by number of ranks, then it divides the
 
 """
 
+# Include everything in the program (except dependency loads)
+total_time = -perf_counter()
 
 _help = f"""\
 {sys.argv[0]} [chunks-per-axis] [size widthXheight] [limits xmin:xmax ymin:ymax]
@@ -44,7 +46,7 @@ if size_mpi < 2:
 
 # Defaults
 chunk_per_axis = 4
-n_chunks = chunk_per_axis**2
+NUM_GRIDS = chunk_per_axis**2
 size = 1000, 1000
 xlim = -2.2, 0.75
 ylim = -1.3, 1.3
@@ -53,7 +55,7 @@ ylim = -1.3, 1.3
 argv = sys.argv[1:]
 if argv:
     chunk_per_axis = int(argv.pop(0))
-    n_chunks = chunk_per_axis**2
+    NUM_GRIDS = chunk_per_axis**2
 if argv:
     size = tuple(map(int, argv.pop(0).split("x")))
 if argv:
@@ -64,7 +66,7 @@ if argv:
 if rank == 0:
     print(f"""\
 Calculating the Mandelbrot set with these arguments:
-{n_chunks = }
+{NUM_GRIDS = }
 {size = }
 {xlim = }
 {ylim = }
@@ -79,20 +81,22 @@ ylim = np.asarray(ylim)
 xconst = np.diff(xlim)[0] / size[0]
 yconst = np.diff(ylim)[0] / size[1]
 
+# Dimensions of full image
 n_x = size[0]
 n_y = size[1]
 
+# Dimension of local image (rounded up to catch mismached number of chunks and image size)
+nx_local = (n_x + chunk_per_axis - 1) // chunk_per_axis
+ny_local = (n_y + chunk_per_axis - 1) // chunk_per_axis
+
 # Same on every rank, so sender and receiver agree on buffer size
 n_workers = size_mpi - 1
-n_even_distributed = n_chunks // n_workers
-n_mismatch = n_chunks % n_workers
+n_even_distributed = NUM_GRIDS // n_workers
+n_mismatch = NUM_GRIDS % n_workers
 workload = n_even_distributed + 1  # rows per message (last row may be zero padding)
 
-# TODO: Reconcile Christians setup ^ with the constructed boiler plate
-
-# TODO: Remove hard coded test values
-NUM_GRIDS = 50
-nx, ny = 100, 100
+# A comparable timing for previous version that started once the setup was done
+total_comparable_time = -perf_counter()
 
 # Tag convertion:
 #   0: Info data [glb_idx, start_x, end_x, start_y, end_y]
@@ -104,10 +108,19 @@ if rank == 0:
     master_send_time = 0
     master_wait_time = 0
 
-    # TODO: use Chistians grid map to distribute (glb_idx, start_x, end_x, start_y, end_y)
-    tasks = [
-        np.array([i, 0, nx, 0, ny], dtype=int) for i in range(NUM_GRIDS)
-    ]  # Dummy data
+    chunk_map = np.zeros((NUM_GRIDS, 5), dtype=int)
+
+    for idx in range(chunk_map.shape[0]):
+        x_coord = idx // chunk_per_axis
+        y_coord = idx % chunk_per_axis
+
+        start_x = x_coord * n_x // chunk_per_axis
+        end_x = (x_coord + 1) * n_x // chunk_per_axis
+
+        start_y = y_coord * n_y // chunk_per_axis
+        end_y = (y_coord + 1) * n_y // chunk_per_axis
+
+        chunk_map[idx] = [idx, start_x, end_x, start_y, end_y]
 
     # Stuff for keeping track of how far we are
     tasks_sent = 0
@@ -118,14 +131,16 @@ if rank == 0:
     worker_task_counts = {w: 0 for w in range(1, size_mpi)}
 
     # Dedicated contiguous receive buffer for each worker (0 is a dummy for rank 0)
-    recv_buffers = [np.zeros((nx * ny + 6), dtype=float) for _ in range(size_mpi)]
+    recv_buffers = [
+        np.zeros((nx_local * ny_local + 6), dtype=float) for _ in range(size_mpi)
+    ]
     recv_reqs = [MPI.REQUEST_NULL] * size_mpi
 
     # Send initial 2 grids to all workers
     for worker in range(1, size_mpi):
         for _ in range(2):
             if tasks_sent < NUM_GRIDS:
-                task = tasks[tasks_sent]
+                task = chunk_map[tasks_sent]
                 master_send_time -= perf_counter()
                 comm.Send(
                     task, dest=worker, tag=0
@@ -149,7 +164,7 @@ if rank == 0:
 
         # Unpack the recieved image
         flat_data = recv_buffers[worker]
-        image_data = flat_data[:-6].reshape((nx, ny))
+        image_data = flat_data[:-6].reshape((nx_local, ny_local))
         time_data = flat_data[-6:]
 
         # Insert the data into the result structures
@@ -162,7 +177,7 @@ if rank == 0:
 
         # Send the next job to the worker
         if tasks_sent < NUM_GRIDS:
-            task = tasks[tasks_sent]
+            task = chunk_map[tasks_sent]
             master_send_time -= perf_counter()
             comm.Send(task, dest=worker, tag=0)
             master_send_time += perf_counter()
@@ -179,19 +194,24 @@ if rank == 0:
         comm.Send(shutdown_task, dest=worker, tag=0)
         master_send_time += perf_counter()
 
+    MPI.Finalize()
+
+    total_time += perf_counter()
+    total_comparable_time += perf_counter()
+
     print("\n--- SCHEDULING RESULTS ---")
     for w, count in worker_task_counts.items():
         print(f"Worker {w} completed {count} tasks.")
 
     time_summary = rank_times.sum(axis=0)
     print(f"""
-    Master send time = {master_send_time:.4f}
-    Master wait time = {master_wait_time:.4f}
-    working idle time = {time_summary[0]:.4f}
-    Computation time = {time_summary[1]:.4f}
+    Total time =            {total_time:.4f}
+    Total comparable Time = {total_comparable_time:.4f}
+    Master send time =      {master_send_time:.4f}
+    Master wait time =      {master_wait_time:.4f}
+    working idle time =     {time_summary[0]:.4f}
+    Computation time =      {time_summary[1]:.4f}
           """)
-
-    MPI.Finalize()
 
 
 else:
@@ -200,7 +220,7 @@ else:
     NUM_BUFFERS = 3
 
     # Create three dimensions (each is an iwmage)
-    image_buffer = np.zeros((NUM_BUFFERS, nx, ny), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
     info_buffer = np.zeros((NUM_BUFFERS, 5), dtype=int)
 
     # Initialize requests
@@ -274,3 +294,23 @@ else:
 
     # Shutdown hanging requests
     MPI.Request.Waitall(send_reqs)
+
+
+# =================================
+# ========= PLOTTING ==============
+# =================================
+if rank == 0:
+    import matplotlib.pyplot as plt
+
+    plt.imshow(image.T, extent=np.concatenate([xlim, ylim]))
+    plt.xlabel(r"x / Re(p_0)")
+    plt.ylabel(r"y / Im(p_0)")
+
+    # Just minimize white-space around the actual plot...
+    plt.margins(0, 0)
+    plt.savefig(
+        f"../figures/Nonblocking/dynamic_scheduling_N{NUM_GRIDS}.png",
+        bbox_inches="tight",
+        pad_inches=0,
+    )
+    plt.show()
