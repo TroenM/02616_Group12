@@ -96,7 +96,7 @@ for x in range(start, end):
         for i in range(100):
             z = z * z + c
 
-            if np.abs(z) > 2:
+            if abs(z) > 2:
                 local_image[x - start, y] = i
                 break
 t_rank_computaion += perf_counter()
