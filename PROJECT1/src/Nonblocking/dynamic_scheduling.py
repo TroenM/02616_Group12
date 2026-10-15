@@ -306,6 +306,10 @@ MPI.Finalize()
 total_time += perf_counter()
 total_comparable_time += perf_counter()
 
+# DO NOT SAVE LARGER IMAGES
+if size[0] > 1000:
+    image = None
+
 if rank == 0:
     print("\n--- SCHEDULING RESULTS ---")
     for w, count in worker_task_counts.items():
