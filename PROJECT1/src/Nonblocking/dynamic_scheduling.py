@@ -229,10 +229,6 @@ else:
         recv_reqs[buffer_idx].Wait()
         time_rank_idle += perf_counter()
 
-        # Make rank 1 artificially slow
-        if rank == 1:
-            sleep(0.1)
-
         # Load the necessary info for computation
         glb_idx, start_x, end_x, start_y, end_y = info_buffer[buffer_idx]
 
