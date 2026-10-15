@@ -136,11 +136,12 @@ if rank == 0:
         )
         master_wait_time += perf_counter()
 
-    local_stats = np.array([t_rank_computaion, master_send_time + master_wait_time])
+    local_stats = np.array([t_rank_computaion, master_send_time, master_wait_time])
 
 else:
 
-    time_rank_idle = -perf_counter()
+    # Workers only send, no wait time
+    time_rank_send = -perf_counter()
 
     # Blocking send
     comm.Send(
@@ -154,12 +155,12 @@ else:
         dest=0,
     )
 
-    time_rank_idle += perf_counter()
+    time_rank_send += perf_counter()
 
-    local_stats = np.array([t_rank_computaion, time_rank_idle])
+    local_stats = np.array([t_rank_computaion, time_rank_send, 0.0])
 
-# Collect [time rank computation, rank idle time] from every rank, idx is rank
-rankstats = np.zeros((size_mpi, 2)) if rank == 0 else None
+# Collect [time rank computation, rank send time, rank wait time] from every rank, idx is rank
+rankstats = np.zeros((size_mpi, 3)) if rank == 0 else None
 comm.Gather(local_stats, rankstats, root=0)
 
 MPI.Finalize()
@@ -168,6 +169,7 @@ total_time += perf_counter()
 total_comparable_time += perf_counter()
 
 if rank == 0:
+    # Every rank computes one row strip, so chunks = workers = size_mpi
     summary = save_run_data(
         "staticRow",
         size,
@@ -179,7 +181,7 @@ if rank == 0:
         master_send_time,
         master_wait_time,
         rankstats,
-        subdir="Rows"
+        subdir="Rows",
     )
     print(f"""
     Total time =            {total_time:.4f}
@@ -255,8 +257,4 @@ if rank == 0:
         bbox_inches="tight",
         pad_inches=0
     )
-
-
-
-
 
