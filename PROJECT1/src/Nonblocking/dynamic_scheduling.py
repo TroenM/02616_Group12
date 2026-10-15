@@ -4,8 +4,10 @@ from mpi4py import MPI
 from time import perf_counter
 import os
 
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Data"))
-from run_data import save_run_data
+sys.path.insert(
+    0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Data")
+)
+from run_data import save_run_data, _fmt_lim
 
 """
 ABOUT THE IMPLEMENTATION:
@@ -268,7 +270,14 @@ else:
         time_rank_computation_total += time_rank_computation
 
         time_package = np.array(
-            [time_rank_send + time_rank_wait, time_rank_computation, start_x, end_x, start_y, end_y]
+            [
+                time_rank_send + time_rank_wait,
+                time_rank_computation,
+                start_x,
+                end_x,
+                start_y,
+                end_y,
+            ]
         )
 
         # Send the image back to rank 0
@@ -283,7 +292,9 @@ else:
     MPI.Request.Waitall(send_reqs)
     time_rank_send += perf_counter()
 
-    local_stats = np.array([time_rank_computation_total, time_rank_send, time_rank_wait])
+    local_stats = np.array(
+        [time_rank_computation_total, time_rank_send, time_rank_wait]
+    )
 
 
 # Collect [time rank computation, rank send time, rank wait time] from every rank, idx is rank
@@ -311,7 +322,8 @@ if rank == 0:
         master_send_time,
         master_wait_time,
         rankstats,
-        subdir="Nonblocking",
+        subdir="Dynamic",
+        image=image,
     )
     print(f"""
     Total time =            {total_time:.4f}
@@ -325,18 +337,3 @@ if rank == 0:
 # =================================
 # ========= PLOTTING ==============
 # =================================
-if rank == 0:
-    import matplotlib.pyplot as plt
-
-    plt.imshow(image.T, extent=np.concatenate([xlim, ylim]))
-    plt.xlabel(r"x / Re(p_0)")
-    plt.ylabel(r"y / Im(p_0)")
-
-    # Just minimize white-space around the actual plot...
-    plt.margins(0, 0)
-    plt.savefig(
-        f"../figures/Nonblocking/dynamic_scheduling_N{NUM_GRIDS}.png",
-        bbox_inches="tight",
-        pad_inches=0,
-    )
-    plt.show()

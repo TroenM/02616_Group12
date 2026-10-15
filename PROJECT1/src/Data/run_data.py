@@ -12,7 +12,9 @@ ex: summary_staticGrid_1000x1000_-2,2x0,75_-1,3x1,3_16_4.npy
 Summary layout (1D array, see SUMMARY_FIELDS for the index of each value)
 RankStats layout (2D array, idx is rank): [time rank computation, rank idle time]
 """
-DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "results")
+DATA_DIR = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "..", "..", "results"
+)
 
 SUMMARY_FIELDS = (
     "total_time",
@@ -37,9 +39,7 @@ def _fmt_lim(lim):
 
 
 def data_name(job, size, xlim, ylim, num_grids, num_workers):
-    return (
-        f"{job}_{size[0]}x{size[1]}_{_fmt_lim(xlim)}_{_fmt_lim(ylim)}_{num_grids}_{num_workers}"
-    )
+    return f"{job}_{size[0]}x{size[1]}_{_fmt_lim(xlim)}_{_fmt_lim(ylim)}_{num_grids}_{num_workers}"
 
 
 def save_run_data(
@@ -54,6 +54,7 @@ def save_run_data(
     master_wait_time,
     rankstats,
     subdir="",
+    image=None,
 ):
     rankstats = np.asarray(rankstats, dtype=float)
 
@@ -81,6 +82,9 @@ def save_run_data(
     name = data_name(job, size, xlim, ylim, num_grids, num_workers)
     np.save(os.path.join(out_dir, f"summary_{name}.npy"), summary)
     np.save(os.path.join(out_dir, f"rankstats_{name}.npy"), rankstats)
+
+    if image:
+        np.save(os.path.join(out_dir, f"image_{name}.npy"), image)
 
     print(f"Saved data files for {name} in {os.path.normpath(DATA_DIR)}")
     return summary
