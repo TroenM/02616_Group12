@@ -2,6 +2,10 @@ import sys
 import numpy as np
 from mpi4py import MPI
 from time import perf_counter
+import os
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Data"))
+from run_data import save_run_data
 
 """
 ABOUT THE IMPLEMENTATION:
@@ -194,25 +198,8 @@ if rank == 0:
         comm.Send(shutdown_task, dest=worker, tag=0)
         master_send_time += perf_counter()
 
-    MPI.Finalize()
-
-    total_time += perf_counter()
-    total_comparable_time += perf_counter()
-
-    print("\n--- SCHEDULING RESULTS ---")
-    for w, count in worker_task_counts.items():
-        print(f"Worker {w} completed {count} tasks.")
-
-    time_summary = rank_times.sum(axis=0)
-    print(f"""
-    Total time =            {total_time:.4f}
-    Total comparable Time = {total_comparable_time:.4f}
-    Master send time =      {master_send_time:.4f}
-    Master wait time =      {master_wait_time:.4f}
-    working idle time =     {time_summary[0]:.4f}
-    Computation time =      {time_summary[1]:.4f}
-          """)
-
+    # Rank 0 does no computation, its idle time is all its blocking send/wait
+    local_stats = np.array([0.0, master_send_time + master_wait_time])
 
 else:
     # -------- Working Ranks -----------
@@ -235,6 +222,7 @@ else:
         recv_reqs[i] = comm.Irecv(info_buffer[i], source=0, tag=0)
 
     time_rank_idle = 0
+    time_rank_computation_total = 0
     while True:
         # Wait for the info_buffer to be ready
         time_rank_idle -= perf_counter()
@@ -276,6 +264,7 @@ else:
                         current_image[x - start_x, y - start_y] = i
                         break
         time_rank_computation += perf_counter()
+        time_rank_computation_total += time_rank_computation
 
         time_package = np.array(
             [time_rank_idle, time_rank_computation, start_x, end_x, start_y, end_y]
@@ -289,7 +278,46 @@ else:
         buffer_idx = (buffer_idx + 1) % NUM_BUFFERS
 
     # Shutdown hanging requests
+    time_rank_idle -= perf_counter()
     MPI.Request.Waitall(send_reqs)
+    time_rank_idle += perf_counter()
+
+    local_stats = np.array([time_rank_computation_total, time_rank_idle])
+
+
+# Collect [time rank computation, rank idle time] from every rank, idx is rank
+rankstats = np.zeros((size_mpi, 2)) if rank == 0 else None
+comm.Gather(local_stats, rankstats, root=0)
+
+MPI.Finalize()
+
+total_time += perf_counter()
+total_comparable_time += perf_counter()
+
+if rank == 0:
+    print("\n--- SCHEDULING RESULTS ---")
+    for w, count in worker_task_counts.items():
+        print(f"Worker {w} completed {count} tasks.")
+
+    summary = save_run_data(
+        "dynamicGrid",
+        size,
+        xlim,
+        ylim,
+        NUM_GRIDS,
+        size_mpi - 1,   # Rank 0 does not count as a worker
+        total_time,
+        master_send_time,
+        master_wait_time,
+        rankstats,
+    )
+    print(f"""
+    Total time =            {total_time:.4f}
+    Total comparable Time = {total_comparable_time:.4f}
+    Master send time =      {master_send_time:.4f}
+    Master wait time =      {master_wait_time:.4f}
+    Total idle time =       {summary[4]:.4f}
+    Computation time =      {summary[3]:.4f}""")
 
 
 # =================================

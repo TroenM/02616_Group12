@@ -2,6 +2,13 @@ import sys
 import numpy as np
 from mpi4py import MPI
 from time import perf_counter
+import os
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Data"))
+from run_data import save_run_data
+
+# Include everything in the program (except dependency loads)
+total_time = -perf_counter()
 
 _help = f"""\
 {sys.argv[0]} [chunk-size] [size widthXheight] [limits xmin:xmax ymin:ymax]
@@ -77,6 +84,9 @@ local_image = np.zeros((end - start, size[1]))
 # Each row contains [computation_time, start_idx, end_idx], row_idx = rank
 rank_times = np.ones((size_mpi, 3)) * (-1) # Insert -1 to easily catch missing values
 
+# A comparable timing for previous version that started once the setup was done
+total_comparable_time = -perf_counter()
+
 # Compute this rank's part of the Mandelbrot set
 t_rank_computaion = - perf_counter()
 for x in range(start, end):
@@ -105,12 +115,17 @@ if rank == 0:
     image[start:end, :] = local_image
     rank_times[0, :] = np.array([t_rank_computaion, start, end])
 
+    # Rank 0 only receives, so it has no send time
+    master_send_time = 0
+    master_wait_time = 0
+
     # Receive the other ranks
     for other_rank in range(1, size_mpi):
 
         other_start = other_rank * n_x // size_mpi
         other_end = (other_rank + 1) * n_x // size_mpi
 
+        master_wait_time -= perf_counter()
         comm.Recv(
             image[other_start:other_end, :],
             source=other_rank
@@ -119,9 +134,13 @@ if rank == 0:
             rank_times[other_rank, :],
             source = other_rank
         )
+        master_wait_time += perf_counter()
 
+    local_stats = np.array([t_rank_computaion, master_send_time + master_wait_time])
 
 else:
+
+    time_rank_idle = -perf_counter()
 
     # Blocking send
     comm.Send(
@@ -134,6 +153,41 @@ else:
         time_pckg,
         dest=0,
     )
+
+    time_rank_idle += perf_counter()
+
+    local_stats = np.array([t_rank_computaion, time_rank_idle])
+
+# Collect [time rank computation, rank idle time] from every rank, idx is rank
+rankstats = np.zeros((size_mpi, 2)) if rank == 0 else None
+comm.Gather(local_stats, rankstats, root=0)
+
+MPI.Finalize()
+
+total_time += perf_counter()
+total_comparable_time += perf_counter()
+
+if rank == 0:
+    summary = save_run_data(
+        "staticRow",
+        size,
+        xlim,
+        ylim,
+        size_mpi,
+        size_mpi,
+        total_time,
+        master_send_time,
+        master_wait_time,
+        rankstats,
+    )
+    print(f"""
+    Total time =            {total_time:.4f}
+    Total comparable Time = {total_comparable_time:.4f}
+    Master send time =      {master_send_time:.4f}
+    Master wait time =      {master_wait_time:.4f}
+    Total idle time =       {summary[4]:.4f}
+    Computation time =      {summary[3]:.4f}""")
+
 
 # ---------------------------------------------------------
 # Plot the complete image
