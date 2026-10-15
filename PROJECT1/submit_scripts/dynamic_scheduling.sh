@@ -1,12 +1,12 @@
 #!/bin/bash
 #BSUB -J dynamic_scheduling
-#BSUB -o ../outputs/out/dynamic_scheduling%J.out
-#BSUB -e ../outputs/err/dynamic_scheduling%J.err
+#BSUB -o ../outputs/out/test_dynamic_scheduling%J.out
+#BSUB -e ../outputs/err/test_dynamic_scheduling%J.err
 #BSUB -q hpcintro
 #BSUB -W 00:05
 ## #BUSB -M 128MB
 #BSUB -R "rusage[mem=1GB]"
-#BSUB -n 5
+#BSUB -n 4
 #BSUB -R "span[ptile=4]"
 
 ###               hpcintro queue only has XeonE5_2650v4
@@ -21,4 +21,4 @@
 source ../modules.sh
 source ../.venv/bin/activate
 
-mpirun -n 5 python3 Nonblocking/dynamic_scheduling.py
+mpirun -n 4 python3 Nonblocking/test_dynamic_scheduling.py
