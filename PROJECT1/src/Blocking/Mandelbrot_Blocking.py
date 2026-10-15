@@ -179,6 +179,7 @@ if rank == 0:
         master_send_time,
         master_wait_time,
         rankstats,
+        subdir="Rows"
     )
     print(f"""
     Total time =            {total_time:.4f}

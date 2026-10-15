@@ -12,8 +12,7 @@ ex: summary_staticGrid_1000x1000_-2,2x0,75_-1,3x1,3_16_4.npy
 Summary layout (1D array, see SUMMARY_FIELDS for the index of each value)
 RankStats layout (2D array, idx is rank): [time rank computation, rank idle time]
 """
-
-DATA_DIR = os.path(r"")
+DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "results")
 
 SUMMARY_FIELDS = (
     "total_time",
@@ -54,6 +53,7 @@ def save_run_data(
     master_send_time,
     master_wait_time,
     rankstats,
+    subdir="",
 ):
     rankstats = np.asarray(rankstats, dtype=float)
 
@@ -76,10 +76,11 @@ def save_run_data(
         dtype=float,
     )
 
-    os.makedirs(DATA_DIR, exist_ok=True)
+    out_dir = os.path.join(DATA_DIR, subdir)
+    os.makedirs(out_dir, exist_ok=True)
     name = data_name(job, size, xlim, ylim, num_grids, num_workers)
-    np.save(os.path.join(DATA_DIR, f"summary_{name}.npy"), summary)
-    np.save(os.path.join(DATA_DIR, f"rankstats_{name}.npy"), rankstats)
+    np.save(os.path.join(out_dir, f"summary_{name}.npy"), summary)
+    np.save(os.path.join(out_dir, f"rankstats_{name}.npy"), rankstats)
 
     print(f"Saved data files for {name} in {os.path.normpath(DATA_DIR)}")
     return summary
