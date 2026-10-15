@@ -65,9 +65,6 @@ size = np.asarray(size)
 xlim = np.asarray(xlim)
 ylim = np.asarray(ylim)
 
-# Dimensions of the image
-image = np.zeros(size)
-
 xconst = np.diff(xlim)[0] / size[0]
 yconst = np.diff(ylim)[0] / size[1]
 
@@ -102,7 +99,7 @@ for x in range(start, end):
         for i in range(100):
             z = z * z + c
 
-            if np.abs(z) > 2:
+            if abs(z) > 2:
                 local_image[x - start, y] = i
                 break
 t_rank_computaion += perf_counter()
@@ -110,6 +107,9 @@ t_rank_computaion += perf_counter()
 # Send all local images to rank 0
 
 if rank == 0:
+
+    # Dimensions of the image
+    image = np.zeros(size)
 
     # Rank 0 already created its own work
     image[start:end, :] = local_image

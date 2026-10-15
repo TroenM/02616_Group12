@@ -1,5 +1,5 @@
 #!/bin/bash
-#BSUB -J dynamic_image_scale_test[1-1]
+#BSUB -J dynamic_image_scale_test[1-5]
 #BSUB -o ../outputs/out/dynamic_image_scale_test%J_%I.out
 #BSUB -e ../outputs/err/dynamic_image_scale_test%J_%I.err
 #BSUB -q hpc
