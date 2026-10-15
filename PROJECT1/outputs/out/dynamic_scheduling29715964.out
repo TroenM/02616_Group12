@@ -1,0 +1,89 @@
+Calculating the Mandelbrot set with these arguments:
+NUM_GRIDS = 16
+size = (1000, 1000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 5
+
+
+--- SCHEDULING RESULTS ---
+Worker 1 completed 4 tasks.
+Worker 2 completed 5 tasks.
+Worker 3 completed 4 tasks.
+Worker 4 completed 3 tasks.
+
+    Total time =            11.4233
+    Total comparable Time = 11.4230
+    Master send time =      0.0474
+    Master wait time =      11.1883
+    working idle time =     0.1510
+    Computation time =      39.3142
+          
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29715964: <dynamic_scheduling> in cluster <dcc> Done
+
+Job <dynamic_scheduling> was submitted from host <n-62-27-18> by user <s224363> in cluster <dcc> at Wed Oct 14 16:38:28 2026
+Job was executed on host(s) <4*n-62-21-77>, in queue <hpcintro>, as user <s224363> in cluster <dcc> at Wed Oct 14 16:38:30 2026
+                            <1*n-62-21-76>
+</zhome/ce/3/186843> was used as the home directory.
+</zhome/ce/3/186843/Documents/9_semester/02616_LargeScaleModelling/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Wed Oct 14 16:38:30 2026
+Terminated at Wed Oct 14 16:38:45 2026
+Results reported at Wed Oct 14 16:38:45 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J dynamic_scheduling
+#BSUB -o ../outputs/out/dynamic_scheduling%J.out
+#BSUB -e ../outputs/err/dynamic_scheduling%J.err
+#BSUB -q hpcintro
+#BSUB -W 00:05
+## #BUSB -M 128MB
+#BSUB -R "rusage[mem=1GB]"
+#BSUB -n 5
+#BSUB -R "span[ptile=4]"
+
+###               hpcintro queue only has XeonE5_2650v4
+###                       vvvvvvvvvvvvv
+## #BSUB -R "select[model==XeonE5_2650v4]"
+
+## OBS!!!: This script has to executed from the PROJECT1/src folder
+## for the paths to work out
+## From src folder execute line below:
+## bsub < ../submit_scripts/template.sh
+
+source ../modules.sh
+source ../.venv/bin/activate
+
+mpirun -n 5 python3 Nonblocking/dynamic_scheduling.py
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   59.64 sec.
+    Max Memory :                                 445 MB
+    Average Memory :                             149.67 MB
+    Total Requested Memory :                     5120.00 MB
+    Delta Memory :                               4675.00 MB
+    Max Swap :                                   -
+    Max Processes :                              8
+    Max Threads :                                19
+    Run time :                                   15 sec.
+    Turnaround time :                            17 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/dynamic_scheduling29715964.err> for stderr output of this job.
+
