@@ -263,7 +263,7 @@ else:
                 for i in range(100):
                     z = z * z + c
 
-                    if np.abs(z) > 2:
+                    if abs(z) > 2:
                         current_image[x - start_x, y - start_y] = i
                         break
         time_rank_computation += perf_counter()

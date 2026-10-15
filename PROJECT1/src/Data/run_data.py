@@ -83,7 +83,7 @@ def save_run_data(
     np.save(os.path.join(out_dir, f"summary_{name}.npy"), summary)
     np.save(os.path.join(out_dir, f"rankstats_{name}.npy"), rankstats)
 
-    if image:
+    if image is not None:
         np.save(os.path.join(out_dir, f"image_{name}.npy"), image)
 
     print(f"Saved data files for {name} in {os.path.normpath(DATA_DIR)}")
