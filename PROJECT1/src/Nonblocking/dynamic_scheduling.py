@@ -198,8 +198,8 @@ if rank == 0:
         comm.Send(shutdown_task, dest=worker, tag=0)
         master_send_time += perf_counter()
 
-    # Rank 0 does no computation, its idle time is all its blocking send/wait
-    local_stats = np.array([0.0, master_send_time + master_wait_time])
+    # Rank 0 does no computation
+    local_stats = np.array([0.0, master_send_time, master_wait_time])
 
 else:
     # -------- Working Ranks -----------
@@ -221,13 +221,14 @@ else:
     for i in range(NUM_BUFFERS):
         recv_reqs[i] = comm.Irecv(info_buffer[i], source=0, tag=0)
 
-    time_rank_idle = 0
+    time_rank_send = 0
+    time_rank_wait = 0
     time_rank_computation_total = 0
     while True:
         # Wait for the info_buffer to be ready
-        time_rank_idle -= perf_counter()
+        time_rank_wait -= perf_counter()
         recv_reqs[buffer_idx].Wait()
-        time_rank_idle += perf_counter()
+        time_rank_wait += perf_counter()
 
         # Load the necessary info for computation
         glb_idx, start_x, end_x, start_y, end_y = info_buffer[buffer_idx]
@@ -237,9 +238,9 @@ else:
             break
 
         # Ensure previous use of this image buffer is done
-        time_rank_idle -= perf_counter()
+        time_rank_send -= perf_counter()
         send_reqs[buffer_idx].Wait()
-        time_rank_idle += perf_counter()
+        time_rank_send += perf_counter()
 
         # Post next recieve request, so it can be done while computing
         recv_reqs[buffer_idx] = comm.Irecv(info_buffer[buffer_idx], source=0, tag=0)
@@ -267,7 +268,7 @@ else:
         time_rank_computation_total += time_rank_computation
 
         time_package = np.array(
-            [time_rank_idle, time_rank_computation, start_x, end_x, start_y, end_y]
+            [time_rank_send + time_rank_wait, time_rank_computation, start_x, end_x, start_y, end_y]
         )
 
         # Send the image back to rank 0
@@ -278,15 +279,15 @@ else:
         buffer_idx = (buffer_idx + 1) % NUM_BUFFERS
 
     # Shutdown hanging requests
-    time_rank_idle -= perf_counter()
+    time_rank_send -= perf_counter()
     MPI.Request.Waitall(send_reqs)
-    time_rank_idle += perf_counter()
+    time_rank_send += perf_counter()
 
-    local_stats = np.array([time_rank_computation_total, time_rank_idle])
+    local_stats = np.array([time_rank_computation_total, time_rank_send, time_rank_wait])
 
 
-# Collect [time rank computation, rank idle time] from every rank, idx is rank
-rankstats = np.zeros((size_mpi, 2)) if rank == 0 else None
+# Collect [time rank computation, rank send time, rank wait time] from every rank, idx is rank
+rankstats = np.zeros((size_mpi, 3)) if rank == 0 else None
 comm.Gather(local_stats, rankstats, root=0)
 
 MPI.Finalize()
@@ -305,12 +306,12 @@ if rank == 0:
         xlim,
         ylim,
         NUM_GRIDS,
-        size_mpi - 1,   # Rank 0 does not count as a worker
+        size_mpi - 1,
         total_time,
         master_send_time,
         master_wait_time,
         rankstats,
-        subdir="Dynamic"
+        subdir="Nonblocking",
     )
     print(f"""
     Total time =            {total_time:.4f}
