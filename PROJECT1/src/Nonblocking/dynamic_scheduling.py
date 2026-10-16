@@ -293,12 +293,20 @@ else:
     time_rank_send += perf_counter()
 
     local_stats = np.array(
-        [time_rank_computation_total, time_rank_send, time_rank_wait]
+        [
+            time_rank_computation_total,
+            time_rank_send,
+            time_rank_wait,
+            start_x,
+            end_x,
+            start_y,
+            end_y,
+        ]
     )
 
 
 # Collect [time rank computation, rank send time, rank wait time] from every rank, idx is rank
-rankstats = np.zeros((size_mpi, 3)) if rank == 0 else None
+rankstats = np.zeros((size_mpi, 7)) if rank == 0 else None
 comm.Gather(local_stats, rankstats, root=0)
 
 MPI.Finalize()
@@ -307,7 +315,7 @@ total_time += perf_counter()
 total_comparable_time += perf_counter()
 
 # DO NOT SAVE LARGER IMAGES
-if size[0] > 1000:
+if size[0] > 5000:
     image = None
 
 if rank == 0:

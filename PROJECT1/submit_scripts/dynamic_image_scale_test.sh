@@ -1,11 +1,11 @@
 #!/bin/bash
-#BSUB -J dynamic_image_scale_test[1-5]
+#BSUB -J dynamic_image_scale_test[1-1]
 #BSUB -o ../outputs/out/dynamic_image_scale_test%J_%I.out
 #BSUB -e ../outputs/err/dynamic_image_scale_test%J_%I.err
 #BSUB -q hpcintro
 #BSUB -R "select[model==XeonE5_2650v4]"
 #BSUB -W 00:50
-#BSUB -R "rusage[mem=2GB]"
+#BSUB -R "rusage[mem=8GB]"
 #BSUB -n 72
 #BSUB -R "span[ptile=24]"
 
