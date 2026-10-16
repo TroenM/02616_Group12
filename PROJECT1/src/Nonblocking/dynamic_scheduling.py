@@ -297,16 +297,12 @@ else:
             time_rank_computation_total,
             time_rank_send,
             time_rank_wait,
-            start_x,
-            end_x,
-            start_y,
-            end_y,
         ]
     )
 
 
 # Collect [time rank computation, rank send time, rank wait time] from every rank, idx is rank
-rankstats = np.zeros((size_mpi, 7)) if rank == 0 else None
+rankstats = np.zeros((size_mpi, 3)) if rank == 0 else None
 comm.Gather(local_stats, rankstats, root=0)
 
 MPI.Finalize()
