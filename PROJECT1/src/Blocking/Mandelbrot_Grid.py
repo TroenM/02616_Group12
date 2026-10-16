@@ -119,6 +119,7 @@ if rank == 0:
 
     # send work - now changed to outside the idx loop
     z = 0
+    sent = {}
     for r in range(1, size_mpi):
         rank_data = np.zeros((workload, 5))
         # added "* n_even_distributed" to avoid overlapping intervals
@@ -130,6 +131,9 @@ if rank == 0:
             rank_data[-1] = chunk_map[n_even_distributed * n_workers + z]
             z += 1
 
+        my_rows = workload if r <= n_mismatch else workload - 1
+        sent[r] = rank_data[:my_rows]
+
         master_send_time -= perf_counter()
         comm.Send(rank_data, dest=r)
         master_send_time += perf_counter()
@@ -138,15 +142,23 @@ if rank == 0:
 
     # added method for rank 0 to recieving images and timings from the workers
     rank_times = np.zeros((n_workers, workload, 5))
-    other_image = np.zeros(size, dtype=np.float64)
 
     for other_rank in range(1, size_mpi):
+        chunks = sent[other_rank]
+        n_pix = int(sum((ex - sx) * (ey - sy) for _, sx, ex, sy, ey in chunks))
+        packed = np.empty(n_pix, dtype=np.float64)
+
         master_wait_time -= perf_counter()
-        comm.Recv(other_image, source=other_rank)
+        comm.Recv(packed, source=other_rank)
         master_wait_time += perf_counter()
 
-        # since the chuns do not overlap we sum to assemble image
-        image += other_image
+        # unpack chunk by chunk.
+        offset = 0
+        for _, sx, ex, sy, ey in chunks:
+            sx, ex, sy, ey = int(sx), int(ex), int(sy), int(ey)
+            n = (ex - sx) * (ey - sy)
+            image[sx:ex, sy:ey] = packed[offset:offset + n].reshape(ex - sx, ey - sy)
+            offset += n
 
         master_wait_time -= perf_counter()
         comm.Recv(rank_times[other_rank - 1], source=other_rank)
@@ -197,10 +209,13 @@ else:
     rank_comp_time += perf_counter()
     t_rank_computaion += perf_counter()
     # print(f"Rank {rank}: {my_workload} chunks, chunk ids {mem[:, 0].astype(int)}, {t_rank_computaion:.3f} s")
-
+    packed = np.concatenate([
+        local_image[int(sx):int(ex), int(sy):int(ey)].ravel()
+        for _, sx, ex, sy, ey in mem
+    ])
     # Send information from worker to rank 0
     rank_send_time -= perf_counter()
-    comm.Send(local_image, dest=0)
+    comm.Send(packed, dest=0)
     rank_send_time += perf_counter()
 
     time_pckg = np.zeros((workload, 5))
