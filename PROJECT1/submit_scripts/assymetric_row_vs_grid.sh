@@ -23,6 +23,7 @@ CURRENT_SIZE=${IMAGE_SIZES[$INDEX]}
 FORMATTED_SIZE="${CURRENT_SIZE}x${CURRENT_SIZE}"
 
 echo $CURRENT_SIZE
+
 mpirun python3 Nonblocking/dynamic_rows.py 2500 $FORMATTED_SIZE -2.2:0 0:1.3
 
 mpirun python3 Nonblocking/dynamic_scheduling.py 50 $FORMATTED_SIZE -2.2:0 0:1.3
