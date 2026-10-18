@@ -1,0 +1,391 @@
+Loaded dependency [numpy/2.3.1-python-3.12.11-openblas-0.3.30]: openblas/0.3.30
+Loaded dependency [python3/3.12.11]: sqlite3/3.50.1
+Loaded dependency [python3/3.12.11]: gcc/14.3.0-binutils-2.44
+Loaded dependency [numpy/2.3.1-python-3.12.11-openblas-0.3.30]: python3/3.12.11
+Loaded dependency [meson/1.8.2-python-3.12.11]: ninja/1.12.1
+Loaded dependency [numpy/2.3.1-python-3.12.11-openblas-0.3.30]: meson/1.8.2-python-3.12.11
+using numpy optimized for CPU-type XeonE5-2650v4.
+Loaded dependency [scipy/1.15.3-python-3.12.11]: numpy/2.3.1-python-3.12.11-openblas-0.3.30
+using scipy optimized for CPU-type XeonE5-2650v4.
+Loaded dependency [matplotlib/3.10.3-numpy-2.3.1-python-3.12.11]: scipy/1.15.3-python-3.12.11
+Loaded dependency [matplotlib/3.10.3-numpy-2.3.1-python-3.12.11]: freetype/2.13.3
+Loaded module: matplotlib/3.10.3-numpy-2.3.1-python-3.12.11
+
+Loading matplotlib/3.10.3-numpy-2.3.1-python-3.12.11
+  Loading requirement: openblas/0.3.30 sqlite3/3.50.1 gcc/14.3.0-binutils-2.44
+    python3/3.12.11 ninja/1.12.1 meson/1.8.2-python-3.12.11
+    numpy/2.3.1-python-3.12.11-openblas-0.3.30 scipy/1.15.3-python-3.12.11
+    freetype/2.13.3
+Loaded dependency [mpi4py/4.0.3-python-3.12.11-openmpi-5.0.8]: mpi/5.0.8-gcc-14.3.0-binutils-2.44
+Loaded module: mpi4py/4.0.3-python-3.12.11-openmpi-5.0.8
+
+Loading mpi4py/4.0.3-python-3.12.11-openmpi-5.0.8
+  Loading requirement: mpi/5.0.8-gcc-14.3.0-binutils-2.44
+/zhome/91/8/187353/.lsbatch/1792340748.29750222.3.shell: line 13: ../.venv/bin/activate: No such file or directory
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+Traceback (most recent call last):
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+Traceback (most recent call last):
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+Traceback (most recent call last):
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 136, in <module>
+    np.zeros((nx_local * ny_local + 6), dtype=float) for _ in range(size_mpi)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected a sequence of integers or a single integer, got 'np.float64(32.0)'
+Traceback (most recent call last):
+  File "/zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src/Nonblocking/dynamic_rows.py", line 207, in <module>
+    image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'numpy.float64' object cannot be interpreted as an integer
+--------------------------------------------------------------------------
+prterun detected that one or more processes exited with non-zero status,
+thus causing the job to be terminated. The first process to do so was:
+
+   Process name: [prterun-n-62-21-48-635621@1,57]
+   Exit code:    1
+--------------------------------------------------------------------------

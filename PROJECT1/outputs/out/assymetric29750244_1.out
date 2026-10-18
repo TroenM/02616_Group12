@@ -1,0 +1,170 @@
+5000
+Calculating the Mandelbrot set with these arguments:
+NUM_GRIDS = 2500
+size = (5000, 5000)
+xlim = (-2.2, 0.0)
+ylim = (0.0, 1.3)
+size_mpi = 72
+
+Calculating the Mandelbrot set with these arguments:
+NUM_GRIDS = 2500
+size = (5000, 5000)
+xlim = (-2.2, 0.0)
+ylim = (0.0, 1.3)
+size_mpi = 72
+
+
+--- SCHEDULING RESULTS ---
+Worker 1 completed 38 tasks.
+Worker 2 completed 38 tasks.
+Worker 3 completed 41 tasks.
+Worker 4 completed 32 tasks.
+Worker 5 completed 32 tasks.
+Worker 6 completed 38 tasks.
+Worker 7 completed 33 tasks.
+Worker 8 completed 37 tasks.
+Worker 9 completed 31 tasks.
+Worker 10 completed 34 tasks.
+Worker 11 completed 35 tasks.
+Worker 12 completed 26 tasks.
+Worker 13 completed 37 tasks.
+Worker 14 completed 37 tasks.
+Worker 15 completed 35 tasks.
+Worker 16 completed 32 tasks.
+Worker 17 completed 33 tasks.
+Worker 18 completed 28 tasks.
+Worker 19 completed 40 tasks.
+Worker 20 completed 38 tasks.
+Worker 21 completed 25 tasks.
+Worker 22 completed 38 tasks.
+Worker 23 completed 35 tasks.
+Worker 24 completed 37 tasks.
+Worker 25 completed 41 tasks.
+Worker 26 completed 27 tasks.
+Worker 27 completed 42 tasks.
+Worker 28 completed 46 tasks.
+Worker 29 completed 38 tasks.
+Worker 30 completed 32 tasks.
+Worker 31 completed 36 tasks.
+Worker 32 completed 36 tasks.
+Worker 33 completed 30 tasks.
+Worker 34 completed 38 tasks.
+Worker 35 completed 31 tasks.
+Worker 36 completed 43 tasks.
+Worker 37 completed 38 tasks.
+Worker 38 completed 40 tasks.
+Worker 39 completed 37 tasks.
+Worker 40 completed 33 tasks.
+Worker 41 completed 36 tasks.
+Worker 42 completed 47 tasks.
+Worker 43 completed 33 tasks.
+Worker 44 completed 36 tasks.
+Worker 45 completed 40 tasks.
+Worker 46 completed 36 tasks.
+Worker 47 completed 32 tasks.
+Worker 48 completed 29 tasks.
+Worker 49 completed 36 tasks.
+Worker 50 completed 32 tasks.
+Worker 51 completed 33 tasks.
+Worker 52 completed 34 tasks.
+Worker 53 completed 39 tasks.
+Worker 54 completed 43 tasks.
+Worker 55 completed 31 tasks.
+Worker 56 completed 31 tasks.
+Worker 57 completed 33 tasks.
+Worker 58 completed 34 tasks.
+Worker 59 completed 41 tasks.
+Worker 60 completed 34 tasks.
+Worker 61 completed 31 tasks.
+Worker 62 completed 44 tasks.
+Worker 63 completed 30 tasks.
+Worker 64 completed 30 tasks.
+Worker 65 completed 40 tasks.
+Worker 66 completed 39 tasks.
+Worker 67 completed 33 tasks.
+Worker 68 completed 39 tasks.
+Worker 69 completed 30 tasks.
+Worker 70 completed 27 tasks.
+Worker 71 completed 29 tasks.
+Saved data files for dynamicGrid_5000x5000_-2,2x0_0x1,3_2500_71 in /zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/results
+
+    Total time =            5.9313
+    Total comparable Time = 5.9311
+    Master send time =      0.9370
+    Master wait time =      4.3958
+    Total idle time =       0.9463
+    Computation time =      301.8167
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29750244[1]: <assymetric[1-3]> in cluster <dcc> Done
+
+Job <assymetric[1-3]> was submitted from host <n-62-27-19> by user <s224408> in cluster <dcc> at Sun Oct 18 18:34:06 2026
+Job was executed on host(s) <24*n-62-21-77>, in queue <hpcintro>, as user <s224408> in cluster <dcc> at Sun Oct 18 18:34:08 2026
+                            <24*n-62-21-75>
+                            <24*n-62-21-46>
+</zhome/91/8/187353> was used as the home directory.
+</zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Sun Oct 18 18:34:08 2026
+Terminated at Sun Oct 18 18:34:20 2026
+Results reported at Sun Oct 18 18:34:20 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J assymetric[1-3]
+#BSUB -o ../outputs/out/assymetric%J_%I.out
+#BSUB -e ../outputs/err/assymetric%J_%I.err
+#BSUB -q hpcintro
+#BSUB -R "select[model==XeonE5_2650v4]"
+#BSUB -W 00:50
+#BSUB -R "rusage[mem=8GB]"
+#BSUB -n 72
+#BSUB -R "span[ptile=24]"
+
+source ../modules.sh
+source ../.venv/bin/activate
+
+# Define the image sizes using standard Bash array syntax (space separated)
+IMAGE_SIZES=(5000 15000 25000 50000 93000)
+
+# Calculate zero-based index
+INDEX=$((LSB_JOBINDEX - 1))
+CURRENT_SIZE=${IMAGE_SIZES[$INDEX]}
+
+# Format the string as WxH
+FORMATTED_SIZE="${CURRENT_SIZE}x${CURRENT_SIZE}"
+
+# Use exactly 256 for the chunks-per-axis argument to maintain the 256x256 grid
+echo $CURRENT_SIZE
+mpirun python3 Nonblocking/dynamic_rows.py 2500 $FORMATTED_SIZE -2.2:0 0:1.3
+
+mpirun python3 Nonblocking/dynamic_scheduling.py 50 $FORMATTED_SIZE -2.2:0 0:1.3
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   469.89 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     589824.00 MB
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   12 sec.
+    Turnaround time :                            14 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/assymetric29750244_1.err> for stderr output of this job.
+
