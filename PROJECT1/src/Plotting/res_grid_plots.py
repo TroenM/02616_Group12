@@ -121,6 +121,10 @@ if not both:
     raise SystemExit("No sizes with both Static and Dynamic data")
 
 # Fixed to 'len(VARIANTS)' columns so we don't hit an IndexError when plotting 3 variants
+
+# Just plot the smallest and largest image
+both = [both[0], both[-1]]
+
 fig, axes = plt.subplots(
     len(both),
     len(VARIANTS),
