@@ -6,8 +6,8 @@
 #BSUB -R "select[model==XeonE5_2650v4]"
 #BSUB -W 03:00
 #BSUB -R "rusage[mem=8GB]"
-#BSUB -n 16
-#BSUB -R "span[hosts=1]"
+#BSUB -n 72
+#BSUB -R "span[ptile=24]"
 
 source ../modules.sh
 #source ../.venv/bin/activate
