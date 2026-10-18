@@ -1,6 +1,7 @@
 from pathlib import Path
 import numpy as np
 import matplotlib
+import sys
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -12,9 +13,11 @@ FIG_DIR.mkdir(parents=True, exist_ok=True)
 
 # label: (folder, job name in filename, marker)
 VARIANTS = {
-    "Static": ("Grid", "staticGrid", "o"),
-    "Dynamic": ("Dynamic", "dynamicGrid", "s"),
+    "Row S/B": ("Rows", "staticRow", "d"),
+    "Grid S/B": ("Grid", "staticGrid", "o"),
+    "Grid D/N": ("Dynamic", "dynamicGrid", "s"),
 }
+TARGET_WORKERS = ["71", "72"]
 # Worker columns in rankstats. Rank 0 is the master: col1 = send, col2 = wait
 COLS = ["compute", "idle", "comm"]
 COLORS = ["C0", "C1", "C2"]
@@ -30,6 +33,8 @@ def parse(stem):
 def load(folder, job):
     runs = {}
     for f in (RESULTS / folder).glob(f"summary_{job}_*.npy"):
+        if f.name[-6:-4] not in TARGET_WORKERS:
+            continue
         w, h = parse(f.stem)
         summary = np.load(f, allow_pickle=True)
         stats = np.load(
@@ -67,18 +72,25 @@ for name, (_, _, marker) in VARIANTS.items():
 
 both = [s for s in sizes if all(s in data[n] for n in VARIANTS)]
 if both:
-    speedup = [
-        data["Static"][s]["t_total"] / data["Dynamic"][s]["t_total"] for s in both
-    ]
-    ax_s.bar([f"{w // 1000}x{h // 1000}" for w, h in both], speedup, color="C2")
-    for i, v in enumerate(speedup):
-        ax_s.text(i, v, f"{v:.2f}×", ha="center", va="bottom")
-    print("size            static [s]  dynamic [s]  speedup")
-    for s, v in zip(both, speedup):
-        print(
-            f"{s[0]:>6}x{s[1]:<8} {data['Static'][s]['t_total']:10.1f}"
-            f"  {data['Dynamic'][s]['t_total']:11.1f}  {v:6.2f}x"
-        )
+    baseline = "Grid D/N"
+    x_labels = [f"{w // 1000}x{h // 1000}" for w, h in both]
+
+    # Plot speedup (Relative execution time vs Grid D/N) for all variants as a line plot
+    for name, (_, _, marker) in VARIANTS.items():
+        speedups = [
+            data[name][s]["t_total"] / data[baseline][s]["t_total"] for s in both
+        ]
+        ax_s.plot(x_labels, speedups, marker=marker, label=name)
+
+    # Dashed line for No Speedup (Ratio = 1)
+    ax_s.axhline(1, color="k", ls="--", lw=1, label="No speedup")
+
+    # Console output updated to reflect all variants
+    header_names = "  ".join(f"{n:>11}" for n in VARIANTS.keys())
+    print(f"size            {header_names}")
+    for s in both:
+        times_str = "  ".join(f"{data[n][s]['t_total']:11.1f}" for n in VARIANTS)
+        print(f"{s[0]:>6}x{s[1]:<8} {times_str}")
 
 ax_t.set(
     xlabel="Number of pixels",
@@ -93,12 +105,12 @@ ax_i.set(
 )
 ax_s.set(
     xlabel="Image size (1000 pixels)",
-    ylabel="$T_{static} / T_{dynamic}$",
-    title="Speedup of dynamic scheduling",
+    ylabel="$T_{variant} / T_{Grid D/N}$",
+    title="Relative time vs Grid D/N",
 )
 for ax in (ax_t, ax_i, ax_s):
     ax.grid(alpha=0.3, which="both")
-for ax in (ax_t, ax_i):
+for ax in (ax_t, ax_i, ax_s):
     ax.legend()
 fig.tight_layout()
 fig.savefig(FIG_DIR / "Static_vs_Dynamic_size.png", dpi=300)
@@ -107,9 +119,15 @@ fig.savefig(FIG_DIR / "Static_vs_Dynamic_size.png", dpi=300)
 # ---- Figure 2: per-rank breakdown, only sizes where both variants exist ----
 if not both:
     raise SystemExit("No sizes with both Static and Dynamic data")
+
+# Fixed to 'len(VARIANTS)' columns so we don't hit an IndexError when plotting 3 variants
+
+# Just plot the smallest and largest image
+both = [both[0], both[-1]]
+
 fig, axes = plt.subplots(
     len(both),
-    2,
+    len(VARIANTS),
     figsize=(16, 3.2 * len(both)),
     sharex=True,
     sharey="row",
@@ -140,4 +158,3 @@ for ax in axes[-1]:
 fig.tight_layout()
 fig.savefig(FIG_DIR / "Static_vs_Dynamic_ranks.png", dpi=300)
 print(f"Saved figures to {FIG_DIR}")
-
