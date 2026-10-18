@@ -25,4 +25,4 @@ FORMATTED_SIZE="${CURRENT_SIZE}x${CURRENT_SIZE}"
 # The grid version needs a perfect-square number of ranks (16 -> 4x4 grid).
 # The chunk-size argument is unused, but positional, so a placeholder is needed
 echo $CURRENT_SIZE
-mpirun -n 16 python3 Blocking/Mandelbrot_Blocking_grid.py 1 $FORMATTED_SIZE
+mpirun -n 72 python3 Blocking/Mandelbrot_Grid.py 256 $FORMATTED_SIZE

@@ -263,7 +263,7 @@ else:
                 for i in range(100):
                     z = z * z + c
 
-                    if np.abs(z) > 2:
+                    if abs(z) > 2:
                         current_image[x - start_x, y - start_y] = i
                         break
         time_rank_computation += perf_counter()
@@ -293,7 +293,11 @@ else:
     time_rank_send += perf_counter()
 
     local_stats = np.array(
-        [time_rank_computation_total, time_rank_send, time_rank_wait]
+        [
+            time_rank_computation_total,
+            time_rank_send,
+            time_rank_wait,
+        ]
     )
 
 
@@ -305,6 +309,10 @@ MPI.Finalize()
 
 total_time += perf_counter()
 total_comparable_time += perf_counter()
+
+# DO NOT SAVE LARGER IMAGES
+if size[0] > 5000:
+    image = None
 
 if rank == 0:
     print("\n--- SCHEDULING RESULTS ---")

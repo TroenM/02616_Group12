@@ -1,0 +1,82 @@
+50000
+Calculating the Mandelbrot set with these arguments:
+n_chunks = 65536
+size = (50000, 50000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 72
+
+MPI grid: 256 x 256
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29741458[4]: <grid_image_scale_test[1-5]> in cluster <dcc> Exited
+
+Job <grid_image_scale_test[1-5]> was submitted from host <n-62-30-5> by user <s224363> in cluster <dcc> at Fri Oct 16 17:27:06 2026
+Job was executed on host(s) <24*n-62-21-77>, in queue <hpcintro>, as user <s224363> in cluster <dcc> at Fri Oct 16 17:35:36 2026
+                            <24*n-62-21-48>
+                            <24*n-62-21-46>
+</zhome/ce/3/186843> was used as the home directory.
+</zhome/ce/3/186843/Documents/9_semester/02616_LargeScaleModelling/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Fri Oct 16 17:35:36 2026
+Terminated at Fri Oct 16 17:56:17 2026
+Results reported at Fri Oct 16 17:56:17 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J grid_image_scale_test[1-5]
+#BSUB -o ../outputs/out/grid_image_scale_test%J_%I.out
+#BSUB -e ../outputs/err/grid_image_scale_test%J_%I.err
+#BSUB -q hpcintro
+#BSUB -R "select[model==XeonE5_2650v4]"
+#BSUB -W 01:00
+#BSUB -R "rusage[mem=8GB]"
+#BSUB -n 72
+#BSUB -R "span[ptile=24]"
+
+source ../modules.sh
+source ../.venv/bin/activate
+
+# Define the image sizes using standard Bash array syntax (space separated)
+IMAGE_SIZES=(5000 15000 25000 50000 93000)
+
+# Calculate zero-based index
+INDEX=$((LSB_JOBINDEX - 1))
+CURRENT_SIZE=${IMAGE_SIZES[$INDEX]}
+
+# Format the string as WxH
+FORMATTED_SIZE="${CURRENT_SIZE}x${CURRENT_SIZE}"
+
+# The grid version needs a perfect-square number of ranks (16 -> 4x4 grid).
+# The chunk-size argument is unused, but positional, so a placeholder is needed
+echo $CURRENT_SIZE
+mpirun -n 72 python3 Blocking/Mandelbrot_Grid.py 256 $FORMATTED_SIZE
+
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   33030.00 sec.
+    Max Memory :                                 23763 MB
+    Average Memory :                             13139.33 MB
+    Total Requested Memory :                     589824.00 MB
+    Delta Memory :                               566061.00 MB
+    Max Swap :                                   -
+    Max Processes :                              80
+    Max Threads :                                261
+    Run time :                                   1241 sec.
+    Turnaround time :                            1751 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/grid_image_scale_test29741458_4.err> for stderr output of this job.
+

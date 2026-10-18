@@ -6,11 +6,12 @@ __pycache__/
 # C extensions
 *.so
 
+PROJECT1/results/Dynamic/image_*
 # Distribution / packaging
 .Python
 build/
 develop-eggs/
-dist/
+dist/ 
 downloads/
 eggs/
 .eggs/

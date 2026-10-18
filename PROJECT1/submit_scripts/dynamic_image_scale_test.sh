@@ -1,12 +1,12 @@
 #!/bin/bash
-#BSUB -J dynamic_image_scale_test[1-5]
+#BSUB -J dynamic_image_scale_test[1-1]
 #BSUB -o ../outputs/out/dynamic_image_scale_test%J_%I.out
 #BSUB -e ../outputs/err/dynamic_image_scale_test%J_%I.err
-#BSUB -q hpc
+#BSUB -q hpcintro
 #BSUB -R "select[model==XeonE5_2650v4]"
-#BSUB -W 00:20
-#BSUB -R "rusage[mem=2GB]"
-#BSUB -n 24
+#BSUB -W 00:50
+#BSUB -R "rusage[mem=8GB]"
+#BSUB -n 72
 #BSUB -R "span[ptile=24]"
 
 source ../modules.sh
@@ -24,4 +24,4 @@ FORMATTED_SIZE="${CURRENT_SIZE}x${CURRENT_SIZE}"
 
 # Use exactly 256 for the chunks-per-axis argument to maintain the 256x256 grid
 echo $CURRENT_SIZE
-mpirun -n 24 python3 Nonblocking/dynamic_scheduling.py 256 $FORMATTED_SIZE
+mpirun -n 72 python3 Nonblocking/dynamic_scheduling.py 256 $FORMATTED_SIZE
