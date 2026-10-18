@@ -21,3 +21,24 @@ Loaded module: mpi4py/4.0.3-python-3.12.11-openmpi-5.0.8
 
 Loading mpi4py/4.0.3-python-3.12.11-openmpi-5.0.8
   Loading requirement: mpi/5.0.8-gcc-14.3.0-binutils-2.44
+Traceback (most recent call last):
+  File "/zhome/ce/3/186843/Documents/9_semester/02616_LargeScaleModelling/02616_Group12/PROJECT1/src/Blocking/Mandelbrot_Blocking.py", line 201, in <module>
+    import matplotlib.pyplot as plt
+  File "/appl9/matplotlib/3.10.3-numpy-2.3.1-python-3.12.11/lib/python3.12/site-packages/matplotlib/pyplot.py", line 70, in <module>
+    from matplotlib.figure import Figure, FigureBase, figaspect
+  File "/appl9/matplotlib/3.10.3-numpy-2.3.1-python-3.12.11/lib/python3.12/site-packages/matplotlib/figure.py", line 40, in <module>
+    from matplotlib import _blocking_input, backend_bases, _docstring, projections
+  File "/appl9/matplotlib/3.10.3-numpy-2.3.1-python-3.12.11/lib/python3.12/site-packages/matplotlib/projections/__init__.py", line 55, in <module>
+    from .. import axes, _docstring
+  File "/appl9/matplotlib/3.10.3-numpy-2.3.1-python-3.12.11/lib/python3.12/site-packages/matplotlib/axes/__init__.py", line 2, in <module>
+    from ._axes import Axes
+  File "/appl9/matplotlib/3.10.3-numpy-2.3.1-python-3.12.11/lib/python3.12/site-packages/matplotlib/axes/_axes.py", line 11, in <module>
+    import matplotlib.category  # Register category unit converter as side effect.
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/appl9/matplotlib/3.10.3-numpy-2.3.1-python-3.12.11/lib/python3.12/site-packages/matplotlib/category.py", line 14, in <module>
+    import dateutil.parser
+  File "/appl9/matplotlib/3.10.3-numpy-2.3.1-python-3.12.11/lib/python3.12/site-packages/dateutil/parser/__init__.py", line 2, in <module>
+    from ._parser import parse, parser, parserinfo, ParserError
+  File "/appl9/matplotlib/3.10.3-numpy-2.3.1-python-3.12.11/lib/python3.12/site-packages/dateutil/parser/_parser.py", line 42, in <module>
+    import six
+ModuleNotFoundError: No module named 'six'

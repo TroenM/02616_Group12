@@ -1,5 +1,5 @@
 #!/bin/bash
-#BSUB -J grid_image_scale_test[4-5]
+#BSUB -J grid_image_scale_test[1-5]
 #BSUB -o ../outputs/out/grid_image_scale_test%J_%I.out
 #BSUB -e ../outputs/err/grid_image_scale_test%J_%I.err
 #BSUB -q hpcintro
@@ -10,7 +10,7 @@
 #BSUB -R "span[ptile=24]"
 
 source ../modules.sh
-#source ../.venv/bin/activate
+source ../.venv/bin/activate
 
 # Define the image sizes using standard Bash array syntax (space separated)
 IMAGE_SIZES=(5000 15000 25000 50000 93000)
