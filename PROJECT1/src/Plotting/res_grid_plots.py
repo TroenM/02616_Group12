@@ -81,6 +81,7 @@ if both:
             data[name][s]["t_total"] / data[baseline][s]["t_total"] for s in both
         ]
         ax_s.plot(x_labels, speedups, marker=marker, label=name)
+        print(speedups)
 
     # Dashed line for No Speedup (Ratio = 1)
     ax_s.axhline(1, color="k", ls="--", lw=1, label="No speedup")
@@ -105,7 +106,7 @@ ax_i.set(
 )
 ax_s.set(
     xlabel="Image size (1000 pixels)",
-    ylabel="$T_{variant} / T_{Grid D/N}$",
+    ylabel="$T_{static} / T_{Grid D/N}$",
     title="Relative time vs Grid D/N",
 )
 for ax in (ax_t, ax_i, ax_s):
