@@ -1,0 +1,82 @@
+48
+Calculating the Mandelbrot set with these arguments:
+NUM_GRIDS = 65536
+size = (25000, 25000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 48
+
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29749433[2]: <dynamic_worker_scale_tests[1-3]> in cluster <dcc> Exited
+
+Job <dynamic_worker_scale_tests[1-3]> was submitted from host <n-62-30-7> by user <s224408> in cluster <dcc> at Sun Oct 18 13:43:20 2026
+Job was executed on host(s) <24*n-62-21-48>, in queue <hpcintro>, as user <s224408> in cluster <dcc> at Sun Oct 18 14:03:32 2026
+                            <24*n-62-21-46>
+                            <24*n-62-21-47>
+</zhome/91/8/187353> was used as the home directory.
+</zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Sun Oct 18 14:03:32 2026
+Terminated at Sun Oct 18 14:12:40 2026
+Results reported at Sun Oct 18 14:12:40 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+# Worker scaling test for the dynamic scheduler (25000x25000 image).
+
+#BSUB -J dynamic_worker_scale_tests[1-3]
+#BSUB -o ../outputs/out/dynamic_worker_scale_tests_%J_%I.out
+#BSUB -e ../outputs/err/dynamic_worker_scale_tests_%J_%I.err
+#BSUB -q hpcintro
+#BSUB -R "select[model==XeonE5_2650v4]"
+#BSUB -W 02:00
+#BSUB -R "rusage[mem=8GB]"
+#BSUB -n 72
+#BSUB -R "span[ptile=24]"
+
+source ../modules.sh
+#source ../.venv/bin/activate
+
+
+IMAGE_SIZE="25000x25000"
+WORKERS=(24 48 72)
+
+# Use exactly 256 for the chunks-per-axis argument to maintain the 256x256 grid
+# Calculate zero-based index
+INDEX=$((LSB_JOBINDEX - 1))
+CURRENT_N_WORKER=${WORKERS[$INDEX]}
+
+# The chunk-size argument is unused, but positional, so a placeholder is needed
+echo $CURRENT_N_WORKER
+
+mpirun -n ${CURRENT_N_WORKER} python3 Nonblocking/dynamic_scheduling_numwork.py 256 ${IMAGE_SIZE}
+
+------------------------------------------------------------
+
+Exited with exit code 134.
+
+Resource usage summary:
+
+    CPU time :                                   26073.17 sec.
+    Max Memory :                                 12891 MB
+    Average Memory :                             7407.86 MB
+    Total Requested Memory :                     589824.00 MB
+    Delta Memory :                               576933.00 MB
+    Max Swap :                                   -
+    Max Processes :                              56
+    Max Threads :                                189
+    Run time :                                   548 sec.
+    Turnaround time :                            1760 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/dynamic_worker_scale_tests_29749433_2.err> for stderr output of this job.
+
