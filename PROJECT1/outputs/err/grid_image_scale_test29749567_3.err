@@ -1,4 +1,3 @@
-ERROR: Unable to locate a modulefile for 'python3/3.11.3'
 Loaded dependency [numpy/2.3.1-python-3.12.11-openblas-0.3.30]: openblas/0.3.30
 Loaded dependency [python3/3.12.11]: sqlite3/3.50.1
 Loaded dependency [python3/3.12.11]: gcc/14.3.0-binutils-2.44
@@ -22,7 +21,3 @@ Loaded module: mpi4py/4.0.3-python-3.12.11-openmpi-5.0.8
 
 Loading mpi4py/4.0.3-python-3.12.11-openmpi-5.0.8
   Loading requirement: mpi/5.0.8-gcc-14.3.0-binutils-2.44
---------------------------------------------------------------------------
-prterun noticed that process rank 0 with PID 4082102 on node n-62-21-77 exited on
-signal 9 (Killed).
---------------------------------------------------------------------------

@@ -208,7 +208,7 @@ else:
     # Prepare buffers
     NUM_BUFFERS = 3
 
-    # Create three dimensions (each is an iwmage)
+    # Create three dimensions (each is an image)
     image_buffer = np.zeros((NUM_BUFFERS, nx_local, ny_local), dtype=float)
     info_buffer = np.zeros((NUM_BUFFERS, 5), dtype=int)
 
