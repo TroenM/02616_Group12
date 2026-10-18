@@ -1,0 +1,80 @@
+=== Serial template (1 rank) ===
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 10
+size = (1000, 1000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+
+Serial wall time: 12.528 s
+total 24
+-rw-r--r-- 1 s224059 s22 693 Oct 18 14:20 Serial_N1.npy
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29749524: <Serial> in cluster <dcc> Done
+
+Job <Serial> was submitted from host <n-62-30-2> by user <s224059> in cluster <dcc> at Sun Oct 18 14:19:29 2026
+Job was executed on host(s) <n-62-21-47>, in queue <hpcintro>, as user <s224059> in cluster <dcc> at Sun Oct 18 14:20:41 2026
+</zhome/f3/8/187578> was used as the home directory.
+</zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Sun Oct 18 14:20:41 2026
+Terminated at Sun Oct 18 14:20:55 2026
+Results reported at Sun Oct 18 14:20:55 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J Serial
+#BSUB -o ../outputs/out/Serial%J.out
+#BSUB -e ../outputs/err/Serial%J.err
+#BSUB -q hpcintro
+#BSUB -W 00:30
+## #BUSB -M 128MB
+#BSUB -R "rusage[mem=1GB]"
+#BSUB -n 1
+#BSUB -R "span[hosts=1]"
+
+
+###               hpcintro queue only has XeonE5_2650v4
+###                       vvvvvvvvvvvvv
+## #BSUB -R "select[model==XeonE5_2650v4]"
+
+## OBS!!!: This script has to executed from the PROJECT1/src folder
+## for the paths to work out
+## From src folder execute line below:
+## bsub < ../submit_scripts/scaling_run_serial.sub.sh
+
+source ../modules.sh
+
+echo "=== Serial template (1 rank) ==="
+python3 Mandelbrot_Template_scaling.py
+ls -l ../results/Serial
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   13.48 sec.
+    Max Memory :                                 27 MB
+    Average Memory :                             27.00 MB
+    Total Requested Memory :                     1024.00 MB
+    Delta Memory :                               997.00 MB
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                5
+    Run time :                                   14 sec.
+    Turnaround time :                            86 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/Serial29749524.err> for stderr output of this job.
+

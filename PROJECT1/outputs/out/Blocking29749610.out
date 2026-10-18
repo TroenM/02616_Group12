@@ -1,0 +1,99 @@
+=== Blocking with 2 ranks===
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 100
+size = (10000, 10000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 2
+
+=== Blocking with 4 ranks===
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 100
+size = (10000, 10000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 4
+
+=== Blocking with 6 ranks===
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 100
+size = (10000, 10000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 6
+
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29749610: <Blocking> in cluster <dcc> Exited
+
+Job <Blocking> was submitted from host <n-62-30-2> by user <s224059> in cluster <dcc> at Sun Oct 18 15:11:06 2026
+Job was executed on host(s) <24*n-62-21-46>, in queue <hpcintro>, as user <s224059> in cluster <dcc> at Sun Oct 18 15:11:07 2026
+</zhome/f3/8/187578> was used as the home directory.
+</zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Sun Oct 18 15:11:07 2026
+Terminated at Sun Oct 18 15:42:35 2026
+Results reported at Sun Oct 18 15:42:35 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J Blocking
+#BSUB -o ../outputs/out/Blocking%J.out
+#BSUB -e ../outputs/err/Blocking%J.err
+#BSUB -q hpcintro
+#BSUB -W 00:30
+## #BUSB -M 128MB
+#BSUB -R "rusage[mem=1GB]"
+#BSUB -n 24
+#BSUB -R "span[hosts=1]"
+
+
+###               hpcintro queue only has XeonE5_2650v4
+###                       vvvvvvvvvvvvv
+## #BSUB -R "select[model==XeonE5_2650v4]" 
+
+## OBS!!!: This script has to executed from the PROJECT1/src folder
+## for the paths to work out
+## From src folder execute line below: 
+## bsub < ../submit_scripts/template.sh
+
+source ../modules.sh
+
+for n in 2 4 6 8 10 12 14 16; do
+    echo "=== Blocking with $n ranks==="
+    mpirun -np $n python3 Blocking/Mandelbrot_Blocking_scaleTest.py
+done
+ls -l ../results/Blocking
+
+------------------------------------------------------------
+
+TERM_RUNLIMIT: job killed after reaching LSF run time limit.
+Exited with exit code 140.
+
+Resource usage summary:
+
+    CPU time :                                   4783.00 sec.
+    Max Memory :                                 7749 MB
+    Average Memory :                             1406.13 MB
+    Total Requested Memory :                     24576.00 MB
+    Delta Memory :                               16827.00 MB
+    Max Swap :                                   -
+    Max Processes :                              10
+    Max Threads :                                25
+    Run time :                                   1888 sec.
+    Turnaround time :                            1889 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/Blocking29749610.err> for stderr output of this job.
+

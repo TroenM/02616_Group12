@@ -1,0 +1,70 @@
+=== Serial template (1 rank) ===
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29749517: <Serial> in cluster <dcc> Exited
+
+Job <Serial> was submitted from host <n-62-30-2> by user <s224059> in cluster <dcc> at Sun Oct 18 14:18:30 2026
+Job was executed on host(s) <n-62-21-75>, in queue <hpcintro>, as user <s224059> in cluster <dcc> at Sun Oct 18 14:18:32 2026
+</zhome/f3/8/187578> was used as the home directory.
+</zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Sun Oct 18 14:18:32 2026
+Terminated at Sun Oct 18 14:18:33 2026
+Results reported at Sun Oct 18 14:18:33 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J Serial
+#BSUB -o ../outputs/out/Serial%J.out
+#BSUB -e ../outputs/err/Serial%J.err
+#BSUB -q hpcintro
+#BSUB -W 00:30
+## #BUSB -M 128MB
+#BSUB -R "rusage[mem=1GB]"
+#BSUB -n 1
+#BSUB -R "span[hosts=1]"
+
+
+###               hpcintro queue only has XeonE5_2650v4
+###                       vvvvvvvvvvvvv
+## #BSUB -R "select[model==XeonE5_2650v4]"
+
+## OBS!!!: This script has to executed from the PROJECT1/src folder
+## for the paths to work out
+## From src folder execute line below:
+## bsub < ../submit_scripts/scaling_run_serial.sub.sh
+
+source ../modules.sh
+
+echo "=== Serial template (1 rank) ==="
+python3 Mandelbrot_Template_scaleTest.py
+ls -l ../results/Serial
+
+------------------------------------------------------------
+
+Exited with exit code 2.
+
+Resource usage summary:
+
+    CPU time :                                   0.75 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     1024.00 MB
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   1 sec.
+    Turnaround time :                            3 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/Serial29749517.err> for stderr output of this job.
+

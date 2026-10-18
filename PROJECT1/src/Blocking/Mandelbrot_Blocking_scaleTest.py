@@ -26,8 +26,8 @@ rank = comm.Get_rank()
 size_mpi = comm.Get_size()
 
 # Defaults
-chunk_size = 10
-size = 1000, 1000
+chunk_size = 100
+size = 10000, 10000
 xlim = -2.2, 0.75
 ylim = -1.3, 1.3
 

@@ -25,7 +25,7 @@ for h in ("help", "-h", "-help", "--help"):
 # First we define all the defaults, then we let the arguments overwrite
 # them.
 chunk_size = 10
-size = 1000, 1000
+size = 10000, 10000
 xlim = -2.2, 0.75
 ylim = -1.3, 1.3
 
