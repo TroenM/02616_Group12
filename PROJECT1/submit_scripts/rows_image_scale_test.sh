@@ -6,8 +6,8 @@
 #BSUB -R "select[model==XeonE5_2650v4]"
 #BSUB -W 03:00
 #BSUB -R "rusage[mem=8GB]"
-#BSUB -n 16
-#BSUB -R "span[ptile=16]"
+#BSUB -n 72
+#BSUB -R "span[ptile=24]"
 
 source ../modules.sh
 #source ../.venv/bin/activate
@@ -25,4 +25,4 @@ FORMATTED_SIZE="${CURRENT_SIZE}x${CURRENT_SIZE}"
 # The chunk-size argument is unused by the row version (one row strip per rank),
 # but it is positional, so a placeholder is needed before the image size
 echo $CURRENT_SIZE
-mpirun -n 16 python3 Blocking/Mandelbrot_Blocking.py 1 $FORMATTED_SIZE
+mpirun -n 72 python3 Blocking/Mandelbrot_Blocking.py 1 $FORMATTED_SIZE
