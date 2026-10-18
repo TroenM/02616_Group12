@@ -1,0 +1,112 @@
+Loaded dependency [numpy/2.3.1-python-3.12.11-openblas-0.3.30]: openblas/0.3.30
+Loaded dependency [python3/3.12.11]: sqlite3/3.50.1
+Loaded dependency [python3/3.12.11]: gcc/14.3.0-binutils-2.44
+Loaded dependency [numpy/2.3.1-python-3.12.11-openblas-0.3.30]: python3/3.12.11
+Loaded dependency [meson/1.8.2-python-3.12.11]: ninja/1.12.1
+Loaded dependency [numpy/2.3.1-python-3.12.11-openblas-0.3.30]: meson/1.8.2-python-3.12.11
+using numpy optimized for CPU-type XeonE5-2650v4.
+Loaded dependency [scipy/1.15.3-python-3.12.11]: numpy/2.3.1-python-3.12.11-openblas-0.3.30
+using scipy optimized for CPU-type XeonE5-2650v4.
+Loaded dependency [matplotlib/3.10.3-numpy-2.3.1-python-3.12.11]: scipy/1.15.3-python-3.12.11
+Loaded dependency [matplotlib/3.10.3-numpy-2.3.1-python-3.12.11]: freetype/2.13.3
+Loaded module: matplotlib/3.10.3-numpy-2.3.1-python-3.12.11
+
+Loading matplotlib/3.10.3-numpy-2.3.1-python-3.12.11
+  Loading requirement: openblas/0.3.30 sqlite3/3.50.1 gcc/14.3.0-binutils-2.44
+    python3/3.12.11 ninja/1.12.1 meson/1.8.2-python-3.12.11
+    numpy/2.3.1-python-3.12.11-openblas-0.3.30 scipy/1.15.3-python-3.12.11
+    freetype/2.13.3
+Loaded dependency [mpi4py/4.0.3-python-3.12.11-openmpi-5.0.8]: mpi/5.0.8-gcc-14.3.0-binutils-2.44
+Loaded module: mpi4py/4.0.3-python-3.12.11-openmpi-5.0.8
+
+Loading mpi4py/4.0.3-python-3.12.11-openmpi-5.0.8
+  Loading requirement: mpi/5.0.8-gcc-14.3.0-binutils-2.44
+[n-62-21-48:573995:0:573995]       ud_ep.c:714  Assertion `UCT_UD_PSN_COMPARE(ep->tx.acked_psn, <, ep->tx.psn)' failed: ep 0x7f0534000d80: flags=0x5a acked_psn=2 must be smaller than current_psn=1
+==== backtrace (tid: 573995) ====
+ 0 0x0000000000031826 uct_ud_ep_process_ack()  /tmp/sebo3-gcc-14.3.0-binutils-2.44/ucx-1.18.1/src/uct/ib/ud/base/ud_ep.c:714
+ 1 0x0000000000031826 uct_ud_ep_process_rx()  /tmp/sebo3-gcc-14.3.0-binutils-2.44/ucx-1.18.1/src/uct/ib/ud/base/ud_ep.c:1009
+ 2 0x0000000000034f22 uct_ud_verbs_iface_poll_rx()  /tmp/sebo3-gcc-14.3.0-binutils-2.44/ucx-1.18.1/src/uct/ib/ud/verbs/ud_verbs.c:422
+ 3 0x0000000000034f22 uct_ud_verbs_iface_async_progress()  /tmp/sebo3-gcc-14.3.0-binutils-2.44/ucx-1.18.1/src/uct/ib/ud/verbs/ud_verbs.c:442
+ 4 0x0000000000034bbb uct_ud_iface_async_progress()  /tmp/sebo3-gcc-14.3.0-binutils-2.44/ucx-1.18.1/src/uct/ib/ud/base/ud_inl.h:275
+ 5 0x0000000000034bbb uct_ud_verbs_iface_async_handler()  /tmp/sebo3-gcc-14.3.0-binutils-2.44/ucx-1.18.1/src/uct/ib/ud/verbs/ud_verbs.c:510
+ 6 0x000000000004fc94 ucs_async_handler_invoke()  /tmp/sebo3-gcc-14.3.0-binutils-2.44/ucx-1.18.1/src/ucs/async/async.c:268
+ 7 0x0000000000052013 __ucs_async_poll_missed()  /tmp/sebo3-gcc-14.3.0-binutils-2.44/ucx-1.18.1/src/ucs/async/async.c:661
+ 8 0x0000000000052013 ucs_atomic_fsub32()  /tmp/sebo3-gcc-14.3.0-binutils-2.44/ucx-1.18.1/src/ucs/arch/atomic.h:93
+ 9 0x0000000000052013 ucs_async_handler_put()  /tmp/sebo3-gcc-14.3.0-binutils-2.44/ucx-1.18.1/src/ucs/async/async.c:183
+10 0x0000000000052013 __ucs_async_poll_missed()  /tmp/sebo3-gcc-14.3.0-binutils-2.44/ucx-1.18.1/src/ucs/async/async.c:662
+11 0x0000000000066588 ucs_async_check_miss()  /tmp/sebo3-gcc-14.3.0-binutils-2.44/ucx-1.18.1/src/ucs/async/async.h:97
+12 0x0000000000066588 ucp_worker_progress()  /tmp/sebo3-gcc-14.3.0-binutils-2.44/ucx-1.18.1/src/ucp/core/ucp_worker.c:3028
+13 0x00000000000287c4 opal_progress()  ???:0
+14 0x000000000005ede5 ompi_sync_wait_mt()  ???:0
+15 0x0000000000095829 ompi_request_default_wait()  ???:0
+16 0x0000000000103ab0 ompi_coll_base_sendrecv_actual()  ???:0
+17 0x0000000000101833 ompi_coll_base_allgather_intra_bruck()  ???:0
+18 0x0000000000145d56 ompi_coll_tuned_allgather_intra_dec_fixed()  ???:0
+19 0x000000000006e904 ompi_comm_split_with_info()  ???:0
+20 0x0000000000178149 mca_coll_han_comm_create_new()  ???:0
+21 0x000000000016ccbf mca_coll_han_gather_intra_simple()  ???:0
+22 0x00000000000bca8d MPI_Gather()  ???:0
+23 0x0000000000195066 PyMPI_Gather_c()  /tmp/sebo/mpi4py/3.12.11/mpi4py-4.0.3/src/lib-mpi/largecnt.h:642
+24 0x0000000000195066 __pyx_pf_6mpi4py_3MPI_4Comm_122Gather()  /tmp/sebo/mpi4py/3.12.11/mpi4py-4.0.3/src/mpi4py/MPI.c:172154
+25 0x0000000000195066 __pyx_pw_6mpi4py_3MPI_4Comm_123Gather()  /tmp/sebo/mpi4py/3.12.11/mpi4py-4.0.3/src/mpi4py/MPI.c:172091
+26 0x00000000002223d3 _PyObject_VectorcallTstate()  /tmp/seboy/py-3.12.11/Python-3.12.11/./Include/internal/pycore_call.h:92
+27 0x00000000002223d3 _Py_CheckFunctionResult()  /tmp/seboy/py-3.12.11/Python-3.12.11/Objects/call.c:29
+28 0x00000000002223d3 _PyObject_VectorcallTstate()  /tmp/seboy/py-3.12.11/Python-3.12.11/./Include/internal/pycore_call.h:93
+29 0x00000000002223d3 PyObject_Vectorcall()  /tmp/seboy/py-3.12.11/Python-3.12.11/Objects/call.c:325
+30 0x000000000020bbcf _PyEval_EvalFrameDefault()  /tmp/seboy/py-3.12.11/Python-3.12.11/Python/bytecodes.c:2715
+31 0x00000000002cee86 PyEval_EvalCode()  /tmp/seboy/py-3.12.11/Python-3.12.11/Python/ceval.c:580
+32 0x00000000002cee86 PyEval_EvalCode()  /tmp/seboy/py-3.12.11/Python-3.12.11/Python/ceval.c:581
+33 0x0000000000309ea1 run_eval_code_obj()  /tmp/seboy/py-3.12.11/Python-3.12.11/Python/pythonrun.c:1757
+34 0x0000000000304beb run_mod()  /tmp/seboy/py-3.12.11/Python-3.12.11/Python/pythonrun.c:1778
+35 0x0000000000304beb Py_DECREF()  /tmp/seboy/py-3.12.11/Python-3.12.11/./Include/object.h:700
+36 0x0000000000304beb run_mod()  /tmp/seboy/py-3.12.11/Python-3.12.11/Python/pythonrun.c:1779
+37 0x000000000030196f pyrun_file()  /tmp/seboy/py-3.12.11/Python-3.12.11/Python/pythonrun.c:1674
+38 0x00000000003013bc _PyRun_SimpleFileObject()  /tmp/seboy/py-3.12.11/Python-3.12.11/Python/pythonrun.c:459
+39 0x0000000000301184 _PyRun_AnyFileObject()  /tmp/seboy/py-3.12.11/Python-3.12.11/Python/pythonrun.c:78
+40 0x00000000002fdeca pymain_run_file_obj()  /tmp/seboy/py-3.12.11/Python-3.12.11/Modules/main.c:361
+41 0x00000000002fdeca pymain_run_file()  /tmp/seboy/py-3.12.11/Python-3.12.11/Modules/main.c:380
+42 0x00000000002fdeca pymain_run_python()  /tmp/seboy/py-3.12.11/Python-3.12.11/Modules/main.c:634
+43 0x00000000002fdeca Py_RunMain()  /tmp/seboy/py-3.12.11/Python-3.12.11/Modules/main.c:714
+44 0x00000000002b8aa7 Py_BytesMain()  /tmp/seboy/py-3.12.11/Python-3.12.11/Modules/main.c:768
+45 0x000000000002a610 __libc_start_call_main()  ???:0
+46 0x000000000002a6c0 __libc_start_main_alias_2()  :0
+47 0x0000000000401065 _start()  ???:0
+=================================
+[n-62-21-48:573995] *** Process received signal ***
+[n-62-21-48:573995] Signal: Aborted (6)
+[n-62-21-48:573995] Signal code:  (-6)
+[n-62-21-48:573995] [ 0] /lib64/libc.so.6(+0x3fb30)[0x7f054d83fb30]
+[n-62-21-48:573995] [ 1] /lib64/libc.so.6(+0x8d34c)[0x7f054d88d34c]
+[n-62-21-48:573995] [ 2] /lib64/libc.so.6(raise+0x16)[0x7f054d83fa86]
+[n-62-21-48:573995] [ 3] /lib64/libc.so.6(abort+0xd3)[0x7f054d829873]
+[n-62-21-48:573995] [ 4] /appl9/gcc/14.3.0-binutils-2.44/openmpi/5.0.8-lsf10-alma92-mlx4/lib/libucs.so.0(+0x6b047)[0x7f05421fa047]
+[n-62-21-48:573995] [ 5] /appl9/gcc/14.3.0-binutils-2.44/openmpi/5.0.8-lsf10-alma92-mlx4/lib/libucs.so.0(ucs_fatal_error_format+0xd9)[0x7f05421fa121]
+[n-62-21-48:573995] [ 6] /appl9/gcc/14.3.0-binutils-2.44/openmpi/5.0.8-lsf10-alma92-mlx4/lib/ucx/libuct_ib.so.0(uct_ud_ep_process_rx+0x2c6)[0x7f0540144826]
+[n-62-21-48:573995] [ 7] /appl9/gcc/14.3.0-binutils-2.44/openmpi/5.0.8-lsf10-alma92-mlx4/lib/ucx/libuct_ib.so.0(+0x34f22)[0x7f0540147f22]
+[n-62-21-48:573995] [ 8] /appl9/gcc/14.3.0-binutils-2.44/openmpi/5.0.8-lsf10-alma92-mlx4/lib/ucx/libuct_ib.so.0(+0x34bbb)[0x7f0540147bbb]
+[n-62-21-48:573995] [ 9] /appl9/gcc/14.3.0-binutils-2.44/openmpi/5.0.8-lsf10-alma92-mlx4/lib/libucs.so.0(+0x4fc94)[0x7f05421dec94]
+[n-62-21-48:573995] [10] /appl9/gcc/14.3.0-binutils-2.44/openmpi/5.0.8-lsf10-alma92-mlx4/lib/libucs.so.0(__ucs_async_poll_missed+0x12f)[0x7f05421e1013]
+[n-62-21-48:573995] [11] /appl9/gcc/14.3.0-binutils-2.44/openmpi/5.0.8-lsf10-alma92-mlx4/lib/libucp.so.0(ucp_worker_progress+0x224)[0x7f05423f3588]
+[n-62-21-48:573995] [12] /appl9/gcc/14.3.0-binutils-2.44/openmpi/5.0.8-lsf10-alma92-mlx4/lib/libopen-pal.so.80(opal_progress+0x2c)[0x7f05427777c4]
+[n-62-21-48:573995] [13] /appl9/gcc/14.3.0-binutils-2.44/openmpi/5.0.8-lsf10-alma92-mlx4/lib/libopen-pal.so.80(ompi_sync_wait_mt+0xe5)[0x7f05427adde5]
+[n-62-21-48:573995] [14] /appl9/gcc/14.3.0-binutils-2.44/openmpi/5.0.8-lsf10-alma92-mlx4/lib/libmpi.so.40(ompi_request_default_wait+0x349)[0x7f0542973829]
+[n-62-21-48:573995] [15] /appl9/gcc/14.3.0-binutils-2.44/openmpi/5.0.8-lsf10-alma92-mlx4/lib/libmpi.so.40(ompi_coll_base_sendrecv_actual+0xb4)[0x7f05429e1ab0]
+[n-62-21-48:573995] [16] /appl9/gcc/14.3.0-binutils-2.44/openmpi/5.0.8-lsf10-alma92-mlx4/lib/libmpi.so.40(ompi_coll_base_allgather_intra_bruck+0x123)[0x7f05429df833]
+[n-62-21-48:573995] [17] /appl9/gcc/14.3.0-binutils-2.44/openmpi/5.0.8-lsf10-alma92-mlx4/lib/libmpi.so.40(ompi_coll_tuned_allgather_intra_dec_fixed+0x4a)[0x7f0542a23d56]
+[n-62-21-48:573995] [18] /appl9/gcc/14.3.0-binutils-2.44/openmpi/5.0.8-lsf10-alma92-mlx4/lib/libmpi.so.40(ompi_comm_split_with_info+0xc8)[0x7f054294c904]
+[n-62-21-48:573995] [19] /appl9/gcc/14.3.0-binutils-2.44/openmpi/5.0.8-lsf10-alma92-mlx4/lib/libmpi.so.40(mca_coll_han_comm_create_new+0x369)[0x7f0542a56149]
+[n-62-21-48:573995] [20] /appl9/gcc/14.3.0-binutils-2.44/openmpi/5.0.8-lsf10-alma92-mlx4/lib/libmpi.so.40(mca_coll_han_gather_intra_simple+0x5f)[0x7f0542a4acbf]
+[n-62-21-48:573995] [21] /appl9/gcc/14.3.0-binutils-2.44/openmpi/5.0.8-lsf10-alma92-mlx4/lib/libmpi.so.40(MPI_Gather+0x1dd)[0x7f054299aa8d]
+[n-62-21-48:573995] [22] /appl9/mpi4py/4.0.3-openmpi-5.0.8-gcc-14.3.0-binutils-2.44-python-3.12.11/lib/python3.12/site-packages/mpi4py/MPI.cpython-312-x86_64-linux-gnu.so(+0x195066)[0x7f0542e23066]
+[n-62-21-48:573995] [23] /appl9/python/3.12.11/lib/libpython3.12.so.1.0(PyObject_Vectorcall+0x53)[0x7f054ded53d3]
+[n-62-21-48:573995] [24] /appl9/python/3.12.11/lib/libpython3.12.so.1.0(_PyEval_EvalFrameDefault+0xa1f)[0x7f054debebcf]
+[n-62-21-48:573995] [25] /appl9/python/3.12.11/lib/libpython3.12.so.1.0(PyEval_EvalCode+0xa6)[0x7f054df81e86]
+[n-62-21-48:573995] [26] /appl9/python/3.12.11/lib/libpython3.12.so.1.0(+0x309ea1)[0x7f054dfbcea1]
+[n-62-21-48:573995] [27] /appl9/python/3.12.11/lib/libpython3.12.so.1.0(+0x304beb)[0x7f054dfb7beb]
+[n-62-21-48:573995] [28] /appl9/python/3.12.11/lib/libpython3.12.so.1.0(+0x30196f)[0x7f054dfb496f]
+[n-62-21-48:573995] [29] /appl9/python/3.12.11/lib/libpython3.12.so.1.0(_PyRun_SimpleFileObject+0x1bc)[0x7f054dfb43bc]
+[n-62-21-48:573995] *** End of error message ***
+--------------------------------------------------------------------------
+prterun noticed that process rank 20 with PID 573995 on node n-62-21-48 exited on
+signal 6 (Aborted).
+--------------------------------------------------------------------------

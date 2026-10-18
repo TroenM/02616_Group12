@@ -1,0 +1,384 @@
+48
+Calculating the Mandelbrot set with these arguments:
+NUM_GRIDS = 65536
+size = (25000, 25000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 48
+
+
+--- SCHEDULING RESULTS ---
+Worker 1 completed 1314 tasks.
+Worker 2 completed 1345 tasks.
+Worker 3 completed 1390 tasks.
+Worker 4 completed 1359 tasks.
+Worker 5 completed 1397 tasks.
+Worker 6 completed 1345 tasks.
+Worker 7 completed 1424 tasks.
+Worker 8 completed 1377 tasks.
+Worker 9 completed 1507 tasks.
+Worker 10 completed 1396 tasks.
+Worker 11 completed 1492 tasks.
+Worker 12 completed 1154 tasks.
+Worker 13 completed 1443 tasks.
+Worker 14 completed 1422 tasks.
+Worker 15 completed 1270 tasks.
+Worker 16 completed 1394 tasks.
+Worker 17 completed 1471 tasks.
+Worker 18 completed 1332 tasks.
+Worker 19 completed 1355 tasks.
+Worker 20 completed 1392 tasks.
+Worker 21 completed 1318 tasks.
+Worker 22 completed 1472 tasks.
+Worker 23 completed 1367 tasks.
+Worker 24 completed 1388 tasks.
+Worker 25 completed 1506 tasks.
+Worker 26 completed 1413 tasks.
+Worker 27 completed 1334 tasks.
+Worker 28 completed 1315 tasks.
+Worker 29 completed 1524 tasks.
+Worker 30 completed 1533 tasks.
+Worker 31 completed 1437 tasks.
+Worker 32 completed 1417 tasks.
+Worker 33 completed 1393 tasks.
+Worker 34 completed 1451 tasks.
+Worker 35 completed 1476 tasks.
+Worker 36 completed 1070 tasks.
+Worker 37 completed 1360 tasks.
+Worker 38 completed 1408 tasks.
+Worker 39 completed 1522 tasks.
+Worker 40 completed 1334 tasks.
+Worker 41 completed 1438 tasks.
+Worker 42 completed 1428 tasks.
+Worker 43 completed 1481 tasks.
+Worker 44 completed 1371 tasks.
+Worker 45 completed 1449 tasks.
+Worker 46 completed 1411 tasks.
+Worker 47 completed 1341 tasks.
+Saved data files for numworkDynamicGrid_25000x25000_-2,2x0,75_-1,3x1,3_65536_47 in /zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/results
+
+    Total time =            460.0512
+    Total comparable Time = 460.0486
+    Master send time =      1.1995
+    Master wait time =      455.2382
+    Total idle time =       1.5553
+    Computation time =      21541.5681
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29749269[2]: <dynamic_worker_scale_tests[1-3]> in cluster <dcc> Done
+
+Job <dynamic_worker_scale_tests[1-3]> was submitted from host <n-62-27-19> by user <s224408> in cluster <dcc> at Sun Oct 18 13:04:23 2026
+Job was executed on host(s) <24*n-62-21-54>, in queue <hpc>, as user <s224408> in cluster <dcc> at Sun Oct 18 13:04:24 2026
+                            <24*n-62-21-61>
+                            <24*n-62-21-63>
+</zhome/91/8/187353> was used as the home directory.
+</zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Sun Oct 18 13:04:24 2026
+Terminated at Sun Oct 18 13:13:39 2026
+Results reported at Sun Oct 18 13:13:39 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+# Worker scaling test for the dynamic scheduler (25000x25000 image).
+
+#BSUB -J dynamic_worker_scale_tests[1-3]
+#BSUB -o ../outputs/out/dynamic_worker_scale_test_N${N}_%J.out
+#BSUB -e ../outputs/err/dynamic_worker_scale_test_N${N}_%J.err
+#BSUB -q hpc
+#BSUB -R "select[model==XeonE5_2650v4]"
+#BSUB -W 02:00
+#BSUB -R "rusage[mem=8GB]"
+#BSUB -n 72
+#BSUB -R "span[ptile=24]"
+
+source ../modules.sh
+#source ../.venv/bin/activate
+
+
+IMAGE_SIZE="25000x25000"
+WORKERS=(24 48 72)
+
+# Use exactly 256 for the chunks-per-axis argument to maintain the 256x256 grid
+# Calculate zero-based index
+INDEX=$((LSB_JOBINDEX - 1))
+CURRENT_N_WORKER=${WORKERS[$INDEX]}
+
+# The chunk-size argument is unused, but positional, so a placeholder is needed
+echo $CURRENT_N_WORKER
+
+mpirun -n ${CURRENT_N_WORKER} python3 Nonblocking/dynamic_scheduling_numwork.py 256 ${IMAGE_SIZE}
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   22063.00 sec.
+    Max Memory :                                 10206 MB
+    Average Memory :                             5241.00 MB
+    Total Requested Memory :                     589824.00 MB
+    Delta Memory :                               579618.00 MB
+    Max Swap :                                   -
+    Max Processes :                              56
+    Max Threads :                                189
+    Run time :                                   555 sec.
+    Turnaround time :                            556 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/dynamic_worker_scale_test_N${N}_29749269.err> for stderr output of this job.
+
+72
+Calculating the Mandelbrot set with these arguments:
+NUM_GRIDS = 65536
+size = (25000, 25000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 72
+
+
+--- SCHEDULING RESULTS ---
+Worker 1 completed 3030 tasks.
+Worker 2 completed 2783 tasks.
+Worker 3 completed 2794 tasks.
+Worker 4 completed 2937 tasks.
+Worker 5 completed 2800 tasks.
+Worker 6 completed 2927 tasks.
+Worker 7 completed 2827 tasks.
+Worker 8 completed 2919 tasks.
+Worker 9 completed 2813 tasks.
+Worker 10 completed 2992 tasks.
+Worker 11 completed 2920 tasks.
+Worker 12 completed 2108 tasks.
+Worker 13 completed 2960 tasks.
+Worker 14 completed 2819 tasks.
+Worker 15 completed 3001 tasks.
+Worker 16 completed 2920 tasks.
+Worker 17 completed 2811 tasks.
+Worker 18 completed 2835 tasks.
+Worker 19 completed 2926 tasks.
+Worker 20 completed 2735 tasks.
+Worker 21 completed 2930 tasks.
+Worker 22 completed 2854 tasks.
+Worker 23 completed 2895 tasks.
+27 tasks.
+Worker 25 completed 919 tasks.
+Worker 26 completed 943 tasks.
+Worker 27 completed 980 tasks.
+Worker 28 completed 896 tasks.
+Worker 29 completed 902 tasks.
+Worker 30 completed 994 tasks.
+Worker 31 completed 954 tasks.
+Worker 32 completed 953 tasks.
+Worker 33 completed 917 tasks.
+Worker 34 completed 942 tasks.
+Worker 35 completed 965 tasks.
+Worker 36 completed 816 tasks.
+Worker 37 completed 900 tasks.
+Worker 38 completed 963 tasks.
+Worker 39 completed 955 tasks.
+Worker 40 completed 962 tasks.
+Worker 41 completed 948 tasks.
+Worker 42 completed 934 tasks.
+Worker 43 completed 920 tasks.
+Worker 44 completed 909 tasks.
+Worker 45 completed 950 tasks.
+Worker 46 completed 943 tasks.
+Worker 47 completed 924 tasks.
+Worker 48 completed 906 tasks.
+Worker 49 completed 903 tasks.
+Worker 50 completed 928 tasks.
+Worker 51 completed 929 tasks.
+Worker 52 completed 1017 tasks.
+Worker 53 completed 927 tasks.
+Worker 54 completed 888 tasks.
+Worker 55 completed 955 tasks.
+Worker 56 completed 956 tasks.
+Worker 57 completed 867 tasks.
+Worker 58 completed 925 tasks.
+Worker 59 completed 919 tasks.
+Worker 60 completed 850 tasks.
+Worker 61 completed 902 tasks.
+Worker 62 completed 944 tasks.
+Worker 63 completed 1010 tasks.
+Worker 64 completed 970 tasks.
+Worker 65 completed 908 tasks.
+Worker 66 completed 914 tasks.
+Worker 67 completed 941 tasks.
+Worker 68 completed 985 tasks.
+Worker 69 completed 799 tasks.
+Worker 70 completed 902 tasks.
+Worker 71 completed 936 tasks.
+Saved data files for numworkDynamicGrid_25000x25000_-2,2x0,75_-1,3x1,3_65536_71 in /zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/results
+
+    Total time =            307.1663
+    Total comparable Time = 307.1661
+    Master send time =      1.1546
+    Master wait time =      302.3374
+    Total idle time =       1.4522
+    Computation time =      21694.7025
+Saved data files for numworkDynamicGrid_25000x25000_-2,2x0,75_-1,3x1,3_65536_23 in /zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/results
+
+    Total time =            929.5679
+    Total comparable Time = 929.5678
+    Master send time =      0.1676
+    Master wait time =      926.1719
+    Total idle time =       0.2501
+    Computation time =      21368.8707
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29749269[1]: <dynamic_worker_scale_tests[1-3]> in cluster <dcc> Done
+
+Job <dynamic_worker_scale_tests[1-3]> was submitted from host <n-62-27-19> by user <s224408> in cluster <dcc> at Sun Oct 18 13:04:23 2026
+Job was executed on host(s) <24*n-62-21-50>, in queue <hpc>, as user <s224408> in cluster <dcc> at Sun Oct 18 13:04:24 2026
+                            <24*n-62-21-51>
+                            <24*n-62-21-52>
+</zhome/91/8/187353> was used as the home directory.
+</zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Sun Oct 18 13:04:24 2026
+Terminated at Sun Oct 18 13:21:58 2026
+Results reported at Sun Oct 18 13:21:58 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+# Worker scaling test for the dynamic scheduler (25000x25000 image).
+
+#BSUB -J dynamic_worker_scale_tests[1-3]
+#BSUB -o ../outputs/out/dynamic_worker_scale_test_N${N}_%J.out
+#BSUB -e ../outputs/err/dynamic_worker_scale_test_N${N}_%J.err
+#BSUB -q hpc
+#BSUB -R "select[model==XeonE5_2650v4]"
+#BSUB -W 02:00
+#BSUB -R "rusage[mem=8GB]"
+#BSUB -n 72
+#BSUB -R "span[ptile=24]"
+
+source ../modules.sh
+#source ../.venv/bin/activate
+
+
+IMAGE_SIZE="25000x25000"
+WORKERS=(24 48 72)
+
+# Use exactly 256 for the chunks-per-axis argument to maintain the 256x256 grid
+# Calculate zero-based index
+INDEX=$((LSB_JOBINDEX - 1))
+CURRENT_N_WORKER=${WORKERS[$INDEX]}
+
+# The chunk-size argument is unused, but positional, so a placeholder is needed
+echo $CURRENT_N_WORKER
+
+mpirun -n ${CURRENT_N_WORKER} python3 Nonblocking/dynamic_scheduling_numwork.py 256 ${IMAGE_SIZE}
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   22308.41 sec.
+    Max Memory :                                 6857 MB
+    Average Memory :                             4127.82 MB
+    Total Requested Memory :                     589824.00 MB
+    Delta Memory :                               582967.00 MB
+    Max Swap :                                   -
+    Max Processes :                              32
+    Max Threads :                                117
+    Run time :                                   1054 sec.
+    Turnaround time :                            1055 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/dynamic_worker_scale_test_N${N}_29749269.err> for stderr output of this job.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29749269[3]: <dynamic_worker_scale_tests[1-3]> in cluster <dcc> Done
+
+Job <dynamic_worker_scale_tests[1-3]> was submitted from host <n-62-27-19> by user <s224408> in cluster <dcc> at Sun Oct 18 13:04:23 2026
+Job was executed on host(s) <24*n-62-21-54>, in queue <hpc>, as user <s224408> in cluster <dcc> at Sun Oct 18 13:13:41 2026
+                            <24*n-62-21-61>
+                            <24*n-62-21-63>
+</zhome/91/8/187353> was used as the home directory.
+</zhome/91/8/187353/Documents/02616_lsm/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Sun Oct 18 13:13:41 2026
+Terminated at Sun Oct 18 13:23:22 2026
+Results reported at Sun Oct 18 13:23:22 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+# Worker scaling test for the dynamic scheduler (25000x25000 image).
+
+#BSUB -J dynamic_worker_scale_tests[1-3]
+#BSUB -o ../outputs/out/dynamic_worker_scale_test_N${N}_%J.out
+#BSUB -e ../outputs/err/dynamic_worker_scale_test_N${N}_%J.err
+#BSUB -q hpc
+#BSUB -R "select[model==XeonE5_2650v4]"
+#BSUB -W 02:00
+#BSUB -R "rusage[mem=8GB]"
+#BSUB -n 72
+#BSUB -R "span[ptile=24]"
+
+source ../modules.sh
+#source ../.venv/bin/activate
+
+
+IMAGE_SIZE="25000x25000"
+WORKERS=(24 48 72)
+
+# Use exactly 256 for the chunks-per-axis argument to maintain the 256x256 grid
+# Calculate zero-based index
+INDEX=$((LSB_JOBINDEX - 1))
+CURRENT_N_WORKER=${WORKERS[$INDEX]}
+
+# The chunk-size argument is unused, but positional, so a placeholder is needed
+echo $CURRENT_N_WORKER
+
+mpirun -n ${CURRENT_N_WORKER} python3 Nonblocking/dynamic_scheduling_numwork.py 256 ${IMAGE_SIZE}
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   22116.63 sec.
+    Max Memory :                                 14349 MB
+    Average Memory :                             7262.50 MB
+    Total Requested Memory :                     589824.00 MB
+    Delta Memory :                               575475.00 MB
+    Max Swap :                                   -
+    Max Processes :                              80
+    Max Threads :                                261
+    Run time :                                   475 sec.
+    Turnaround time :                            1139 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/dynamic_worker_scale_test_N${N}_29749269.err> for stderr output of this job.
+
