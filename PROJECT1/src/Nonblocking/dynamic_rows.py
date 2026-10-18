@@ -61,7 +61,7 @@ ylim = -1.3, 1.3
 argv = sys.argv[1:]
 if argv:
     NUM_GRIDS = int(argv.pop(0))
-    # chunk_per_axis = int(argv.pop(0))
+    chunk_per_axis = NUM_GRIDS
 if argv:
     size = tuple(map(int, argv.pop(0).split("x")))
 if argv:
@@ -85,13 +85,14 @@ xlim = np.asarray(xlim)
 ylim = np.asarray(ylim)
 
 xconst = np.diff(xlim)[0] / size[0]
+yconst = np.diff(ylim)[0] / size[1]
 
 # Dimensions of full image
 n_x = size[0]
 
 # Dimension of local image (rounded up to catch mismached number of chunks and image size)
 nx_local = (n_x + NUM_GRIDS - 1) // NUM_GRIDS
-ny_local = np.diff(ylim)[0]
+ny_local = size[1]
 
 # Same on every rank, so sender and receiver agree on buffer size
 n_workers = size_mpi - 1
@@ -120,8 +121,7 @@ if rank == 0:
         start_x = x_coord * n_x // chunk_per_axis
         end_x = (x_coord + 1) * n_x // chunk_per_axis
 
-
-        chunk_map[idx] = [idx, start_x, end_x, ylim[0], ylim[1]]
+        chunk_map[idx] = [idx, start_x, end_x, 0, size[1]]
 
     # Stuff for keeping track of how far we are
     tasks_sent = 0
@@ -315,7 +315,7 @@ if rank == 0:
         print(f"Worker {w} completed {count} tasks.")
 
     summary = save_run_data(
-        sys.argv[0],
+        "dynamicRow",
         size,
         xlim,
         ylim,
@@ -325,7 +325,7 @@ if rank == 0:
         master_send_time,
         master_wait_time,
         rankstats,
-        subdir="Dynamic",
+        subdir="Rows",
         image=image,
     )
     print(f"""
