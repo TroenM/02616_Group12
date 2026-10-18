@@ -1,0 +1,110 @@
+25
+Calculating the Mandelbrot set with these arguments:
+NUM_GRIDS = 65536
+size = (25000, 25000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 25
+
+
+--- SCHEDULING RESULTS ---
+Worker 1 completed 2749 tasks.
+Worker 2 completed 2658 tasks.
+Worker 3 completed 2968 tasks.
+Worker 4 completed 2529 tasks.
+Worker 5 completed 2241 tasks.
+Worker 6 completed 2851 tasks.
+Worker 7 completed 3024 tasks.
+Worker 8 completed 2849 tasks.
+Worker 9 completed 2578 tasks.
+Worker 10 completed 2920 tasks.
+Worker 11 completed 2617 tasks.
+Worker 12 completed 1784 tasks.
+Worker 13 completed 3015 tasks.
+Worker 14 completed 2813 tasks.
+Worker 15 completed 2688 tasks.
+Worker 16 completed 2678 tasks.
+Worker 17 completed 2867 tasks.
+Worker 18 completed 2933 tasks.
+Worker 19 completed 2764 tasks.
+Worker 20 completed 2820 tasks.
+Worker 21 completed 2424 tasks.
+Worker 22 completed 2716 tasks.
+Worker 23 completed 3091 tasks.
+Worker 24 completed 2959 tasks.
+Saved data files for numworkDynamicGrid_25000x25000_-2,2x0,75_-1,3x1,3_65536_24 in /zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/results
+
+    Total time =            901.5152
+    Total comparable Time = 901.5150
+    Master send time =      0.2128
+    Master wait time =      897.8671
+    Total idle time =       0.3082
+    Computation time =      21511.3434
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29748761: <dynamic_worker_scale_test_N25> in cluster <dcc> Done
+
+Job <dynamic_worker_scale_test_N25> was submitted from host <n-62-30-2> by user <s224059> in cluster <dcc> at Sun Oct 18 11:00:04 2026
+Job was executed on host(s) <24*n-62-21-52>, in queue <hpc>, as user <s224059> in cluster <dcc> at Sun Oct 18 11:00:06 2026
+                            <1*n-62-21-60>
+</zhome/f3/8/187578> was used as the home directory.
+</zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Sun Oct 18 11:00:06 2026
+Terminated at Sun Oct 18 11:18:21 2026
+Results reported at Sun Oct 18 11:18:21 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+# Worker scaling test for the dynamic scheduler (25000x25000 image).
+# LSF job arrays can't change the core count per element, so this script
+
+IMAGE_SIZE="25000x25000"
+WORKERS=(25 49 64 100 121)
+
+#!/bin/bash
+#BSUB -J dynamic_worker_scale_test_N25
+#BSUB -o ../outputs/out/dynamic_worker_scale_test_N25_%J.out
+#BSUB -e ../outputs/err/dynamic_worker_scale_test_N25_%J.err
+#BSUB -q hpc
+#BSUB -R "select[model==XeonE5_2650v4]"
+#BSUB -W 02:00
+#BSUB -R "rusage[mem=8GB]"
+#BSUB -n 25
+#BSUB -R "span[ptile=24]"
+
+source ../modules.sh
+#source ../.venv/bin/activate
+
+# Use exactly 256 for the chunks-per-axis argument to maintain the 256x256 grid
+echo 25
+mpirun -n 25 python3 Nonblocking/dynamic_scheduling_numwork.py 256 ${IMAGE_SIZE}
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   22430.00 sec.
+    Max Memory :                                 7008 MB
+    Average Memory :                             4323.36 MB
+    Total Requested Memory :                     204800.00 MB
+    Delta Memory :                               197792.00 MB
+    Max Swap :                                   -
+    Max Processes :                              31
+    Max Threads :                                101
+    Run time :                                   1034 sec.
+    Turnaround time :                            1097 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/dynamic_worker_scale_test_N25_29748761.err> for stderr output of this job.
+
