@@ -1,0 +1,103 @@
+25
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 1
+size = (25000, 25000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 25
+
+Rank 5: x = [5000, 10000), y = [0, 5000), local size = 5000 x 5000
+Rank 11: x = [10000, 15000), y = [5000, 10000), local size = 5000 x 5000
+Rank 4: x = [0, 5000), y = [20000, 25000), local size = 5000 x 5000
+Rank 22: x = [20000, 25000), y = [10000, 15000), local size = 5000 x 5000
+Rank 14: x = [10000, 15000), y = [20000, 25000), local size = 5000 x 5000
+Rank 21: x = [20000, 25000), y = [5000, 10000), local size = 5000 x 5000
+Rank 16: x = [15000, 20000), y = [5000, 10000), local size = 5000 x 5000
+Rank 23: x = [20000, 25000), y = [15000, 20000), local size = 5000 x 5000
+Rank 20: x = [20000, 25000), y = [0, 5000), local size = 5000 x 5000
+Rank 24: x = [20000, 25000), y = [20000, 25000), local size = 5000 x 5000
+Rank 15: x = [15000, 20000), y = [0, 5000), local size = 5000 x 5000
+Rank 7: x = [5000, 10000), y = [10000, 15000), local size = 5000 x 5000
+Rank 17: x = [15000, 20000), y = [10000, 15000), local size = 5000 x 5000
+Rank 3: x = [0, 5000), y = [15000, 20000), local size = 5000 x 5000
+Rank 10: x = [10000, 15000), y = [0, 5000), local size = 5000 x 5000
+Rank 9: x = [5000, 10000), y = [20000, 25000), local size = 5000 x 5000
+MPI grid: 5 x 5
+Rank 0: x = [0, 5000), y = [0, 5000), local size = 5000 x 5000
+Rank 19: x = [15000, 20000), y = [20000, 25000), local size = 5000 x 5000
+Rank 13: x = [10000, 15000), y = [15000, 20000), local size = 5000 x 5000
+Rank 6: x = [5000, 10000), y = [5000, 10000), local size = 5000 x 5000
+Rank 18: x = [15000, 20000), y = [15000, 20000), local size = 5000 x 5000
+Rank 12: x = [10000, 15000), y = [10000, 15000), local size = 5000 x 5000
+Rank 1: x = [0, 5000), y = [5000, 10000), local size = 5000 x 5000
+Rank 2: x = [0, 5000), y = [10000, 15000), local size = 5000 x 5000
+Rank 8: x = [5000, 10000), y = [15000, 20000), local size = 5000 x 5000
+Saved data files for numworkGrid_25000x25000_-2,2x0,75_-1,3x1,3_25_25 in /zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/results
+
+    Total time =            1161.3663
+    Total comparable Time = 1161.3660
+    Master send time =      0.0000
+    Master wait time =      1097.8510
+    Total idle time =       10068.1903
+    Computation time =      7890.5966
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29732224: <grid_worker_scale_test_N25> in cluster <dcc> Done
+
+Job <grid_worker_scale_test_N25> was submitted from host <n-62-27-23> by user <s224059> in cluster <dcc> at Thu Oct 15 20:48:05 2026
+Job was executed on host(s) <24*n-62-21-48>, in queue <hpcintro>, as user <s224059> in cluster <dcc> at Fri Oct 16 00:53:33 2026
+                            <1*n-62-21-47>
+</zhome/f3/8/187578> was used as the home directory.
+</zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Fri Oct 16 00:53:33 2026
+Terminated at Fri Oct 16 01:21:50 2026
+Results reported at Fri Oct 16 01:21:50 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J grid_worker_scale_test_N25
+#BSUB -o ../outputs/out/grid_worker_scale_test_N25_%J.out
+#BSUB -e ../outputs/err/grid_worker_scale_test_N25_%J.err
+#BSUB -q hpcintro
+#BSUB -R "select[model==XeonE5_2650v4]"
+#BSUB -W 02:00
+#BSUB -R "rusage[mem=8GB]"
+#BSUB -n 25
+#BSUB -R "span[ptile=24]"
+
+source ../modules.sh
+#source ../.venv/bin/activate
+
+echo 25
+mpirun -n 25 python3 Blocking/Mandelbrot_Blocking_grid_numwork.py 1 25000x25000
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   29555.00 sec.
+    Max Memory :                                 59419 MB
+    Average Memory :                             18509.38 MB
+    Total Requested Memory :                     204800.00 MB
+    Delta Memory :                               145381.00 MB
+    Max Swap :                                   -
+    Max Processes :                              31
+    Max Threads :                                101
+    Run time :                                   1697 sec.
+    Turnaround time :                            16425 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/grid_worker_scale_test_N25_29732224.err> for stderr output of this job.
+

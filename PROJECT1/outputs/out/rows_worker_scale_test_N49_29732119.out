@@ -1,0 +1,71 @@
+49
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 1
+size = (25000, 25000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 49
+
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29732119: <rows_worker_scale_test_N49> in cluster <dcc> Exited
+
+Job <rows_worker_scale_test_N49> was submitted from host <n-62-27-23> by user <s224059> in cluster <dcc> at Thu Oct 15 20:41:06 2026
+Job was executed on host(s) <24*n-62-21-68>, in queue <hpc>, as user <s224059> in cluster <dcc> at Thu Oct 15 20:42:23 2026
+                            <24*n-62-21-69>
+                            <1*n-62-21-71>
+</zhome/f3/8/187578> was used as the home directory.
+</zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Thu Oct 15 20:42:23 2026
+Terminated at Thu Oct 15 20:42:26 2026
+Results reported at Thu Oct 15 20:42:26 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J rows_worker_scale_test_N49
+#BSUB -o ../outputs/out/rows_worker_scale_test_N49_%J.out
+#BSUB -e ../outputs/err/rows_worker_scale_test_N49_%J.err
+#BSUB -q hpc
+#BSUB -R "select[model==XeonE5_2650v4]"
+#BSUB -W 02:00
+#BSUB -R "rusage[mem=8GB]"
+#BSUB -n 49
+#BSUB -R "span[ptile=24]"
+
+source ../modules.sh
+#source ../.venv/bin/activate
+
+echo 49
+mpirun -n 49 python3 Blocking/Mandelbrot_Blocking_numwork.py 1 25000x25000
+
+------------------------------------------------------------
+
+TERM_OWNER: job killed by owner.
+Exited with signal termination: 9.
+
+Resource usage summary:
+
+    CPU time :                                   39.00 sec.
+    Max Memory :                                 2234 MB
+    Average Memory :                             2234.00 MB
+    Total Requested Memory :                     401408.00 MB
+    Delta Memory :                               399174.00 MB
+    Max Swap :                                   -
+    Max Processes :                              28
+    Max Threads :                                79
+    Run time :                                   3 sec.
+    Turnaround time :                            80 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/rows_worker_scale_test_N49_29732119.err> for stderr output of this job.
+

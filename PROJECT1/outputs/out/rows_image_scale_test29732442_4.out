@@ -1,0 +1,81 @@
+50000
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 1
+size = (50000, 50000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 16
+
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29732442[4]: <rows_image_scale_test[4-5]> in cluster <dcc> Exited
+
+Job <rows_image_scale_test[4-5]> was submitted from host <n-62-27-23> by user <s224059> in cluster <dcc> at Thu Oct 15 21:31:40 2026
+Job was executed on host(s) <16*n-62-21-47>, in queue <hpcintro>, as user <s224059> in cluster <dcc> at Thu Oct 15 21:31:43 2026
+</zhome/f3/8/187578> was used as the home directory.
+</zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Thu Oct 15 21:31:43 2026
+Terminated at Thu Oct 15 21:32:02 2026
+Results reported at Thu Oct 15 21:32:02 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J rows_image_scale_test[4-5]
+#BSUB -o ../outputs/out/rows_image_scale_test%J_%I.out
+#BSUB -e ../outputs/err/rows_image_scale_test%J_%I.err
+#BSUB -q hpcintro
+#BSUB -R "select[model==XeonE5_2650v4]"
+#BSUB -W 03:00
+#BSUB -R "rusage[mem=8GB]"
+#BSUB -n 16
+#BSUB -R "span[ptile=16]"
+
+source ../modules.sh
+#source ../.venv/bin/activate
+
+# Define the image sizes using standard Bash array syntax (space separated)
+IMAGE_SIZES=(5000 15000 25000 50000 93000)
+
+# Calculate zero-based index
+INDEX=$((LSB_JOBINDEX - 1))
+CURRENT_SIZE=${IMAGE_SIZES[$INDEX]}
+
+# Format the string as WxH
+FORMATTED_SIZE="${CURRENT_SIZE}x${CURRENT_SIZE}"
+
+# The chunk-size argument is unused by the row version (one row strip per rank),
+# but it is positional, so a placeholder is needed before the image size
+echo $CURRENT_SIZE
+mpirun -n 16 python3 Blocking/Mandelbrot_Blocking.py 1 $FORMATTED_SIZE
+
+------------------------------------------------------------
+
+TERM_OWNER: job killed by owner.
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   281.00 sec.
+    Max Memory :                                 1780 MB
+    Average Memory :                             1732.67 MB
+    Total Requested Memory :                     131072.00 MB
+    Delta Memory :                               129292.00 MB
+    Max Swap :                                   -
+    Max Processes :                              20
+    Max Threads :                                55
+    Run time :                                   19 sec.
+    Turnaround time :                            22 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/rows_image_scale_test29732442_4.err> for stderr output of this job.
+

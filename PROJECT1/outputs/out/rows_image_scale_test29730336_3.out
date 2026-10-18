@@ -1,0 +1,89 @@
+25000
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 1
+size = (25000, 25000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 24
+
+Saved data files for staticRow_25000x25000_-2,2x0,75_-1,3x1,3_24_24 in /zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/results
+
+    Total time =            838.7044
+    Total comparable Time = 838.7042
+    Master send time =      0.0000
+    Master wait time =      781.9153
+    Total idle time =       3007.4927
+    Computation time =      8308.7377
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29730336[3]: <rows_image_scale_test[1-5]> in cluster <dcc> Exited
+
+Job <rows_image_scale_test[1-5]> was submitted from host <n-62-30-5> by user <s224059> in cluster <dcc> at Thu Oct 15 15:27:26 2026
+Job was executed on host(s) <24*n-62-21-46>, in queue <hpcintro>, as user <s224059> in cluster <dcc> at Thu Oct 15 15:47:52 2026
+</zhome/f3/8/187578> was used as the home directory.
+</zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Thu Oct 15 15:47:52 2026
+Terminated at Thu Oct 15 16:09:25 2026
+Results reported at Thu Oct 15 16:09:25 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J rows_image_scale_test[1-5]
+#BSUB -o ../outputs/out/rows_image_scale_test%J_%I.out
+#BSUB -e ../outputs/err/rows_image_scale_test%J_%I.err
+#BSUB -q hpcintro
+#BSUB -R "select[model==XeonE5_2650v4]"
+#BSUB -W 00:50
+#BSUB -R "rusage[mem=2GB]"
+#BSUB -n 24
+#BSUB -R "span[ptile=24]"
+
+source ../modules.sh
+#source ../.venv/bin/activate
+
+# Define the image sizes using standard Bash array syntax (space separated)
+IMAGE_SIZES=(5000 15000 25000 50000 93000)
+
+# Calculate zero-based index
+INDEX=$((LSB_JOBINDEX - 1))
+CURRENT_SIZE=${IMAGE_SIZES[$INDEX]}
+
+# Format the string as WxH
+FORMATTED_SIZE="${CURRENT_SIZE}x${CURRENT_SIZE}"
+
+# The chunk-size argument is unused by the row version (one row strip per rank),
+# but it is positional, so a placeholder is needed before the image size
+echo $CURRENT_SIZE
+mpirun -n 24 python3 Blocking/Mandelbrot_Blocking.py 1 $FORMATTED_SIZE
+
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 137.
+
+Resource usage summary:
+
+    CPU time :                                   13650.15 sec.
+    Max Memory :                                 49152 MB
+    Average Memory :                             25039.20 MB
+    Total Requested Memory :                     49152.00 MB
+    Delta Memory :                               0.00 MB
+    Max Swap :                                   -
+    Max Processes :                              28
+    Max Threads :                                79
+    Run time :                                   1293 sec.
+    Turnaround time :                            2519 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/rows_image_scale_test29730336_3.err> for stderr output of this job.
+

@@ -1,0 +1,143 @@
+64
+Rank 6: x = [0, 3125), y = [18750, 21875), local size = 3125 x 3125
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 1
+size = (25000, 25000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 64
+
+Rank 3: x = [0, 3125), y = [9375, 12500), local size = 3125 x 3125
+Rank 7: x = [0, 3125), y = [21875, 25000), local size = 3125 x 3125
+MPI grid: 8 x 8
+Rank 0: x = [0, 3125), y = [0, 3125), local size = 3125 x 3125
+Rank 29: x = [9375, 12500), y = [15625, 18750), local size = 3125 x 3125
+Rank 13: x = [3125, 6250), y = [15625, 18750), local size = 3125 x 3125
+Rank 20: x = [6250, 9375), y = [12500, 15625), local size = 3125 x 3125
+Rank 24: x = [9375, 12500), y = [0, 3125), local size = 3125 x 3125
+Rank 16: x = [6250, 9375), y = [0, 3125), local size = 3125 x 3125
+Rank 35: x = [12500, 15625), y = [9375, 12500), local size = 3125 x 3125
+Rank 38: x = [12500, 15625), y = [18750, 21875), local size = 3125 x 3125
+Rank 25: x = [9375, 12500), y = [3125, 6250), local size = 3125 x 3125
+Rank 14: x = [3125, 6250), y = [18750, 21875), local size = 3125 x 3125
+Rank 30: x = [9375, 12500), y = [18750, 21875), local size = 3125 x 3125
+Rank 36: x = [12500, 15625), y = [12500, 15625), local size = 3125 x 3125
+Rank 15: x = [3125, 6250), y = [21875, 25000), local size = 3125 x 3125
+Rank 44: x = [15625, 18750), y = [12500, 15625), local size = 3125 x 3125
+Rank 28: x = [9375, 12500), y = [12500, 15625), local size = 3125 x 3125
+Rank 2: x = [0, 3125), y = [6250, 9375), local size = 3125 x 3125
+Rank 42: x = [15625, 18750), y = [6250, 9375), local size = 3125 x 3125
+Rank 26: x = [9375, 12500), y = [6250, 9375), local size = 3125 x 3125
+Rank 32: x = [12500, 15625), y = [0, 3125), local size = 3125 x 3125
+Rank 46: x = [15625, 18750), y = [18750, 21875), local size = 3125 x 3125
+Rank 5: x = [0, 3125), y = [15625, 18750), local size = 3125 x 3125
+Rank 18: x = [6250, 9375), y = [6250, 9375), local size = 3125 x 3125
+Rank 1: x = [0, 3125), y = [3125, 6250), local size = 3125 x 3125
+Rank 23: x = [6250, 9375), y = [21875, 25000), local size = 3125 x 3125
+Rank 22: x = [6250, 9375), y = [18750, 21875), local size = 3125 x 3125
+Rank 17: x = [6250, 9375), y = [3125, 6250), local size = 3125 x 3125
+Rank 55: x = [18750, 21875), y = [21875, 25000), local size = 3125 x 3125
+Rank 19: x = [6250, 9375), y = [9375, 12500), local size = 3125 x 3125
+Rank 58: x = [21875, 25000), y = [6250, 9375), local size = 3125 x 3125
+Rank 59: x = [21875, 25000), y = [9375, 12500), local size = 3125 x 3125
+Rank 21: x = [6250, 9375), y = [15625, 18750), local size = 3125 x 3125
+Rank 53: x = [18750, 21875), y = [15625, 18750), local size = 3125 x 3125
+Rank 12: x = [3125, 6250), y = [12500, 15625), local size = 3125 x 3125
+Rank 9: x = [3125, 6250), y = [3125, 6250), local size = 3125 x 3125
+Rank 52: x = [18750, 21875), y = [12500, 15625), local size = 3125 x 3125
+Rank 10: x = [3125, 6250), y = [6250, 9375), local size = 3125 x 3125
+Rank 8: x = [3125, 6250), y = [0, 3125), local size = 3125 x 3125
+Rank 56: x = [21875, 25000), y = [0, 3125), local size = 3125 x 3125
+Rank 11: x = [3125, 6250), y = [9375, 12500), local size = 3125 x 3125
+Rank 4: x = [0, 3125), y = [12500, 15625), local size = 3125 x 3125
+Rank 47: x = [15625, 18750), y = [21875, 25000), local size = 3125 x 3125
+Rank 57: x = [21875, 25000), y = [3125, 6250), local size = 3125 x 3125
+Rank 48: x = [18750, 21875), y = [0, 3125), local size = 3125 x 3125
+Rank 50: x = [18750, 21875), y = [6250, 9375), local size = 3125 x 3125
+Rank 62: x = [21875, 25000), y = [18750, 21875), local size = 3125 x 3125
+Rank 63: x = [21875, 25000), y = [21875, 25000), local size = 3125 x 3125
+Rank 51: x = [18750, 21875), y = [9375, 12500), local size = 3125 x 3125
+Rank 61: x = [21875, 25000), y = [15625, 18750), local size = 3125 x 3125
+Rank 54: x = [18750, 21875), y = [18750, 21875), local size = 3125 x 3125
+Rank 60: x = [21875, 25000), y = [12500, 15625), local size = 3125 x 3125
+Rank 40: x = [15625, 18750), y = [0, 3125), local size = 3125 x 3125
+Rank 31: x = [9375, 12500), y = [21875, 25000), local size = 3125 x 3125
+Rank 37: x = [12500, 15625), y = [15625, 18750), local size = 3125 x 3125
+Rank 27: x = [9375, 12500), y = [9375, 12500), local size = 3125 x 3125
+Rank 41: x = [15625, 18750), y = [3125, 6250), local size = 3125 x 3125
+Rank 34: x = [12500, 15625), y = [6250, 9375), local size = 3125 x 3125
+Rank 45: x = [15625, 18750), y = [15625, 18750), local size = 3125 x 3125
+Rank 33: x = [12500, 15625), y = [3125, 6250), local size = 3125 x 3125
+Rank 39: x = [12500, 15625), y = [21875, 25000), local size = 3125 x 3125
+Rank 43: x = [15625, 18750), y = [9375, 12500), local size = 3125 x 3125
+Rank 49: x = [18750, 21875), y = [3125, 6250), local size = 3125 x 3125
+Saved data files for numworkGrid_25000x25000_-2,2x0,75_-1,3x1,3_64_64 in /zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/results
+
+    Total time =            475.1856
+    Total comparable Time = 475.1853
+    Master send time =      0.0000
+    Master wait time =      449.2796
+    Total idle time =       10889.2997
+    Computation time =      7931.6453
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29732226: <grid_worker_scale_test_N64> in cluster <dcc> Done
+
+Job <grid_worker_scale_test_N64> was submitted from host <n-62-27-23> by user <s224059> in cluster <dcc> at Thu Oct 15 20:48:06 2026
+Job was executed on host(s) <24*n-62-21-77>, in queue <hpcintro>, as user <s224059> in cluster <dcc> at Fri Oct 16 03:44:39 2026
+                            <24*n-62-21-46>
+                            <16*n-62-21-47>
+</zhome/f3/8/187578> was used as the home directory.
+</zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Fri Oct 16 03:44:39 2026
+Terminated at Fri Oct 16 04:01:27 2026
+Results reported at Fri Oct 16 04:01:27 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J grid_worker_scale_test_N64
+#BSUB -o ../outputs/out/grid_worker_scale_test_N64_%J.out
+#BSUB -e ../outputs/err/grid_worker_scale_test_N64_%J.err
+#BSUB -q hpcintro
+#BSUB -R "select[model==XeonE5_2650v4]"
+#BSUB -W 02:00
+#BSUB -R "rusage[mem=8GB]"
+#BSUB -n 64
+#BSUB -R "span[ptile=24]"
+
+source ../modules.sh
+#source ../.venv/bin/activate
+
+echo 64
+mpirun -n 64 python3 Blocking/Mandelbrot_Blocking_grid_numwork.py 1 25000x25000
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   30918.00 sec.
+    Max Memory :                                 54530 MB
+    Average Memory :                             21734.10 MB
+    Total Requested Memory :                     524288.00 MB
+    Delta Memory :                               469758.00 MB
+    Max Swap :                                   -
+    Max Processes :                              72
+    Max Threads :                                237
+    Run time :                                   1008 sec.
+    Turnaround time :                            26001 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/grid_worker_scale_test_N64_29732226.err> for stderr output of this job.
+

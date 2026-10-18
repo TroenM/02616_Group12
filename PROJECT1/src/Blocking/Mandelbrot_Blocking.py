@@ -199,62 +199,63 @@ if rank == 0:
 if rank == 0:
 
     import matplotlib.pyplot as plt
+    if size[0] <= 15000:
+        
+        # 1. Create exact X and Y coordinates matching your loops
+        x_vals = xlim[0] + np.arange(size[0]) * xconst
+        y_vals = ylim[0] + np.arange(size[1]) * yconst
+        X, Y = np.meshgrid(x_vals, y_vals, indexing='ij')
 
-    # 1. Create exact X and Y coordinates matching your loops
-    x_vals = xlim[0] + np.arange(size[0]) * xconst
-    y_vals = ylim[0] + np.arange(size[1]) * yconst
-    X, Y = np.meshgrid(x_vals, y_vals, indexing='ij')
+        # 2. Build a 2D grid for the computation times
+        time_grid = np.zeros(size)
+        for row in rank_times:
+            t, chunk_start, chunk_end = row
+            # Indices are floats in the rank_times array, so cast them to integers
+            time_grid[int(chunk_start):int(chunk_end), :] = t
 
-    # 2. Build a 2D grid for the computation times
-    time_grid = np.zeros(size)
-    for row in rank_times:
-        t, chunk_start, chunk_end = row
-        # Indices are floats in the rank_times array, so cast them to integers
-        time_grid[int(chunk_start):int(chunk_end), :] = t
+        # 3. Create the plot
+        fig, ax = plt.subplots(figsize=(10, 8))
 
-    # 3. Create the plot
-    fig, ax = plt.subplots(figsize=(10, 8))
+        # Transpose the arrays (.T) so the X-axis is horizontal and Y-axis is vertical
+        # Use contourf for the computation times
+        time_plot = ax.contourf(X.T, Y.T, time_grid.T, levels=50, cmap='viridis')
+        cbar = fig.colorbar(time_plot, ax=ax)
+        cbar.set_label('Computation Time (seconds)')
 
-    # Transpose the arrays (.T) so the X-axis is horizontal and Y-axis is vertical
-    # Use contourf for the computation times
-    time_plot = ax.contourf(X.T, Y.T, time_grid.T, levels=50, cmap='viridis')
-    cbar = fig.colorbar(time_plot, ax=ax)
-    cbar.set_label('Computation Time (seconds)')
+        # Draw the Mandelbrot set boundary as a black line
+        # The set is 0, the outside is >= 1. 0.5 perfectly captures the border.
+        ax.contour(X.T, Y.T, image.T, levels=[0.5], colors='black', linewidths=1.5)
 
-    # Draw the Mandelbrot set boundary as a black line
-    # The set is 0, the outside is >= 1. 0.5 perfectly captures the border.
-    ax.contour(X.T, Y.T, image.T, levels=[0.5], colors='black', linewidths=1.5)
-
-    ax.set_title(f'Mandelbrot Set & MPI Rank Computation Times ({size_mpi} Ranks)')
-    ax.set_xlabel('Real')
-    ax.set_ylabel('Imaginary')
-    
-    # Save and display the result
-    plt.savefig(f'../figures/Blocking_Times_N{size_mpi}.png', dpi=300)
-    plt.show()
+        ax.set_title(f'Mandelbrot Set & MPI Rank Computation Times ({size_mpi} Ranks)')
+        ax.set_xlabel('Real')
+        ax.set_ylabel('Imaginary')
+        
+        # Save and display the result
+        plt.savefig(f'../figures/Blocking_Times_N{size_mpi}_{size}x{size}_rows.png', dpi=300)
+        plt.show()
 
 
     ####### Standard plot ############
-    fig, ax = plt.subplots()
+    # fig, ax = plt.subplots()
 
 
-    plt.rcParams.update({
-        "font.size": 10,
-    })
+    # plt.rcParams.update({
+    #     "font.size": 10,
+    # })
 
-    plt.imshow(
-        image.T,
-        extent=np.concatenate([xlim, ylim])
-    )
+    # plt.imshow(
+    #     image.T,
+    #     extent=np.concatenate([xlim, ylim])
+    # )
 
-    plt.xlabel(r"x / Re(p_0)")
-    plt.ylabel(r"y / Im(p_0)")
+    # plt.xlabel(r"x / Re(p_0)")
+    # plt.ylabel(r"y / Im(p_0)")
 
-    plt.margins(0, 0)
+    # plt.margins(0, 0)
 
-    plt.savefig(
-        "../figures/Figure_1.png",
-        bbox_inches="tight",
-        pad_inches=0
-    )
+    # plt.savefig(
+    #     "../figures/Figure_1.png",
+    #     bbox_inches="tight",
+    #     pad_inches=0
+    # )
 
