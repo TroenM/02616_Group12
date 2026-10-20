@@ -24,4 +24,4 @@ CURRENT_N_WORKER=${WORKERS[$INDEX]}
 
 # The chunk-size argument is unused, but positional, so a placeholder is needed
 echo $CURRENT_N_WORKER
-mpirun -n ${N} python3 Blocking/Mandelbrot_Blocking_grid_numwork.py 1 ${IMAGE_SIZE}
+mpirun -n ${CURRENT_N_WORKER} python3 Blocking/Mandelbrot_Grid_numwork.py 256 ${IMAGE_SIZE}

@@ -22,4 +22,4 @@
 source ../modules.sh
 # source ../.venv/bin/activate
 
-mpirun python3 Plotting/scaling.py
+mpirun python3 Plotting/workers_scaling.py

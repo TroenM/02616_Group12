@@ -1,0 +1,76 @@
+24
+Calculating the Mandelbrot set with these arguments:
+
+chunk_size = 1
+size = (25000, 25000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 24
+
+Saved data files for numworkRow_25000x25000_-2,2x0,75_-1,3x1,3_24_24 in /zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/results
+
+    Total time =            832.5849
+    Total comparable Time = 832.5845
+    Master send time =      0.0000
+    Master wait time =      773.4574
+    Total idle time =       3047.4475
+    Computation time =      8198.4997
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29749987: <rows_worker_scale_test_N24> in cluster <dcc> Done
+
+Job <rows_worker_scale_test_N24> was submitted from host <n-62-30-2> by user <s224059> in cluster <dcc> at Sun Oct 18 16:55:25 2026
+Job was executed on host(s) <24*n-62-21-46>, in queue <hpcintro>, as user <s224059> in cluster <dcc> at Sun Oct 18 17:13:03 2026
+</zhome/f3/8/187578> was used as the home directory.
+</zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Sun Oct 18 17:13:03 2026
+Terminated at Sun Oct 18 17:35:03 2026
+Results reported at Sun Oct 18 17:35:03 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J rows_worker_scale_test_N24
+#BSUB -o ../outputs/out/rows_worker_scale_test_N24_%J.out
+#BSUB -e ../outputs/err/rows_worker_scale_test_N24_%J.err
+#BSUB -q hpcintro
+#BSUB -R "select[model==XeonE5_2650v4]"
+#BSUB -W 02:00
+#BSUB -R "rusage[mem=8GB]"
+#BSUB -n 24
+#BSUB -R "span[ptile=24]"
+
+source ../modules.sh
+#source ../.venv/bin/activate
+
+echo 24
+mpirun -n 24 python3 Blocking/Mandelbrot_Blocking_numwork.py 1 25000x25000
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   13560.60 sec.
+    Max Memory :                                 41539 MB
+    Average Memory :                             20247.82 MB
+    Total Requested Memory :                     196608.00 MB
+    Delta Memory :                               155069.00 MB
+    Max Swap :                                   -
+    Max Processes :                              28
+    Max Threads :                                79
+    Run time :                                   1320 sec.
+    Turnaround time :                            2378 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/rows_worker_scale_test_N24_29749987.err> for stderr output of this job.
+

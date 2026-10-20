@@ -1,0 +1,89 @@
+24
+Calculating the Mandelbrot set with these arguments:
+n_chunks = 65536
+size = (25000, 25000)
+xlim = (-2.2, 0.75)
+ylim = (-1.3, 1.3)
+size_mpi = 24
+
+MPI grid: 256 x 256
+Saved data files for numworkGrid_25000x25000_-2,2x0,75_-1,3x1,3_65536_24 in /zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/results
+
+    Total time =            839.7950
+    Total comparable Time = 839.7948
+    Master send time =      0.0029
+    Master wait time =      836.6847
+    Total idle time =       2876.2289
+    Computation time =      7725.2523
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29749984[1]: <grid_worker_scale_tests[1-3]> in cluster <dcc> Done
+
+Job <grid_worker_scale_tests[1-3]> was submitted from host <n-62-30-2> by user <s224059> in cluster <dcc> at Sun Oct 18 16:47:05 2026
+Job was executed on host(s) <24*n-62-21-46>, in queue <hpcintro>, as user <s224059> in cluster <dcc> at Sun Oct 18 16:47:06 2026
+                            <24*n-62-21-77>
+                            <24*n-62-21-75>
+</zhome/f3/8/187578> was used as the home directory.
+</zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Sun Oct 18 16:47:06 2026
+Terminated at Sun Oct 18 17:01:08 2026
+Results reported at Sun Oct 18 17:01:08 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+# Worker scaling test for the static grid version (25000x25000 image).
+#BSUB -J grid_worker_scale_tests[1-3]
+#BSUB -o ../outputs/out/grid_worker_scale_tests_%J_%I.out
+#BSUB -e ../outputs/err/grid_worker_scale_tests_%J_%I.err
+#BSUB -q hpcintro
+#BSUB -R "select[model==XeonE5_2650v4]"
+#BSUB -W 02:00
+#BSUB -R "rusage[mem=8GB]"
+#BSUB -n 72
+#BSUB -R "span[ptile=24]"
+
+IMAGE_SIZE="25000x25000"
+WORKERS=(24 48 72)
+
+
+source ../modules.sh
+#source ../.venv/bin/activate
+
+# Use exactly 256 for the chunks-per-axis argument to maintain the 256x256 grid
+# Calculate zero-based index
+INDEX=$((LSB_JOBINDEX - 1))
+CURRENT_N_WORKER=${WORKERS[$INDEX]}
+
+# The chunk-size argument is unused, but positional, so a placeholder is needed
+echo $CURRENT_N_WORKER
+mpirun -n ${CURRENT_N_WORKER} python3 Blocking/Mandelbrot_Grid_numwork.py 256 ${IMAGE_SIZE}
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   12630.67 sec.
+    Max Memory :                                 18806 MB
+    Average Memory :                             9822.22 MB
+    Total Requested Memory :                     589824.00 MB
+    Delta Memory :                               571018.00 MB
+    Max Swap :                                   -
+    Max Processes :                              32
+    Max Threads :                                117
+    Run time :                                   842 sec.
+    Turnaround time :                            843 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/grid_worker_scale_tests_29749984_1.err> for stderr output of this job.
+
