@@ -5,20 +5,21 @@ import os
 print(os.getcwd())
 
 image = np.load(
-    "../results/Dynamic/image_dynamicGrid_5000x5000_-2,2x0,75_-1,3x1,3_65536_71.npy"
+    "../results/Rows/image_dynamicRow_5000x5000_-2,2x0_0x1,3_2500_71.npy"
 )
 rank_times = np.load(
-    "../results/Dynamic/rankstats_dynamicGrid_5000x5000_-2,2x0,75_-1,3x1,3_65536_71.npy"
+    "../results/Rows/rankstats_dynamicRow_5000x5000_-2,2x0_0x1,3_2500_71.npy"
 )
 
-xlim = [-2.2, 0.75]
-ylim = [-1.3, 1.3]
+xlim = [-2.2,0]
+ylim = [0, 1.3]
 size = (5000, 5000)
 
 xconst = np.diff(xlim)[0] / size[0]
 yconst = np.diff(ylim)[0] / size[1]
 
 if rank_times.shape[1] == 3:
+    
 #TODO: Dummy positions
 
 # 1. Create exact X and Y coordinates matching your loops
@@ -49,9 +50,9 @@ cbar.set_label('Computation time per block (seconds)')
 ax.contour(X.T, Y.T, image.T, levels=[0.5], colors='black', linewidths=1.5)
 
 ax.set_title(f'Mandelbrot Set & MPI Rank Computation Times ({size_mpi} Ranks)')
-    ax.set_xlabel('Real')
-    ax.set_ylabel('Imaginary')
+ax.set_xlabel('Real')
+ax.set_ylabel('Imaginary')
 
-    # Save and display the result
-    plt.savefig(f'PROJECT1/figures/Blocking/Grid_Blocking_{size_mpi}_grid.png', dpi=300)
-    plt.show()
+# Save and display the result
+plt.savefig(f'PROJECT1/figures/Row_dynamic_{size_mpi}_grid.png', dpi=300)
+plt.show()
