@@ -1,0 +1,151 @@
+variant   N  nodes  wall [s]  imbalance  speedup vs N=16  efficiency
+Rows     16     1    1450.7       2.73             1.00        1.00
+Rows     24     1     832.6       2.43             1.74        1.16
+Rows     48     2     402.6       2.55             3.60        1.20
+Rows     72     3     316.5       2.80             4.58        1.02
+Grid     16     1    1434.0       3.30             1.00        1.00
+Grid     24     1     839.8       2.60             1.71        1.14
+Grid     48     2     439.4       2.75             3.26        1.09
+Grid     72     3     263.7       2.55             5.44        1.21
+Dynamic  24     1    1071.6       1.04              nan         nan
+Dynamic  48     2     460.1       1.02              nan         nan
+Dynamic  72     3     346.8       1.01              nan         nan
+variant   N  nodes  wall [s]  imbalance  speedup vs N=16  efficiency
+variant   N  nodes  wall [s]  imbalance  speedup vs N=16  efficiency
+Rows     16     1    1450.7       2.73             1.00        1.00
+Rows     24     1     832.6       2.43             1.74        1.16
+Rows     48     2     402.6       2.55             3.60        1.20
+Rows     72     3     316.5       2.80             4.58        1.02
+Grid     16     1    1434.0       3.30             1.00        1.00
+Rows     16     1    1450.7       2.73             1.00        1.00
+Rows     24     1     832.6       2.43             1.74        1.16
+Rows     48     2     402.6       2.55             3.60        1.20
+Grid     24     1     839.8       2.60             1.71        1.14
+Grid     48     2     439.4       2.75             3.26        1.09
+Grid     72     3     263.7       2.55             5.44        1.21
+Rows     72     3     316.5       2.80             4.58        1.02
+Grid     16     1    1434.0       3.30             1.00        1.00
+Dynamic  24     1    1071.6       1.04              nan         nan
+Grid     24     1     839.8       2.60             1.71        1.14
+Grid     48     2     439.4       2.75             3.26        1.09
+Dynamic  48     2     460.1       1.02              nan         nan
+Dynamic  72     3     346.8       1.01              nan         nan
+Grid     72     3     263.7       2.55             5.44        1.21
+Dynamic  24     1    1071.6       1.04              nan         nan
+Dynamic  48     2     460.1       1.02              nan         nan
+Dynamic  72     3     346.8       1.01              nan         nan
+variant   N  nodes  wall [s]  imbalance  speedup vs N=16  efficiency
+Rows     16     1    1450.7       2.73             1.00        1.00
+Rows     24     1     832.6       2.43             1.74        1.16
+Rows     48     2     402.6       2.55             3.60        1.20
+Rows     72     3     316.5       2.80             4.58        1.02
+Grid     16     1    1434.0       3.30             1.00        1.00
+Grid     24     1     839.8       2.60             1.71        1.14
+Grid     48     2     439.4       2.75             3.26        1.09
+Grid     72     3     263.7       2.55             5.44        1.21
+Dynamic  24     1    1071.6       1.04              nan         nan
+Dynamic  48     2     460.1       1.02              nan         nan
+Dynamic  72     3     346.8       1.01              nan         nan
+
+Wall time relative to dynamic grid (T_variant / T_dynamic)
+Rows     24   0.78
+Rows     48   0.88
+Rows     72   0.91
+
+Wall time relative to dynamic grid (T_variant / T_dynamic)
+
+Wall time relative to dynamic grid (T_variant / T_dynamic)
+Rows     24   0.78
+Rows     48   0.88
+Rows     72   0.91
+Rows     24   0.78
+Rows     48   0.88
+Rows     72   0.91
+Grid     24   0.78
+Grid     48   0.96
+Grid     72   0.76
+Grid     24   0.78
+Grid     48   0.96
+Grid     72   0.76
+
+Wall time relative to dynamic grid (T_variant / T_dynamic)
+Rows     24   0.78
+Rows     48   0.88
+Rows     72   0.91
+Grid     24   0.78
+Grid     48   0.96
+Grid     72   0.76
+Grid     24   0.78
+Grid     48   0.96
+Grid     72   0.76
+Saved figures to /zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/figures/Scaling
+Saved figures to /zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/figures/Scaling
+Saved figures to /zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/figures/Scaling
+Saved figures to /zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/figures/Scaling
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29750301: <Plot_scaling> in cluster <dcc> Done
+
+Job <Plot_scaling> was submitted from host <n-62-30-2> by user <s224059> in cluster <dcc> at Sun Oct 18 18:45:55 2026
+Job was executed on host(s) <4*n-62-21-75>, in queue <hpcintro>, as user <s224059> in cluster <dcc> at Sun Oct 18 18:45:57 2026
+</zhome/f3/8/187578> was used as the home directory.
+</zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT1/src> was used as the working directory.
+Started at Sun Oct 18 18:45:57 2026
+Terminated at Sun Oct 18 18:46:04 2026
+Results reported at Sun Oct 18 18:46:04 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J Plot_scaling
+#BSUB -o ../outputs/out/Plot_scaling%J.out
+#BSUB -e ../outputs/err/Plot_scaling%J.err
+#BSUB -q hpcintro
+#BSUB -W 00:05
+## #BUSB -M 128MB
+#BSUB -R "rusage[mem=1GB]"
+#BSUB -n 4
+#BSUB -R "span[ptile=4]"
+
+
+###               hpcintro queue only has XeonE5_2650v4
+###                       vvvvvvvvvvvvv
+## #BSUB -R "select[model==XeonE5_2650v4]" 
+
+## OBS!!!: This script has to executed from the PROJECT1/src folder
+## for the paths to work out
+## From src folder execute line below: 
+## bsub < ../submit_scripts/template.sh
+
+source ../modules.sh
+# source ../.venv/bin/activate
+
+mpirun python3 Plotting/workers_scaling.py
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   24.79 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     4096.00 MB
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   7 sec.
+    Turnaround time :                            9 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/err/Plot_scaling29750301.err> for stderr output of this job.
+

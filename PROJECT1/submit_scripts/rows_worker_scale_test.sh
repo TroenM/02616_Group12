@@ -2,7 +2,7 @@
 # Worker scaling test for the static row version (25000x25000 image).
 
 IMAGE_SIZE="25000x25000"
-WORKERS=(25 49 64 100 121)
+WORKERS=(24 48 72)
 
 for N in "${WORKERS[@]}"; do
 bsub <<JOB
