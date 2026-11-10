@@ -3,13 +3,15 @@ from numba import jit
 import matplotlib.pyplot as plt
 from time import perf_counter
 
-@jit
-def rhs(x, y, z):
-    return 3 * np.pi ** 2 * np.sin(np.pi * x) * np.sin(np.pi * y) * np.sin(np.pi * z)
 
 @jit
 def sol(x,y,z):
     return np.sin(np.pi * x) * np.sin(np.pi * y) * np.sin(np.pi * z)
+
+################ TIL CHRISTIAN ##################
+@jit
+def rhs(x, y, z):
+    return 3 * np.pi ** 2 * np.sin(np.pi * x) * np.sin(np.pi * y) * np.sin(np.pi * z)
 
 @jit
 def jacobi_iteration(u: np.ndarray, delta: float) -> np.ndarray:
@@ -50,6 +52,7 @@ def jacobi(u: np.ndarray, delta: float, maxit: int = 100, tol: float = 1e-4) -> 
     print(f"\nFinal time: {final_time:.2f}")
 
     return u
+###############################################
 
 
 if __name__ == "__main__":
