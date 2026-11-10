@@ -1,0 +1,154 @@
+NAME ONE-SIZE ALL-SIZE WAYS TYPE        LEVEL  SETS PHY-LINE COHERENCY-SIZE
+L1d       32K     768K    8 Data            1    64        1             64
+L1i       32K     768K    8 Instruction     1    64        1             64
+L2       256K       6M    8 Unified         2   512        1             64
+L3        30M      60M   20 Unified         3 24576        1             64
+Architecture:                            x86_64
+CPU op-mode(s):                          32-bit, 64-bit
+Address sizes:                           46 bits physical, 48 bits virtual
+Byte Order:                              Little Endian
+CPU(s):                                  24
+On-line CPU(s) list:                     0-23
+Vendor ID:                               GenuineIntel
+Model name:                              Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz
+CPU family:                              6
+Model:                                   79
+Thread(s) per core:                      1
+Core(s) per socket:                      12
+Socket(s):                               2
+Stepping:                                1
+CPU(s) scaling MHz:                      76%
+CPU max MHz:                             2900.0000
+CPU min MHz:                             1200.0000
+BogoMIPS:                                4389.83
+Flags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts md_clear flush_l1d ibpb_exit_to_user
+Virtualization:                          VT-x
+L1d cache:                               768 KiB (24 instances)
+L1i cache:                               768 KiB (24 instances)
+L2 cache:                                6 MiB (24 instances)
+L3 cache:                                60 MiB (2 instances)
+NUMA node(s):                            2
+NUMA node0 CPU(s):                       0-11
+NUMA node1 CPU(s):                       12-23
+Vulnerability Gather data sampling:      Not affected
+Vulnerability Indirect target selection: Not affected
+Vulnerability Itlb multihit:             KVM: Mitigation: VMX disabled
+Vulnerability L1tf:                      Mitigation; PTE Inversion
+Vulnerability Mds:                       Mitigation; Clear CPU buffers; SMT disabled
+Vulnerability Meltdown:                  Mitigation; PTI
+Vulnerability Mmio stale data:           Mitigation; Clear CPU buffers; SMT disabled
+Vulnerability Reg file data sampling:    Not affected
+Vulnerability Retbleed:                  Not affected
+Vulnerability Spec rstack overflow:      Not affected
+Vulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl
+Vulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+Vulnerability Spectre v2:                Mitigation; Retpolines; IBPB conditional; IBRS_FW; RSB filling; PBRSB-eIBRS Not affected; BHI Not affected
+Vulnerability Srbds:                     Not affected
+Vulnerability Tsa:                       Not affected
+Vulnerability Tsx async abort:           Mitigation; Clear CPU buffers; SMT disabled
+Vulnerability Vmscape:                   Mitigation; IBPB before exit to userspace
+Machine (251GB total)
+  Package L#0
+    NUMANode L#0 (P#0 125GB)
+    L3 L#0 (30MB)
+      L2 L#0 (256KB) + L1d L#0 (32KB) + L1i L#0 (32KB) + Core L#0 + PU L#0 (P#0)
+      L2 L#1 (256KB) + L1d L#1 (32KB) + L1i L#1 (32KB) + Core L#1 + PU L#1 (P#1)
+      L2 L#2 (256KB) + L1d L#2 (32KB) + L1i L#2 (32KB) + Core L#2 + PU L#2 (P#2)
+      L2 L#3 (256KB) + L1d L#3 (32KB) + L1i L#3 (32KB) + Core L#3 + PU L#3 (P#3)
+      L2 L#4 (256KB) + L1d L#4 (32KB) + L1i L#4 (32KB) + Core L#4 + PU L#4 (P#4)
+      L2 L#5 (256KB) + L1d L#5 (32KB) + L1i L#5 (32KB) + Core L#5 + PU L#5 (P#5)
+      L2 L#6 (256KB) + L1d L#6 (32KB) + L1i L#6 (32KB) + Core L#6 + PU L#6 (P#6)
+      L2 L#7 (256KB) + L1d L#7 (32KB) + L1i L#7 (32KB) + Core L#7 + PU L#7 (P#7)
+      L2 L#8 (256KB) + L1d L#8 (32KB) + L1i L#8 (32KB) + Core L#8 + PU L#8 (P#8)
+      L2 L#9 (256KB) + L1d L#9 (32KB) + L1i L#9 (32KB) + Core L#9 + PU L#9 (P#9)
+      L2 L#10 (256KB) + L1d L#10 (32KB) + L1i L#10 (32KB) + Core L#10 + PU L#10 (P#10)
+      L2 L#11 (256KB) + L1d L#11 (32KB) + L1i L#11 (32KB) + Core L#11 + PU L#11 (P#11)
+    HostBridge
+      PCIBridge
+        PCI 02:00.0 (Network)
+          Net "ib0"
+          OpenFabrics "mlx4_0"
+      PCIBridge
+        PCI 04:00.0 (Ethernet)
+          Net "eth0"
+        PCI 04:00.1 (Ethernet)
+          Net "eth1"
+      PCI 00:11.4 (SATA)
+      PCIBridge
+        PCI 06:00.0 (VGA)
+      PCI 00:1f.2 (SATA)
+        Block(Disk) "sda"
+  Package L#1
+    NUMANode L#1 (P#1 126GB)
+    L3 L#1 (30MB)
+      L2 L#12 (256KB) + L1d L#12 (32KB) + L1i L#12 (32KB) + Core L#12 + PU L#12 (P#12)
+      L2 L#13 (256KB) + L1d L#13 (32KB) + L1i L#13 (32KB) + Core L#13 + PU L#13 (P#13)
+      L2 L#14 (256KB) + L1d L#14 (32KB) + L1i L#14 (32KB) + Core L#14 + PU L#14 (P#14)
+      L2 L#15 (256KB) + L1d L#15 (32KB) + L1i L#15 (32KB) + Core L#15 + PU L#15 (P#15)
+      L2 L#16 (256KB) + L1d L#16 (32KB) + L1i L#16 (32KB) + Core L#16 + PU L#16 (P#16)
+      L2 L#17 (256KB) + L1d L#17 (32KB) + L1i L#17 (32KB) + Core L#17 + PU L#17 (P#17)
+      L2 L#18 (256KB) + L1d L#18 (32KB) + L1i L#18 (32KB) + Core L#18 + PU L#18 (P#18)
+      L2 L#19 (256KB) + L1d L#19 (32KB) + L1i L#19 (32KB) + Core L#19 + PU L#19 (P#19)
+      L2 L#20 (256KB) + L1d L#20 (32KB) + L1i L#20 (32KB) + Core L#20 + PU L#20 (P#20)
+      L2 L#21 (256KB) + L1d L#21 (32KB) + L1i L#21 (32KB) + Core L#21 + PU L#21 (P#21)
+      L2 L#22 (256KB) + L1d L#22 (32KB) + L1i L#22 (32KB) + Core L#22 + PU L#22 (P#22)
+      L2 L#23 (256KB) + L1d L#23 (32KB) + L1i L#23 (32KB) + Core L#23 + PU L#23 (P#23)
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29971046: <lscpu> in cluster <dcc> Done
+
+Job <lscpu> was submitted from host <n-62-30-2> by user <s224363> in cluster <dcc> at Tue Nov 10 10:57:11 2026
+Job was executed on host(s) <24*n-62-21-47>, in queue <hpcintro>, as user <s224363> in cluster <dcc> at Tue Nov 10 10:57:13 2026
+</zhome/ce/3/186843> was used as the home directory.
+</zhome/ce/3/186843/Documents/9_semester/02616_LargeScaleModelling/02616_Group12/PROJECT2/src> was used as the working directory.
+Started at Tue Nov 10 10:57:13 2026
+Terminated at Tue Nov 10 10:57:14 2026
+Results reported at Tue Nov 10 10:57:14 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+
+#BSUB -J lscpu
+#BSUB -o ../outputs/lscpu.out
+#BSUB -e ../outputs/lscpu.err
+
+#BSUB -q hpcintro
+#BSUB -W 00:01
+#BSUB -R "rusage[mem=128MB]"
+#BSUB -R "span[hosts=1]"
+#BSUB -n 24
+
+lscpu -C
+lscpu
+lstopo-no-graphics
+
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   0.53 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     3072.00 MB
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   1 sec.
+    Turnaround time :                            3 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <../outputs/lscpu.err> for stderr output of this job.
+
