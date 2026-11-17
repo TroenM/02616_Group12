@@ -1,19 +1,19 @@
 import numpy as np
-from numba import jit
+#from numba import jit
 import matplotlib.pyplot as plt
 from time import perf_counter
 
 
-@jit
+#@jit
 def sol(x,y,z):
     return np.sin(np.pi * x) * np.sin(np.pi * y) * np.sin(np.pi * z)
 
 ################ TIL CHRISTIAN ##################
-@jit
+#@jit
 def rhs(x, y, z):
     return 3 * np.pi ** 2 * np.sin(np.pi * x) * np.sin(np.pi * y) * np.sin(np.pi * z)
 
-@jit
+#@jit
 def jacobi_iteration(u: np.ndarray, delta: float) -> np.ndarray:
     dims = u.shape
     res = u.copy()
@@ -26,7 +26,7 @@ def jacobi_iteration(u: np.ndarray, delta: float) -> np.ndarray:
                 res[i,j,k] = 1/6 * (u[i-1, j, k] + u[i+1, j, k] 
                                   + u[i, j-1, k] + u[i, j+1, k]
                                   + u[i, j, k-1] + u[i, j, k+1]
-                                  + delta_squared * rhs(-1 + i*delta, -1 * j*delta, -1 * k*delta))
+                                  + delta_squared * rhs(-1 + i*delta, -1 + j*delta, -1 + k*delta))
 
     return res
 
@@ -36,7 +36,8 @@ def jacobi(u: np.ndarray, delta: float, maxit: int = 100, tol: float = 1e-4) -> 
     residual = np.inf
 
     time_start = perf_counter()
-    for iter in range(maxit):
+    iter = 0
+    while iter <= maxit:
         u_new = jacobi_iteration(u, delta)
 
         if (iter % 10) == 0 or iter == maxit:
@@ -44,9 +45,11 @@ def jacobi(u: np.ndarray, delta: float, maxit: int = 100, tol: float = 1e-4) -> 
             intermediate_time = perf_counter() - time_start
             print(f"iter: {iter}/{maxit}, residaul: {residual:.4f}, time spend: {intermediate_time:.2f}", end = "\r")
             if residual <= tol:
+                print("Residual is below tolerance, stopping iterations.")
                 break
 
         u = u_new.copy()
+        iter += 1
 
     final_time = perf_counter() - time_start
     print(f"\nFinal time: {final_time:.2f}")
@@ -67,7 +70,7 @@ if __name__ == "__main__":
     u = np.zeros((N,N,N))
 
 
-    u = jacobi(u, delta, maxit=10000)
+    u = jacobi(u, delta, maxit=10)
 
     fig, ax = plt.subplots()
 
@@ -84,4 +87,4 @@ if __name__ == "__main__":
     fig.colorbar(true_sol)
     ax[1].set_title("True")
     fig.tight_layout()
-    fig.savefig("../results/sequential/slice.png")
+    fig.savefig("slice.png")
