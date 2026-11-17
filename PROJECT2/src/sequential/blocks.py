@@ -118,6 +118,7 @@ class CartDecomposition:
         """
         if self.N > 200:
             print("You should only gather images of size <= 200. Aborting program")
+            self.free()
             exit(0)
 
         all_owned = [self.ranges_of(self.cart.Get_coords(r))[0]
