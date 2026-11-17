@@ -12,7 +12,8 @@ def rhs(x, y, z):
 
 def jacobi_iteration(u: np.ndarray, delta: float, offset = [0, 0, 0]) -> np.ndarray:
     dims = u.shape
-    res = u.copy()
+    u_new = u.copy()
+    residual = 0
 
     delta_squared = delta ** 2
     ox, oy, oz = offset
@@ -20,12 +21,13 @@ def jacobi_iteration(u: np.ndarray, delta: float, offset = [0, 0, 0]) -> np.ndar
     for i in range(1, dims[0] -1):
         for j in range(1, dims[1] - 1):
             for k in range(1, dims[2] - 1):
-                res[i,j,k] = 1/6 * (u[i-1, j, k] + u[i+1, j, k] 
+                u_new[i,j,k] = 1/6 * (u[i-1, j, k] + u[i+1, j, k] 
                                   + u[i, j-1, k] + u[i, j+1, k]
                                   + u[i, j, k-1] + u[i, j, k+1]
                                   + delta_squared * rhs(-1 + (ox + i)*delta, -1 + (oy + j)*delta, -1 + (oz + k)*delta))
+                residual += (u[i,j,k] - u_new[i,j,k])**2
 
-    return res
+    return u_new, residual
 
 
 
@@ -42,10 +44,9 @@ def jacobi_mpi(dec: CartDecomposition, u: np.ndarray, delta: float,
 
     for it in range(maxit):
         dec.halo_exchange(u)
-        u_new = jacobi_iteration(u, delta, offset)
+        u_new, local_sq = jacobi_iteration(u, delta, offset)
 
         if it % check_every == 0 or it == maxit - 1:
-            local_sq = np.sum((u_new[owned] - u[owned]) ** 2)
             residual = np.sqrt(cart.allreduce(local_sq, op=MPI.SUM))
             if dec.rank == 0:
                 print(f"iter: {it}/{maxit}, residual: {residual:.4e}, "
