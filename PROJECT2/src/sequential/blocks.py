@@ -116,6 +116,10 @@ class CartDecomposition:
         (no copy). Blocks can have different sizes, so root receives into one
         flat buffer with Gatherv and then places each piece in the global array.
         """
+        if self.N > 200:
+            print("You should only gather images of size <= 200. Aborting program")
+            exit(0)
+
         all_owned = [self.ranges_of(self.cart.Get_coords(r))[0]
                      for r in range(self.cart.Get_size())]
         counts = [int(np.prod([e - s for s, e in owned])) for owned in all_owned]
