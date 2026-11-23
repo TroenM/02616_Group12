@@ -20,9 +20,10 @@ TOL = args.tol
 comm = MPI.COMM_WORLD
 dims = MPI.Compute_dims(comm.Get_size(), NUM_DECOMPS_PER_AXIS)
 cart_comm = comm.Create_cart(dims, periods=[False] * 3, reorder=True)
-coords = cart_comm.Get_coords(comm.rank)
+rank = cart_comm.rank
+coords = cart_comm.Get_coords(rank)
 
-if comm.rank == 0:
+if rank == 0:
     print(f"{MAXIT=}, {TOL=}")
 
 
@@ -58,7 +59,9 @@ u_new = np.zeros_like(u_curr)
 
 # Main loop
 # TODO: move to a seperate function once it works
-
+recv_reqs = []
+send_reqs = []
+residual = -1
 for iter in range(MAXIT):
     # Post boundary send/recv requests
     recv_reqs = []
@@ -134,8 +137,8 @@ for iter in range(MAXIT):
 
     # Collect residuals
     global_res_sq = cart_comm.allreduce(res_sq, op=MPI.SUM)
-    resiudal = np.sqrt(global_res_sq)
-    if resiudal < TOL:
+    residual = np.sqrt(global_res_sq)
+    if residual < TOL:
         # All requests have been finished in the final wait all
         # So safe to break and finalize
         break
@@ -144,7 +147,6 @@ for iter in range(MAXIT):
 MPI.Request.Waitall(recv_reqs)
 MPI.Request.Waitall(send_reqs)
 
-# MPI.Finalize()
 
 # Run local test of solution
 local_x = phys_origin[0] + np.arange(1, nx + 1) * deltax
@@ -159,8 +161,14 @@ u_interior = u_curr[1:-1, 1:-1, 1:-1]
 local_max_err = np.max(np.abs(true_sol - u_interior))
 global_max_err = cart_comm.allreduce(local_max_err, op=MPI.MAX)
 
-if comm.rank == 0:
-    print(f"Residual: {resiudal:.6e}")
+# Clean up
+for axis_dts in datatypes.values():
+    for dt in axis_dts.values():
+        dt.Free()
+cart_comm.Free()
+
+if rank == 0:
+    print(f"Residual: {residual:.6e}")
     print(f"Global Max Error: {global_max_err:.6e}")
 
     fig, ax = plt.subplots(1, 2)
