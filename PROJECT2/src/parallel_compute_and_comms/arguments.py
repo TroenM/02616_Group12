@@ -54,5 +54,10 @@ def get_args() -> argparse.Namespace:
         default=1e-4,
     )
 
+    parser.add_argument("--tag", type=str, default="scaling")
+    parser.add_argument("--impl", type=str, default="parallel_compute_and_comms")
+    parser.add_argument("--rep", type=int, default=0)
+    parser.add_argument("--outdir", type=str, default="results")
+
     args = parser.parse_args()
     return args
