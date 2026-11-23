@@ -3,37 +3,47 @@ from numba import jit
 
 
 @jit
-def sol(x, y, z):
+def sol(x, y, z) -> np.ndarray:
     return np.sin(np.pi * x) * np.sin(np.pi * y) * np.sin(np.pi * z)
 
 
 @jit
-def rhs(x, y, z):
+def rhs(x, y, z) -> float:
     return 3 * np.pi**2 * np.sin(np.pi * x) * np.sin(np.pi * y) * np.sin(np.pi * z)
 
 
 @jit
-def jacobi_iteration(u: np.ndarray, delta: float) -> np.ndarray:
-    dims = u.shape
-    u_new = u.copy()
-    residual = 0
+def jacobi_range(
+    u_curr: np.ndarray,
+    u_new: np.ndarray,
+    i_range: tuple[int, int],
+    j_range: tuple[int, int],
+    k_range: tuple[int, int],
+    delta: tuple[float, float, float],
+    phys_origin: tuple[float, float, float],
+) -> float:
+    residual_sq = 0.0
+    dx, dy, dz = delta
+    x0, y0, z0 = phys_origin
+    delta_squared = (dx * dy * dz) ** (2.0 / 3.0)
+    one_over_six = 1.0 / 6.0  # Ruf formats this weirdly, so it is precomputed here
 
-    delta_squared = delta**2
-    one_over_six = 1 / 6  # ruff is formatting weird, so this is defined here
-
-    for i in range(1, dims[0] - 1):
-        for j in range(1, dims[1] - 1):
-            for k in range(1, dims[2] - 1):
+    for i in range(i_range[0], i_range[1]):
+        x = x0 + i * dx
+        for j in range(j_range[0], j_range[1]):
+            y = y0 + j * dy
+            for k in range(k_range[0], k_range[1]):
+                z = z0 + k * dz
                 u_new[i, j, k] = one_over_six * (
-                    u[i - 1, j, k]
-                    + u[i + 1, j, k]
-                    + u[i, j - 1, k]
-                    + u[i, j + 1, k]
-                    + u[i, j, k - 1]
-                    + u[i, j, k + 1]
-                    + delta_squared
-                    * rhs(-1 + i * delta, -1 + j * delta, -1 + k * delta)
+                    u_curr[i - 1, j, k]
+                    + u_curr[i + 1, j, k]
+                    + u_curr[i, j - 1, k]
+                    + u_curr[i, j + 1, k]
+                    + u_curr[i, j, k - 1]
+                    + u_curr[i, j, k + 1]
+                    + delta_squared * rhs(x, y, z)
                 )
-                residual += (u[i, j, k] - u_new[i, j, k]) ** 2
+                diff = u_curr[i, j, k] - u_new[i, j, k]
+                residual_sq += diff * diff
 
-    return u_new, residual
+    return residual_sq
