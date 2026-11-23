@@ -23,7 +23,7 @@ def n_type(strings):
 
 def get_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        prog="parallel_compute_and_comms/main",
+        prog="disjoint_boundaries/main",
         description="Ranks compute interior points while waiting for boundary conditions",
     )
 
@@ -55,7 +55,7 @@ def get_args() -> argparse.Namespace:
     )
 
     parser.add_argument("--tag", type=str, default="scaling")
-    parser.add_argument("--impl", type=str, default="parallel_compute_and_comms")
+    parser.add_argument("--impl", type=str, default="disjoint_boundaries")
     parser.add_argument("--rep", type=int, default=0)
     parser.add_argument("--outdir", type=str, default="results")
 

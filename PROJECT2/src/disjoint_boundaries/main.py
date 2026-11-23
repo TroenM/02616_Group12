@@ -3,11 +3,13 @@ import os
 from time import perf_counter
 
 import numpy as np
-from mpi4py import MPI
+# Need to import njit before mpi to avoid segfaults
+from numba import njit  # isort: skip 
+from mpi4py import MPI  # isort: skip
 
-from parallel_compute_and_comms.arguments import get_args
-from parallel_compute_and_comms.functions import jacobi_range, sol
-from parallel_compute_and_comms.mpi_helper import (
+from disjoint_boundaries.arguments import get_args
+from disjoint_boundaries.functions import jacobi_range, sol
+from disjoint_boundaries.mpi_helper import (
     create_comm_datatypes,
     get_local_extent,
 )
