@@ -18,7 +18,7 @@ bsub <<JOB
 #BSUB -J disjoint_N${N}_P${P}[1-1]
 #BSUB -o outputs/disjoint_boundaries/disjoint_scale_N${N}_P${P}_%J_%I.out
 #BSUB -e outputs/disjoint_boundaries/disjoint_scale_N${N}_P${P}_%J_%I.err
-#BSUB -q hpc
+#BSUB -q hpcintro
 #BSUB -R "select[model==XeonE5_2650v4]"
 #BSUB -W ${WALL}
 #BSUB -R "rusage[mem=${MEM}MB]"
