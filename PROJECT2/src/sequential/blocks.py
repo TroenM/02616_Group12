@@ -83,30 +83,33 @@ class CartDecomposition:
                     t.Free()
         self.owned_type.Free()
 
-    def halo_exchange(self, u: np.ndarray) -> None:
-
-        #Fill ghos face of u from neighbors.
-        # We use two Sendrecv pr axis
+    def halo_exchange(self, u: np.ndarray, mode: str = "non-blocking") -> None:
+        """Fill the ghost faces of u from the neighbours, one axis at a time."""
         for axis in range(3):
             lo, hi = self.neighbours[axis]
             t = self.face_types[axis]
-            # shift up, last owned plane -> upper neighbour, lower ghost <- lower neighbour
-            self.cart.Sendrecv(
-                self._buf(u, t["send_hi"]), 
-                dest=hi, 
-                sendtag=axis, 
-                recvbuf=self._buf(u, t["recv_lo"]), 
-                source=lo, 
-                recvtag=axis)
-            # shift down. first owned plane -> lower neighbour, upper ghost <- upper neighbour
-            self.cart.Sendrecv(
-                self._buf(u, t["send_lo"]), 
-                dest=lo, 
-                sendtag=axis,
-                recvbuf=self._buf(u, t["recv_hi"]), 
-                source=hi, 
-                recvtag=axis
-                )
+
+            if mode == "non-blocking":
+                reqs = [
+                    # post receives first: lower ghost <- lower neighbour, upper ghost <- upper neighbour
+                    self.cart.Irecv(self._buf(u, t["recv_lo"]), source=lo, tag=axis),
+                    self.cart.Irecv(self._buf(u, t["recv_hi"]), source=hi, tag=axis),
+                    # then sends: last owned plane -> upper, first owned plane -> lower
+                    self.cart.Isend(self._buf(u, t["send_hi"]), dest=hi, tag=axis),
+                    self.cart.Isend(self._buf(u, t["send_lo"]), dest=lo, tag=axis),
+                ]
+                MPI.Request.Waitall(reqs)  # finish this axis before starting the next
+
+            elif mode == "blocking":
+                # shift up: last owned plane -> upper neighbour, lower ghost <- lower neighbour
+                self.cart.Sendrecv(self._buf(u, t["send_hi"]), dest=hi, sendtag=axis,
+                                recvbuf=self._buf(u, t["recv_lo"]), source=lo, recvtag=axis)
+                # shift down: first owned plane -> lower neighbour, upper ghost <- upper neighbour
+                self.cart.Sendrecv(self._buf(u, t["send_lo"]), dest=lo, sendtag=axis,
+                                recvbuf=self._buf(u, t["recv_hi"]), source=hi, recvtag=axis)
+
+            else:
+                raise ValueError(f"Unknown mode: {mode}")
 
     def gather(self, u: np.ndarray, root: int = 0):
         """Stitch the owned parts of every rank into one N^3 array on `root`.
