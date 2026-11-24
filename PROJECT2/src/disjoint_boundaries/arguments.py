@@ -56,6 +56,7 @@ def get_args() -> argparse.Namespace:
 
     parser.add_argument("--tag", type=str, default="scaling")
     parser.add_argument("--impl", type=str, default="disjoint_boundaries")
+    parser.add_argument("--mapping", type=str, default="default")
     parser.add_argument("--rep", type=int, default=0)
     parser.add_argument("--outdir", type=str, default="results")
 

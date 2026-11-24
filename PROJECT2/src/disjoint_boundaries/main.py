@@ -109,6 +109,7 @@ for iter in range(MAXIT):
     t_comm_p2p += perf_counter()
 
     # X faces (full j and k)
+    t_compute -= perf_counter()
     res_sq += jacobi_iteration(u_curr, u_new, detlasq_rhs, (1, 2), (1, ny + 1), (1, nz + 1))
     if nx > 1:
         res_sq += jacobi_iteration(u_curr, u_new, detlasq_rhs, (nx, nx + 1), (1, ny + 1), (1, nz + 1))
