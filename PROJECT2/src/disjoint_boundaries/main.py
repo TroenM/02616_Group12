@@ -8,10 +8,9 @@ from numba import njit  # isort: skip
 from mpi4py import MPI  # isort: skip
 
 from disjoint_boundaries.arguments import get_args
-from disjoint_boundaries.functions import jacobi_range, sol
+from disjoint_boundaries.functions import jacobi_iteration, FunctionHandler
 from disjoint_boundaries.mpi_helper import (
     create_comm_datatypes,
-    get_local_extent,
 )
 
 # Read arguments
@@ -31,7 +30,7 @@ P = cart_comm.Get_size()
 coords = cart_comm.Get_coords(rank)
 
 if rank == 0:
-    print(f"{MAXIT=}, {TOL=}, {dims=}")
+    print(f"{MAXIT=}, {TOL=}, {dims=}, {Nx=}")
 
 # Link communications across ranks
 neighbors = {}
@@ -39,25 +38,14 @@ for axis in range(3):
     backwards, forwards = cart_comm.Shift(axis, 1)
     neighbors[axis] = {"forward": forwards, "backward": backwards}
 
-# Get local sizes and limits
-nx, x_start, x_end = get_local_extent(Nx, dims[0], coords[0])
-ny, y_start, y_end = get_local_extent(Ny, dims[1], coords[1])
-nz, z_start, z_end = get_local_extent(Nz, dims[2], coords[2])
+functions_handler = FunctionHandler((Nx,Ny,Nz), dims, coords)
+nx, ny, nz = functions_handler.get_local_n()
+detlasq_rhs = functions_handler.get_deltasq_rhs()
 
-# Define derived constants
-deltax, deltay, deltaz = (
-    2 / (Nx + 1),
-    2 / (Ny + 1),
-    2 / (Nz + 1),
-)  # Assuming domain is [-1, 1] in all directions
-delta = (deltax, deltay, deltaz)
-
-# Get the physical orign of the rank
-phys_origin = (-1 + x_start * deltax, -1 + y_start * deltay, -1 + z_start * deltaz)
 
 # Dryfire jit
-_dummy = np.zeros((3, 3, 3))
-jacobi_range(_dummy, _dummy.copy(), (1, 2), (1, 2), (1, 2), delta, phys_origin)
+_dummy = np.zeros((3, 3, 3), dtype=np.float32)
+jacobi_iteration(_dummy, _dummy.copy(), _dummy.copy(), (1,2), (1,2),  (1,2))
 
 # Define the communication datatypes
 datatypes = create_comm_datatypes(nx, ny, nz, MPI.FLOAT)
@@ -112,7 +100,7 @@ for iter in range(MAXIT):
     # Compute interior points
     res_sq = 0
     t_compute -= perf_counter()
-    res_sq += jacobi_range(u_curr, u_new, (2, nx), (2, ny), (2, nz), delta, phys_origin)
+    res_sq += jacobi_iteration(u_curr, u_new, detlasq_rhs, (2, nx), (2, ny), (2, nz))
     t_compute += perf_counter()
 
     # TODO: Consider whether we need to wait for all recv_reqs to finish before fitting boundaries
@@ -120,38 +108,21 @@ for iter in range(MAXIT):
     MPI.Request.Waitall(recv_reqs)
     t_comm_p2p += perf_counter()
 
-    # Left boundary
-    t_compute -= perf_counter()
-    res_sq += jacobi_range(
-        u_curr, u_new, (1, 2), (1, ny + 1), (1, nz + 1), delta, phys_origin
-    )
-
-    # Top boundary
-    res_sq += jacobi_range(
-        u_curr, u_new, (1, nx + 1), (1, 2), (1, nz + 1), delta, phys_origin
-    )
-
-    # Front boundary
-    res_sq += jacobi_range(
-        u_curr, u_new, (1, nx + 1), (1, ny + 1), (1, 2), delta, phys_origin
-    )
-
-    # Right boundary
+    # X faces (full j and k)
+    res_sq += jacobi_iteration(u_curr, u_new, detlasq_rhs, (1, 2), (1, ny + 1), (1, nz + 1))
     if nx > 1:
-        res_sq += jacobi_range(
-            u_curr, u_new, (nx, nx + 1), (1, ny + 1), (1, nz + 1), delta, phys_origin
-        )
-    # Bottom boundary
-    if ny > 1:
-        res_sq += jacobi_range(
-            u_curr, u_new, (1, nx + 1), (ny, ny + 1), (1, nz + 1), delta, phys_origin
-        )
+        res_sq += jacobi_iteration(u_curr, u_new, detlasq_rhs, (nx, nx + 1), (1, ny + 1), (1, nz + 1))
 
-    # Back boundary
+    # Y faces (interior i, full k)
+    res_sq += jacobi_iteration(u_curr, u_new, detlasq_rhs, (2, nx), (1, 2), (1, nz + 1))
+    if ny > 1:
+        res_sq += jacobi_iteration(u_curr, u_new, detlasq_rhs, (2, nx), (ny, ny + 1), (1, nz + 1))
+
+    # Z faces (interior i and j)
+    res_sq += jacobi_iteration(u_curr, u_new, detlasq_rhs, (2, nx), (2, ny), (1, 2))
     if nz > 1:
-        res_sq += jacobi_range(
-            u_curr, u_new, (1, nx + 1), (1, ny + 1), (nz, nz + 1), delta, phys_origin
-        )
+        res_sq += jacobi_iteration(u_curr, u_new, detlasq_rhs, (2, nx), (2, ny), (nz, nz + 1))
+
     t_compute += perf_counter()
 
     # Ensure neighbors have recieved boundaries before overwriting
@@ -174,12 +145,7 @@ t_total += perf_counter()
 t_other = t_total - (t_compute + t_comm_p2p + t_comm_coll)
 
 # Run local test of solution
-local_x = phys_origin[0] + np.arange(1, nx + 1) * deltax
-local_y = phys_origin[1] + np.arange(1, ny + 1) * deltay
-local_z = phys_origin[2] + np.arange(1, nz + 1) * deltaz
-X, Y, Z = np.meshgrid(local_x, local_y, local_z, indexing="ij")
-true_sol = sol(X, Y, Z)
-
+true_sol = functions_handler.get_sol()
 u_interior = u_curr[1:-1, 1:-1, 1:-1]
 
 # Halo traffic per iteration (only real neighbors)
@@ -247,7 +213,7 @@ if rank == 0:
         n_msgs=np.array(n_msgs_all, dtype=np.int64),
         coords=np.array(coords_all, dtype=np.int64),
         N=np.int64(Nx),
-        h=np.float64(deltax),
+        h=np.float64(2 / (Nx + 1)),
         P=np.int64(P),
         n_iter=np.int64(n_iter),
         rep=np.int64(args.rep),

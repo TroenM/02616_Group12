@@ -1,32 +1,5 @@
 from mpi4py import MPI
 
-
-def get_local_extent(global_size, dim_procs, coord):
-    base_size = global_size // dim_procs
-    remainder = global_size % dim_procs
-
-    local_size = base_size + 1 if coord < remainder else base_size
-
-    # Calculate the global starting index for this rank
-    global_start = (coord * base_size) + min(coord, remainder)
-    global_end = global_start + local_size
-
-    return local_size, global_start, global_end
-
-
-def __create_halo_subarray(
-    mpi_base_type: MPI.Datatype,
-    full_size: tuple[int, int, int],
-    sub_size: tuple[int, int, int],
-    starts: tuple[int, int, int],
-) -> MPI.Datatype:
-    """
-    Creates a halo subarray for a given direction
-    used as a helper for generating send/recv datatypes
-    """
-    return mpi_base_type.Create_subarray(full_size, sub_size, starts)
-
-
 def create_comm_datatypes(
     nx: int, ny: int, nz: int, mpi_base_type: MPI.Datatype = MPI.DOUBLE
 ) -> dict[int, dict[str, MPI.Datatype]]:
