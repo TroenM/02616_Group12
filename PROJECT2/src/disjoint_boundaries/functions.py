@@ -1,18 +1,18 @@
 import numpy as np
-from numba import jit
+from numba import njit
 
 
-@jit
+@njit
 def sol(x, y, z) -> np.ndarray:
     return np.sin(np.pi * x) * np.sin(np.pi * y) * np.sin(np.pi * z)
 
 
-@jit
+@njit
 def rhs(x, y, z) -> float:
     return 3 * np.pi**2 * np.sin(np.pi * x) * np.sin(np.pi * y) * np.sin(np.pi * z)
 
 
-@jit
+@njit
 def jacobi_range(
     u_curr: np.ndarray,
     u_new: np.ndarray,
