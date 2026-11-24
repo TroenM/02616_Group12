@@ -1,0 +1,63 @@
+wrote figs/speedup_scaling.png
+wrote figs/times_scaling.png
+wrote figs/overhead_scaling.png
+wrote figs/imbalance_scaling.png
+wrote figs/rank_timings.png
+wrote figs/bandwidth.png
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 30329028: <plot> in cluster <dcc> Done
+
+Job <plot> was submitted from host <n-62-30-1> by user <s224363> in cluster <dcc> at Mon Nov 23 22:16:37 2026
+Job was executed on host(s) <n-62-21-47>, in queue <hpcintro>, as user <s224363> in cluster <dcc> at Mon Nov 23 22:16:39 2026
+</zhome/ce/3/186843> was used as the home directory.
+</zhome/ce/3/186843/Documents/9_semester/02616_LargeScaleModelling/02616_Group12/PROJECT2> was used as the working directory.
+Started at Mon Nov 23 22:16:39 2026
+Terminated at Mon Nov 23 22:16:44 2026
+Results reported at Mon Nov 23 22:16:44 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+
+#BSUB -J plot
+#BSUB -o ./outputs/plotting/plot%J.out
+#BSUB -e ./outputs/plotting/plot%J.err
+
+#BSUB -q hpcintro
+#BSUB -W 00:05
+#BSUB -R "rusage[mem=256MB]"
+#BSUB -R "span[hosts=1]"
+#BSUB -n 1
+
+source modules.sh
+
+python3 src/Testsuite/plots.py --results results --figs figs
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   4.55 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     256.00 MB
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   5 sec.
+    Turnaround time :                            7 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <./outputs/plotting/plot30329028.err> for stderr output of this job.
+
