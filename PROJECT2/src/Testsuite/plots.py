@@ -1,6 +1,6 @@
 """All report plots from a results folder (see README.md for the file format).
 
-    python plots.py --results ../sequential/results --figs figs [--run <one .npz>]
+    python plots.py [--results ../../results/sequential] [--figs ../../results/figs] [--run <one .npz>]
 
 Figures (each skipped if its data is missing):
     speedup_<tag>.png       speedup S and efficiency E vs P (ideal dashed)
@@ -8,7 +8,6 @@ Figures (each skipped if its data is missing):
     overhead_<tag>.png      fractions of P*T: compute, p2p, collective, idle, other
     imbalance_<tag>.png     load imbalance lambda vs P
     rank_timings.png        per-rank stacked phases for one run (default: largest P)
-    bandwidth.png           effective halo bandwidth vs message size
     convergence.png         error vs h, log-log, with fitted order (tag "conv")
 """
 import argparse
@@ -24,7 +23,6 @@ import pandas as pd
 
 GROUP = ["impl", "tag", "N", "P"]
 plt.rcParams.update({"figure.dpi": 150, "savefig.bbox": "tight", "font.size": 12})
-
 
 def load_run(fname):
     z = np.load(fname)
@@ -45,12 +43,9 @@ def metrics(d, fname):
         h=float(d["h"]), T=T,
         t_compute_max=float(t["compute"].max()), t_comm_max=float(comm.max()),
         lam=float(t["compute"].max() / t["compute"].mean() - 1) if t["compute"].mean() > 0 else np.nan,
-        lam_work=float(d["work"].max() / d["work"].mean() - 1),
         f_compute=t["compute"].sum() / core, f_comm_p2p=t["comm_p2p"].sum() / core,
         f_comm_coll=t["comm_coll"].sum() / core, f_other=t["other"].sum() / core,
         f_idle=(T - t["total"]).sum() / core,
-        msg_size=float(d["bytes_sent"].sum() / max(1, d["n_msgs"].sum())),
-        bw_eff=float(d["bytes_sent"].sum() / t["comm_p2p"].sum()) if t["comm_p2p"].sum() > 0 else np.nan,
         error_Linf=float(d["error_Linf"]),
         file=fname,
     )
@@ -86,7 +81,6 @@ def _plog(ax, Ps):
     ax.set_xticklabels([str(p) for p in Ps])
     ax.minorticks_off()
 
-
 def plot_speedup(s, figs, tag):
     d = s[s.tag == tag]
     if d.P.nunique() < 2:
@@ -103,7 +97,7 @@ def plot_speedup(s, figs, tag):
         _plog(a, Ps)
         a.set_xlabel("ranks P")
     a1.set_yscale("log", base=2)
-    a1.set_ylabel("speedup S = T(P0)·P0 / T(P)")
+    a1.set_ylabel(r"speedup S = T(P0)$\cdot$P0 / T(P)")
     a2.set_ylabel("parallel efficiency E = S / P")
     a2.set_ylim(0, 1.1)
     a1.legend(fontsize=8)
@@ -153,7 +147,7 @@ def plot_overhead(s, figs, tag):
         ax.set_xlabel("ranks P")
         ax.set_ylim(0, 1.0)
         ax.set_title(f"{impl}, N={N}")
-    axes[0][0].set_ylabel("fraction of P·T (core time)")
+    axes[0][0].set_ylabel(r"fraction of P$\cdot$T (core time)")
     axes[0][-1].legend(fontsize=7, loc="upper left", bbox_to_anchor=(1.02, 1))
     _save(fig, figs, f"overhead_{tag}.png")
 
@@ -164,11 +158,10 @@ def plot_imbalance(s, figs, tag):
         return
     fig, ax = plt.subplots(figsize=(4.8, 3.4))
     for (impl, N), g in d.groupby(["impl", "N"]):
-        ax.plot(g.P, g.lam, marker="o", label=f"{impl}, N={N}: measured")
-        ax.plot(g.P, g.lam_work, marker="o", ls=":", label=f"{impl}, N={N}: from point count")
+        ax.plot(g.P, g.lam, marker="o", label=f"{impl}, N={N}")
     _plog(ax, sorted(d.P.unique()))
     ax.set_xlabel("ranks P")
-    ax.set_ylabel("λ = max / mean compute time − 1")
+    ax.set_ylabel(r"$\lambda$ = max / mean compute time − 1")
     ax.set_ylim(bottom=0)
     ax.legend(fontsize=7)
     _save(fig, figs, f"imbalance_{tag}.png")
@@ -195,21 +188,6 @@ def plot_rank_timings(fname, figs):
     _save(fig, figs, "rank_timings.png")
 
 
-def plot_bandwidth(runs, figs):
-    app = runs[runs.P > 1].dropna(subset=["bw_eff"])
-    if app.empty:
-        return
-    fig, ax = plt.subplots(figsize=(5.2, 3.6))
-    for impl, g in app.groupby("impl"):
-        ax.scatter(g.msg_size, g.bw_eff / 1e9, label=f"{impl} halo (effective)")
-    ax.set_xscale("log", base=2)
-    ax.set_yscale("log")
-    ax.set_xlabel("message size [bytes]")
-    ax.set_ylabel("bandwidth [GB/s]")
-    ax.legend(fontsize=7)
-    _save(fig, figs, "bandwidth.png")
-
-
 def plot_convergence(s, figs, tag="conv"):
     d = s[s.tag == tag]
     if d.N.nunique() < 2:
@@ -221,7 +199,7 @@ def plot_convergence(s, figs, tag="conv"):
         ax.plot(g.h, g.error_Linf, marker="o", label=f"{impl} max-norm (order {p:.2f})")
     h = np.sort(d.h.unique())
     ref = d.sort_values("h").error_Linf.iloc[-1] * (h / h[-1]) ** 2
-    ax.plot(h, ref, ls="--", color="gray", lw=1, label="O(h²) reference")
+    ax.plot(h, ref, ls="--", color="gray", lw=1, label=r"$\mathcal{O}(h^2)$ reference")
     ax.set_xscale("log")
     ax.set_yscale("log")
     ax.set_xlabel("grid spacing h")
@@ -253,4 +231,3 @@ if __name__ == "__main__":
     noconv = runs[runs.tag != "conv"]
     if a.run or not noconv.empty:
         plot_rank_timings(a.run or noconv.sort_values(["P", "N"]).file.iloc[-1], a.figs)
-    plot_bandwidth(runs, a.figs)

@@ -29,3 +29,36 @@ Per-rank arrays have one row per rank (P rows).
 
 Any implementation that writes this format can be plotted next to the others;
 give it its own `impl` name.
+
+
+## Overview of dictionary from `metrics`
+
+`metrics` turns one run into one row of the
+results table. Below, `t_i` is rank `i`'s timer, `T` is the wall time and `P*T` is the total core-time.
+
+| name in dict | meaning |
+| --- | --- |
+| `impl` | Implementation name, e.g. `disjoint_boundaries` (from `meta`) |
+| `tag` | Test type, e.g. `scaling` or `conv` (from `meta`) |
+| `N` | Grid size |
+| `P` | Number of ranks |
+| `rep` | Repetition index of the run |
+| `h` | Grid spacing |
+| `T` | Wall time: `max_i total_i` (s) |
+| `t_compute_max` | Largest compute time over ranks: `max_i compute_i` (s) |
+| `t_comm_max` | Largest communication time over ranks: `max_i (comm_p2p_i + comm_coll_i)` (s) |
+| `lam` | Load imbalance from compute time: `max_i compute_i / mean_i compute_i − 1` (NaN if no compute time) |
+| `f_compute` | Fraction of `P*T` spent computing: `sum_i compute_i / (P*T)` |
+| `f_comm_p2p` | Fraction of `P*T` in point-to-point (halo) communication |
+| `f_comm_coll` | Fraction of `P*T` in collective communication |
+| `f_other` | Fraction of `P*T` in untimed work (`other` timer) |
+| `f_idle` | Fraction of `P*T` where ranks were done and waiting: `sum_i (T − total_i) / (P*T)`. The five `f_*` sum to 1 |
+| `error_Linf` | Max-norm error vs the exact solution |
+| `file` | Path of the `.npz` file the row came from |
+
+`summarize` then takes the median over `rep` for each `(impl, tag, N, P)` and adds:
+
+| name | meaning |
+| --- | --- |
+| `S` | Speedup `S(P) = T(P0) * P0 / T(P)`, with `P0` the smallest `P` run for that `(impl, tag, N)` |
+| `E` | Parallel efficiency `E(P) = S(P) / P` |
