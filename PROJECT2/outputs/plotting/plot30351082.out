@@ -1,0 +1,62 @@
+wrote figs/memory_bandwidth/times_memory_bandwidth.png
+wrote figs/memory_bandwidth/overhead_memory_bandwidth.png
+wrote figs/memory_bandwidth/imbalance_memory_bandwidth.png
+wrote figs/memory_bandwidth/rank_timings.png
+wrote figs/memory_bandwidth/bandwidth.png
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 30351082: <plot> in cluster <dcc> Done
+
+Job <plot> was submitted from host <n-62-9-42> by user <s224363> in cluster <dcc> at Tue Nov 24 11:01:20 2026
+Job was executed on host(s) <n-62-21-75>, in queue <hpcintro>, as user <s224363> in cluster <dcc> at Tue Nov 24 11:01:23 2026
+</zhome/ce/3/186843> was used as the home directory.
+</zhome/ce/3/186843/Documents/9_semester/02616_LargeScaleModelling/02616_Group12/PROJECT2> was used as the working directory.
+Started at Tue Nov 24 11:01:23 2026
+Terminated at Tue Nov 24 11:01:27 2026
+Results reported at Tue Nov 24 11:01:27 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+
+#BSUB -J plot
+#BSUB -o ./outputs/plotting/plot%J.out
+#BSUB -e ./outputs/plotting/plot%J.err
+
+#BSUB -q hpcintro
+#BSUB -W 00:05
+#BSUB -R "rusage[mem=256MB]"
+#BSUB -R "span[ptile=1]"
+#BSUB -n 1
+
+source modules.sh
+
+python3 src/Testsuite/plots.py --results results/memory_bandwidth --figs figs/memory_bandwidth
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   4.15 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     256.00 MB
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   4 sec.
+    Turnaround time :                            7 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <./outputs/plotting/plot30351082.err> for stderr output of this job.
+

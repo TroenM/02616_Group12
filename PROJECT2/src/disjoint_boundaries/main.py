@@ -4,14 +4,14 @@ from time import perf_counter
 
 import numpy as np
 # Need to import njit before mpi to avoid segfaults
-from numba import njit  # isort: skip 
-from mpi4py import MPI  # isort: skip
 
-from disjoint_boundaries.arguments import get_args
-from disjoint_boundaries.functions import jacobi_iteration, FunctionHandler
+
+from disjoint_boundaries.arguments import get_args # isort: skip
+from disjoint_boundaries.functions import jacobi_iteration, FunctionHandler # isort: skip
 from disjoint_boundaries.mpi_helper import (
     create_comm_datatypes,
-)
+) # isort: skip
+from mpi4py import MPI  # isort: skip
 
 # Read arguments
 t_setup = -perf_counter()
@@ -144,6 +144,10 @@ for iter in range(MAXIT):
 t_total += perf_counter()
 t_other = t_total - (t_compute + t_comm_p2p + t_comm_coll)
 
+###########################################
+#### Computation done packaging output ####
+###########################################
+
 # Run local test of solution
 true_sol = functions_handler.get_sol()
 u_interior = u_curr[1:-1, 1:-1, 1:-1]
@@ -158,9 +162,14 @@ for axis in range(3):
             msgs_per_iter += 1
             bytes_per_iter += face_elems[axis] * u_curr.itemsize
 
+FLOPS_PER_POINT = 9
+MEM_OPS_PER_POINT = 11
+
 bytes_sent_local = bytes_per_iter * n_iter
 n_msgs_local = msgs_per_iter * n_iter
 work_local = nx * ny * nz
+flops_local = work_local * n_iter * FLOPS_PER_POINT
+mem_ops_local = work_local * n_iter * MEM_OPS_PER_POINT
 
 # Global error_Linf and u_norm (RMS of u)
 local_max_err = float(np.max(np.abs(true_sol - u_interior)))
@@ -180,6 +189,8 @@ t_setup_all = cart_comm.gather(t_setup, root=0)
 work_all = cart_comm.gather(work_local, root=0)
 bytes_sent_all = cart_comm.gather(bytes_sent_local, root=0)
 n_msgs_all = cart_comm.gather(n_msgs_local, root=0)
+flops_all = cart_comm.gather(flops_local, root=0)
+mem_ops_all = cart_comm.gather(mem_ops_local, root=0)
 coords_all = cart_comm.gather(coords, root=0)
 
 # Clean up
@@ -190,13 +201,15 @@ cart_comm.Free()
 
 # Save everything
 if rank == 0:
-    out_dir = os.path.join(args.outdir, args.tag, args.impl)
+    mapping = getattr(args, "mapping", "default")
+    out_dir = os.path.join(args.outdir, args.tag, args.impl, mapping)
     os.makedirs(out_dir, exist_ok=True)
     out_path = os.path.join(out_dir, f"N{Nx}_P{P}_rep{args.rep}.npz")
 
     meta = json.dumps(
         {
             "impl": args.impl,
+            "mapping": mapping,
             "tag": args.tag,
             "dims": list(dims),
             "nodes": [Nx, Ny, Nz],
@@ -211,6 +224,8 @@ if rank == 0:
         work=np.array(work_all, dtype=np.int64),
         bytes_sent=np.array(bytes_sent_all, dtype=np.int64),
         n_msgs=np.array(n_msgs_all, dtype=np.int64),
+        flops=np.array(flops_all, dtype=np.int64),
+        mem_ops=np.array(mem_ops_all, dtype=np.int64),
         coords=np.array(coords_all, dtype=np.int64),
         N=np.int64(Nx),
         h=np.float64(2 / (Nx + 1)),
