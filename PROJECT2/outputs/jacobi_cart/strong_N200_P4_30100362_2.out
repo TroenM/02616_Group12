@@ -1,0 +1,60 @@
+N=200 P=4 iters=5 T=80.773s Linf_err=9.974e-01 -> /zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT2/src/sequential/../../results/sequential/scaling/jacobi_cart/N200_P4_rep1.npz
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 30100362[2]: <strong_N200_P4[1-3]> in cluster <dcc> Done
+
+Job <strong_N200_P4[1-3]> was submitted from host <n-62-30-2> by user <s224059> in cluster <dcc> at Tue Nov 17 22:31:32 2026
+Job was executed on host(s) <4*n-62-21-63>, in queue <hpc>, as user <s224059> in cluster <dcc> at Tue Nov 17 22:31:35 2026
+</zhome/f3/8/187578> was used as the home directory.
+</zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT2> was used as the working directory.
+Started at Tue Nov 17 22:31:35 2026
+Terminated at Tue Nov 17 22:32:59 2026
+Results reported at Tue Nov 17 22:32:59 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J strong_N200_P4[1-3]
+#BSUB -o outputs/strong_N200_P4_%J_%I.out
+#BSUB -e outputs/strong_N200_P4_%J_%I.err
+#BSUB -q hpc
+#BSUB -R "select[model==XeonE5_2650v4]"
+#BSUB -W 00:52
+#BSUB -R "rusage[mem=2500MB]"
+#BSUB -n 4
+#BSUB -R "span[hosts=1]"
+
+source modules.sh
+cd src/sequential
+
+REP=$((LSB_JOBINDEX - 1))
+mpirun -n 4 python3 main.py 200 5 0 scaling $REP
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   328.62 sec.
+    Max Memory :                                 551 MB
+    Average Memory :                             551.00 MB
+    Total Requested Memory :                     10000.00 MB
+    Delta Memory :                               9449.00 MB
+    Max Swap :                                   -
+    Max Processes :                              8
+    Max Threads :                                19
+    Run time :                                   84 sec.
+    Turnaround time :                            87 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <outputs/strong_N200_P4_30100362_2.err> for stderr output of this job.
+

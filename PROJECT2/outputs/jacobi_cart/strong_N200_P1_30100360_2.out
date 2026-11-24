@@ -1,0 +1,60 @@
+N=200 P=1 iters=5 T=368.915s Linf_err=9.974e-01 -> /zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT2/src/sequential/../../results/sequential/scaling/jacobi_cart/N200_P1_rep1.npz
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 30100360[2]: <strong_N200_P1[1-3]> in cluster <dcc> Done
+
+Job <strong_N200_P1[1-3]> was submitted from host <n-62-30-2> by user <s224059> in cluster <dcc> at Tue Nov 17 22:31:31 2026
+Job was executed on host(s) <n-62-21-4>, in queue <hpc>, as user <s224059> in cluster <dcc> at Tue Nov 17 22:31:33 2026
+</zhome/f3/8/187578> was used as the home directory.
+</zhome/f3/8/187578/Desktop/02616_LSM/02616_Group12/PROJECT2> was used as the working directory.
+Started at Tue Nov 17 22:31:33 2026
+Terminated at Tue Nov 17 22:37:46 2026
+Results reported at Tue Nov 17 22:37:46 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J strong_N200_P1[1-3]
+#BSUB -o outputs/strong_N200_P1_%J_%I.out
+#BSUB -e outputs/strong_N200_P1_%J_%I.err
+#BSUB -q hpc
+#BSUB -R "select[model==XeonE5_2650v4]"
+#BSUB -W 02:45
+#BSUB -R "rusage[mem=7000MB]"
+#BSUB -n 1
+#BSUB -R "span[hosts=1]"
+
+source modules.sh
+cd src/sequential
+
+REP=$((LSB_JOBINDEX - 1))
+mpirun -n 1 python3 main.py 200 5 0 scaling $REP
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   372.50 sec.
+    Max Memory :                                 312 MB
+    Average Memory :                             299.60 MB
+    Total Requested Memory :                     7000.00 MB
+    Delta Memory :                               6688.00 MB
+    Max Swap :                                   -
+    Max Processes :                              5
+    Max Threads :                                10
+    Run time :                                   373 sec.
+    Turnaround time :                            375 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <outputs/strong_N200_P1_30100360_2.err> for stderr output of this job.
+
