@@ -44,7 +44,7 @@ def jacobi_mpi(dec: CartDecomposition, u: np.ndarray, delta: float,
 
     for it in range(maxit):
         t0 = perf_counter()
-        dec.halo_exchange(u, mode = "non-blocking")
+        dec.halo_exchange(u, mode = "blocking")
         t1 = perf_counter()
         u_new = jacobi_iteration(u, delta, offset)
         t2 = perf_counter()
