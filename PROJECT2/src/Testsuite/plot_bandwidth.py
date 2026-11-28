@@ -1,7 +1,7 @@
 from Testsuite.plots import load_runs
 import matplotlib.pyplot as plt
 
-df = load_runs("results/memory_bandwidth/disjoint_boundaries")
+df = load_runs("results/divide_work_24_24_12/memory_bandwidth/disjoint_boundaries")
 
 print(df.columns)
 
@@ -18,4 +18,4 @@ ax.plot(N, mops_per_second/10**9)
 ax.set_xlabel("N")
 ax.set_ylabel("Memory ops/second [GB/s]")
 
-fig.savefig("figs/memory_bandwidth/mem_bandwidth.png", dpi = 200)
+fig.savefig("figs/divide_work_24_24_12/mem_bandwidth.png", dpi = 200)
