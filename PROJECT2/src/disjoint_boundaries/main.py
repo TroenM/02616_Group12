@@ -38,14 +38,9 @@ for axis in range(3):
     backwards, forwards = cart_comm.Shift(axis, 1)
     neighbors[axis] = {"forward": forwards, "backward": backwards}
 
-functions_handler = FunctionHandler((Nx,Ny,Nz), dims, coords)
+functions_handler = FunctionHandler((Nx, Ny, Nz), dims, coords)
 nx, ny, nz = functions_handler.get_local_n()
-detlasq_rhs = functions_handler.get_deltasq_rhs()
-
-
-# Dryfire jit
-_dummy = np.zeros((3, 3, 3), dtype=np.float32)
-jacobi_iteration(_dummy, _dummy.copy(), _dummy.copy(), (1,2), (1,2),  (1,2))
+detlasq_rhs = functions_handler.get_deltasq_rhs().astype(np.float32)
 
 # Define the communication datatypes
 datatypes = create_comm_datatypes(nx, ny, nz, MPI.FLOAT)
@@ -54,8 +49,10 @@ datatypes = create_comm_datatypes(nx, ny, nz, MPI.FLOAT)
 u_curr = np.zeros((nx + 2, ny + 2, nz + 2), dtype=np.float32)
 u_new = np.zeros_like(u_curr)
 
+# Warm-up JIT with the exact argument types used in the loop
+jacobi_iteration(u_curr, u_new, detlasq_rhs, (1, 2), (1, 2), (1, 2))
+
 # Main loop
-# TODO: move to a seperate function once it works
 recv_reqs = []
 send_reqs = []
 residual = -1
@@ -63,6 +60,7 @@ t_setup += perf_counter()
 t_compute = 0.0
 t_comm_p2p = 0.0
 t_comm_coll = 0.0
+cart_comm.Barrier()          # all ranks start the clock together
 t_total = -perf_counter()
 
 n_iter = 0
